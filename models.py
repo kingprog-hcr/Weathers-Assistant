@@ -1,0 +1,202 @@
+"""
+models.py
+
+Contient les structures de données principales utilisées dans l'application.
+Chaque classe représente une entité du programme (météo, activité, programme
+de la journée, profil utilisateur).
+"""
+
+from dataclasses import dataclass, field
+from typing import Optional
+
+
+@dataclass
+class WeatherData:
+    """
+    Représente les informations météorologiques pour une ville donnée.
+
+    Attributes
+    city : str
+        Nom de la ville.
+    temp : float
+        Température actuelle en degrés Celsius.
+    feels_like : float
+        Température ressentie (°C).
+    condition : str
+        Type de météo simplifié (ex: "rain", "clear", "clouds").
+    description : str
+        Description textuelle lisible (ex: "ciel dégagé").
+    icon : str
+        Code de l'icône OpenWeatherMap (ex: "01d").
+    humidity : int
+        Humidité relative en pourcentage.
+    wind_speed : float
+        Vitesse du vent en km/h.
+    """
+
+    city: str
+    temp: float
+    feels_like: float
+    condition: str
+    description: str
+    icon: str
+    humidity: int
+    wind_speed: float
+
+    def __str__(self) -> str:
+        """
+        Retourne un résumé lisible de la météo.
+
+        Ex:
+        "Paris — ciel dégagé — 22°C (ressenti 20°C) — Humidité 45%"
+        """
+        return (
+            f"{self.city} — {self.description} — {self.temp}°C (ressenti {self.feels_like}°C) — Humidité {self.humidity}%"
+        )
+
+    def is_rainy(self) -> bool:
+        """
+        Indique si les conditions météo suggèrent de la pluie.
+
+        Returns
+        bool
+            True si la condition contient "rain" ou "drizzle".
+        """
+        return (
+            "rain" in self.condition.lower()
+            or "drizzle" in self.condition.lower()
+        )
+
+    def is_hot(self) -> bool:
+        """
+        Détermine si la température est considérée comme élevée.
+
+        Returns
+        bool
+            True si la température dépasse 28°C.
+        """
+        return self.temp > 28
+
+
+@dataclass
+class TimeSlot:
+    """
+    Représente une activité planifiée à un moment précis de la journée.
+
+    Attributes
+
+    time : str
+        Heure de l'activité (format "HH:MM").
+    activity : str
+        Description de l'activité (ex: "Visite du musée").
+    location : Optional[str]
+        Nom du lieu de l'activité.
+    lat : Optional[float]
+        Latitude du lieu (utile pour une carte).
+    lon : Optional[float]
+        Longitude du lieu.
+    """
+
+    time: str
+    activity: str
+    location: Optional[str] = None
+    lat: Optional[float] = None
+    lon: Optional[float] = None
+
+    def __str__(self) -> str:
+        """
+        Retourne une description lisible du créneau.
+
+        Ex: "09:00 — Visite du musée (Musée des Beaux-Arts)"
+        """
+        if self.location:
+            return f"{self.time} — {self.activity} ({self.location})"
+        return f"{self.time} — {self.activity}"
+
+
+@dataclass
+class DayProgram:
+    """
+    Représente l'organisation complète d'une journée.
+
+    Attributes
+    
+    slots : list[TimeSlot]
+        Liste des activités planifiées dans la journée.
+    outfit : list[str]
+        Suggestions de vêtements adaptées à la météo.
+    food : list[str]
+        Suggestions de nourriture ou boissons.
+    score : int
+        Note globale de la journée (sur 10).
+    quote : str
+        Citation liée à la météo ou à la ville.
+    """
+
+    slots: list[TimeSlot] = field(default_factory=list)
+    outfit: list[str] = field(default_factory=list)
+    food: list[str] = field(default_factory=list)
+    score: int = 0
+    quote: str = ""
+
+    def __str__(self) -> str:
+        """
+        Retourne un résumé rapide du programme.
+
+        Ex: "Programme : 4 activités — Score : 8/10"
+        """
+        return f"Programme : {len(self.slots)} activités — Score : {self.score}"
+
+    def add_slot(self, slot: TimeSlot) -> None:
+        """
+        Ajoute un créneau d'activité au programme de la journée.
+
+        Params
+        
+        slot : TimeSlot
+            Créneau à ajouter.
+        """
+        self.slots.append(slot)
+
+
+@dataclass
+class ProfileData:
+    """
+    Représente les préférences et l'historique d'un utilisateur.
+
+    Attributes
+    
+    name : str
+        Nom de l'utilisateur.
+    tastes : list[str]
+        Centres d'intérêt (ex: "musée", "sport", "nature").
+    mood : str
+        Type de journée souhaitée :
+        
+    history : list[dict]
+        Historique des programmes de journées précédentes.
+    """
+
+    name: str = "Utilisateur"
+    tastes: list[str] = field(default_factory=list)
+    mood: str = "random"
+    history: list[dict] = field(default_factory=list)
+
+    def __str__(self) -> str:
+        """
+        Retourne une description rapide du profil utilisateur.
+
+        Ex: "Profil : Alex — Goûts : musée, sport — Humeur : aventure"
+        """
+        tastes_str = ", ".join(self.tastes) if self.tastes else "aucun"
+        return f"Profil : {self.name} — Goûts : {tastes_str} — Humeur : {self.mood}"
+
+    def add_to_history(self, day: dict) -> None:
+        """
+        Ajoute un programme de journée à l'historique.
+
+        Params
+        day : dict
+            Représentation d'une journée passée.
+        """
+        self.history.append(day)
