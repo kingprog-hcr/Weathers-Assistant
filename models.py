@@ -172,6 +172,18 @@ class ProfileData:
         Centres d'intérêt (ex: "musée", "sport", "nature").
     mood : str
         Type de journée souhaitée :
+    "repos" | "aventure" | "random"
+
+    style : str
+        Style vestimentaire de l'utilisateur :
+    "streetwear" | "oldmoney" | "casual" | "boheme" |
+    "sportswear" | "minimaliste" | "preppy" | "random"
+
+    cuisine : str
+        Type de cuisine préférée de l'utilisateur :
+    "asiatique" | "méditerranéenne" | "africaine" |
+    "américaine" | "française" | "moyen-orientale" |
+    "latino" | "fastfood" | "random":
         
     history : list[dict]
         Historique des programmes de journées précédentes.
@@ -180,16 +192,24 @@ class ProfileData:
     name: str = "Utilisateur"
     tastes: list[str] = field(default_factory=list)
     mood: str = "random"
+    style: str = "random" 
+    cuisine: str = "random" 
     history: list[dict] = field(default_factory=list)
 
     def __str__(self) -> str:
         """
         Retourne une description rapide du profil utilisateur.
 
-        Ex: "Profil : Alex — Goûts : musée, sport — Humeur : aventure"
+        Ex: "Profil : Alex — Goûts : musée, sport — Humeur : aventure — Style : oldmoney — Cuisine : africaine"
         """
         tastes_str = ", ".join(self.tastes) if self.tastes else "aucun"
-        return f"Profil : {self.name} — Goûts : {tastes_str} — Humeur : {self.mood}"
+        return (
+            f"Profil : {self.name} — "
+            f"Goûts : {tastes_str} — "
+            f"Humeur : {self.mood} — "
+            f"Style : {self.style} — "
+            f"Cuisine : {self.cuisine}"
+        )
 
     def add_to_history(self, day: dict) -> None:
         """
