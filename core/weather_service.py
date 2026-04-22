@@ -254,6 +254,52 @@ class WeatherService:
                 pass
 
         return None
+    
+    def get_day_slots(self, city: str) -> dict[str, WeatherData]:
+        """
+        Retourne la météo pour chaque créneau de la journée (données toutes les 3h).
+        Retourne un dict { "08:00": WeatherData, "11:00": WeatherData, ... }
+        """
+        if not self.api_key:
+            return {}
+
+        params = {
+            "q": city,
+            "appid": self.api_key,
+            "units": "metric",
+            "lang": "fr",
+        }
+
+        try:
+            response = requests.get(f"{self.BASE_URL}/forecast", params=params)
+            response.raise_for_status()
+            data = response.json()
+
+            slots = {}
+            today = datetime.now().strftime("%Y-%m-%d")
+
+            for entry in data["list"]:
+                # garder uniquement les créneaux d'aujourd'hui
+                if entry["dt_txt"].startswith(today):
+                    time = entry["dt_txt"].split(" ")[1][:5]  # "08:00"
+                    slots[time] = WeatherData(
+                        city=city,
+                        temp=entry["main"]["temp"],
+                        feels_like=entry["main"]["feels_like"],
+                        condition=entry["weather"][0]["main"],
+                        description=entry["weather"][0]["description"],
+                        icon=entry["weather"][0]["icon"],
+                        humidity=entry["main"]["humidity"],
+                        wind_speed=entry["wind"]["speed"],
+                    )
+
+            return slots
+
+        except requests.exceptions.HTTPError as e:
+            print(f"Erreur HTTP : {e}")
+        except requests.exceptions.ConnectionError:
+            print("Pas de connexion internet")
+        return {}
 
     # Méthodes privées (cache)
 
