@@ -304,3 +304,6 @@ class ActivityEngine:
         suggestions.append(f"🍽️ Cuisine : {cuisine.capitalize()}")
 
         return suggestions
+
+if __name__ == "__main__":
+       pass
