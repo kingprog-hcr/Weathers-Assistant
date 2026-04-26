@@ -75,7 +75,7 @@ class DayPlanner:
             response = requests.get("https://zenquotes.io/api/random", timeout=3)
             response.raise_for_status()
             data = response.json()[0]
-            return f"{data['q']}\n— {data['a']}"
+            return f"{data['q']}\n\n— {data['a']}"
 
         except Exception:
             QUOTES = {
@@ -123,6 +123,7 @@ class DayPlanner:
         self,
         weather_slots: dict[str, WeatherData],
         profile: ProfileData
+        
     ) -> DayProgram:
         """Construit le programme en adaptant chaque créneau à sa météo."""
 

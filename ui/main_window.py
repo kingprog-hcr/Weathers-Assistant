@@ -1,20 +1,14 @@
 # ui/main_window.py
-import tkinter.font as tkfont
 import customtkinter as ctk
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from ui.weather_frame import WeatherFrame
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
-COLORS = {
-    "bg_main":        "#1a1a2e",
-    "bg_sidebar":     "#12122a",
-    "bg_card":        "#1e1e38",
-    "accent":         "#3d5af1",
-    "text_primary":   "#e0e0f0",
-    "text_secondary": "#8888aa",
-    "text_muted":     "#6b6b9a",
-    "border":         "#2a2a4a",
-}
+from ui.config import COLORS, get_font
 
 # Éléments de navigation : (texte, clé interne)
 NAV_ITEMS = [
@@ -25,16 +19,6 @@ NAV_ITEMS = [
 ]
 
 
-def get_font(size: int, weight: str = "normal") -> tuple:
-    """
-    Retourne la meilleure police disponible sur le système.
-    Priorité : Bell MT → Helvetica → police système par défaut.
-    """
-    available = tkfont.families()
-    for family in ("Bell MT", "Helvetica Neue", "Helvetica", "Arial"):
-        if family in available:
-            return (family, size, weight)
-    return ("TkDefaultFont", size, weight)
 
 
 class MainWindow(ctk.CTk):
@@ -47,6 +31,8 @@ class MainWindow(ctk.CTk):
 
         self._active_frame = None   # frame actuellement affichée
         self._nav_buttons  = {}     # dict {clé: bouton} pour la nav
+        
+    
 
         self._setup_grid()
         self._build_sidebar()

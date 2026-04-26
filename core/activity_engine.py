@@ -196,7 +196,7 @@ class ActivityEngine:
             outfit.append("bonnet")
 
         # Note du style choisi
-        outfit.append(f"✨ Style : {style.capitalize()}")
+        outfit.append(f"Style : {style.capitalize()}")
 
         return outfit
 
