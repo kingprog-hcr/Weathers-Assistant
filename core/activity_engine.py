@@ -191,7 +191,7 @@ class ActivityEngine:
         # Accessoires universels
 
         if condition == "clear" and temp > 22:
-            outfit.append("lunettes de soleil", "crème solaire")
+            outfit.append("lunettes de soleil")
         if temp < 5 and "bonnet" not in str(outfit):
             outfit.append("bonnet")
 

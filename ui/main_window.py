@@ -286,7 +286,7 @@ class MainWindow(ctk.CTk):
         ignore height=1 sur les frames sur certains OS.
 
         Parameters
-        ----------
+        
         row : int
             Ligne de la grille sidebar où placer le séparateur.
         """
@@ -322,13 +322,12 @@ class MainWindow(ctk.CTk):
         puis affichées/cachées selon la navigation.
         """
         from ui.weather_frame import WeatherFrame
-        # Les autres frames seront ajoutées ici au fur et à mesure
-        # from ui.program_frame import ProgramFrame
+        from ui.program_frame import ProgramFrame
         # from ui.map_frame     import MapFrame
         # from ui.profile_frame import ProfileFrame
 
         self._frames["weather"] = WeatherFrame(self.content)
-        # self._frames["program"] = ProgramFrame(self.content)
+        self._frames["program"] = ProgramFrame(self.content)
         # self._frames["map"]     = MapFrame(self.content)
         # self._frames["profile"] = ProfileFrame(self.content)
 
@@ -415,7 +414,7 @@ class MainWindow(ctk.CTk):
         # Met à jour l'heure de dernière recherche
         from datetime import datetime
         now = datetime.now().strftime("%H:%M")
-        self.update_label.configure(text=f"à {now}")
+        self.update_label.configure(text=f"à {now}\n\nBy HCR")
 
         # Efface le champ de saisie
         self.city_entry.delete(0, "end")
@@ -432,7 +431,7 @@ class MainWindow(ctk.CTk):
         doit implémenter une méthode refresh(city).
 
         Parameters
-        ----------
+        
         city : str
             Nouvelle ville à utiliser pour toutes les frames.
         """

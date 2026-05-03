@@ -48,7 +48,8 @@ class WeatherService:
     """
 
     BASE_URL = "https://api.openweathermap.org/data/2.5"
-    CACHE_FILE = "data/cache_meteo.json"
+    BASE_DIR   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    CACHE_FILE = os.path.join(BASE_DIR, "data", "cache_meteo.json")
     CACHE_DURATION = 30  # minutes
 
     def __init__(self, city=None):

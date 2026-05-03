@@ -3,19 +3,16 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import io
 import tkinter as tk
 import tkinter.font as tkfont
 import customtkinter as ctk
-import urllib.request
 from datetime import datetime
-from PIL import Image
 
 from core.activity_engine import ActivityEngine
 from core.weather_service import WeatherService
 from core.day_planner import DayPlanner
 from core.user_profile import UserProfile
-from ui.config import COLORS, get_font
+from ui.config import COLORS, get_font, load_icon
 
 
 class WeatherFrame(ctk.CTkFrame):
@@ -283,7 +280,7 @@ class WeatherFrame(ctk.CTkFrame):
 
     # Chargement des données
 
-    def _load_data(self):
+    def _load_data(self, city = None):
         """
         Récupère la météo, le profil utilisateur et génère
         les suggestions. Met à jour l'UI avec les vraies données.
@@ -293,7 +290,7 @@ class WeatherFrame(ctk.CTkFrame):
         planner = DayPlanner()
         profile = UserProfile().load()
 
-        city    = service.get_city_auto() or "Libreville"
+        city = city or service.get_city_auto() or "Libreville"
         weather = service.get_current(city)
 
         if not weather:
@@ -334,7 +331,7 @@ class WeatherFrame(ctk.CTkFrame):
         )
 
         # Icône météo OpenWeatherMap
-        icon = self._load_icon(weather.icon)
+        icon = load_icon(weather.icon, size=110)
         if icon:
             self.icon_label.configure(image=icon, text="")
             self.icon_label.image = icon  # référence pour éviter garbage collection
@@ -383,10 +380,10 @@ class WeatherFrame(ctk.CTkFrame):
         for widget in self.food_frame.winfo_children():
             widget.destroy()
 
-        MEAL_TIMES = ["08:00", "12:00", "19:00"]
+        MEAL_TIMES = ["08:00", "12:00", "16:00", "19:00"]
 
         # Filtre la ligne " Cuisine : ..." et prend 3 suggestions
-        clean_food = [f for f in food if "Cuisine" not in f][:3]
+        clean_food = [f for f in food if "Cuisine" not in f][:4]
 
         for i, (time, plat) in enumerate(zip(MEAL_TIMES, clean_food)):
             # Heure
@@ -415,21 +412,13 @@ class WeatherFrame(ctk.CTkFrame):
                     highlightthickness=0
                 ).grid(row=i * 2 + 1, column=0, columnspan=2, sticky="ew", pady=4)
 
-    # Chargement icône 
-
-    def _load_icon(self, icon_code: str) -> ctk.CTkImage | None:
+    
+    def refresh(self, city: str):
         """
-        Télécharge l'icône météo depuis OpenWeatherMap.
-        Retourne None en cas d'erreur réseau.
+        Rafraîchit le programme avec une nouvelle ville.
+        Appelée par MainWindow quand l'utilisateur change de ville.
         """
-        url = f"https://openweathermap.org/img/wn/{icon_code}@2x.png"
-        try:
-            with urllib.request.urlopen(url, timeout=3) as response:
-                img_data = response.read()
-            img = Image.open(io.BytesIO(img_data)).resize((110, 110))
-            return ctk.CTkImage(img, size=(110, 110))
-        except Exception:
-            return None
+        self._load_data(city)
 
 
 if __name__ == "__main__":

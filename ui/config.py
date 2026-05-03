@@ -1,4 +1,9 @@
 import tkinter.font as tkfont
+import customtkinter as ctk
+import io
+import urllib.request
+from PIL import Image
+
 
 COLORS = {
     "bg_main":        "#1a1a2e",
@@ -11,6 +16,36 @@ COLORS = {
     "border":         "#2a2a4a",
 }
 
+
+def load_icon(icon_code: str, size: int = 80) -> ctk.CTkImage | None:
+    """
+    Télécharge une icône météo depuis OpenWeatherMap et retourne
+    un CTkImage prêt à afficher dans Tkinter.
+
+    Parameters
+    ----------
+    icon_code : str
+        Code icône OpenWeatherMap ex: "01d", "10n".
+        Voir https://openweathermap.org/weather-conditions
+    size : int
+        Taille en pixels du carré de l'image (défaut: 80).
+        Passer 28 pour les petites icônes dans les slots,
+        110 pour la grande icône de la carte météo principale.
+
+    Returns
+    -------
+    ctk.CTkImage | None
+        Image prête à afficher, ou None si le téléchargement échoue.
+    """
+    url = f"https://openweathermap.org/img/wn/{icon_code}@2x.png"
+    try:
+        with urllib.request.urlopen(url, timeout=3) as response:
+            img_data = response.read()
+        img = Image.open(io.BytesIO(img_data)).resize((size, size))
+        return ctk.CTkImage(img, size=(size, size))
+    except Exception:
+        return None
+
 def get_font(size: int, weight: str = "normal") -> tuple:
     """
     Retourne la meilleure police disponible sur le système.
@@ -21,3 +56,4 @@ def get_font(size: int, weight: str = "normal") -> tuple:
         if family in available:
             return (family, size, weight)
     return ("TkDefaultFont", size, weight)
+

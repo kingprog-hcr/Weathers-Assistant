@@ -134,15 +134,18 @@ class DayPlanner:
 
         weather_matin = weather_slots.get("08:00") or weather_slots.get("09:00") or dominant
         weather_midi  = weather_slots.get("12:00") or weather_slots.get("11:00") or dominant
+        weather_goute  = weather_slots.get("16:00") or weather_slots.get("15:00") or dominant
         weather_soir  = weather_slots.get("19:00") or weather_slots.get("20:00") or dominant
 
         food_matin = self.engine.suggest_food(weather_matin, cuisine=profile.cuisine)
         food_midi  = self.engine.suggest_food(weather_midi,  cuisine=profile.cuisine)
+        food_goute  = self.engine.suggest_food(weather_goute,  cuisine=profile.cuisine)
         food_soir  = self.engine.suggest_food(weather_soir,  cuisine=profile.cuisine)
 
         slots = [
             TimeSlot(time="08:00", activity=f"Petit déjeuner — {food_matin[0]}"),
             TimeSlot(time="12:00", activity=f"Déjeuner — {food_midi[0]}"),
+            TimeSlot(time="16:00", activity=f"Gouté — {food_goute[0]}"),
             TimeSlot(time="19:00", activity=f"Dîner — {food_soir[0]}"),
         ]
 
@@ -164,7 +167,7 @@ class DayPlanner:
         return DayProgram(
             slots=slots,
             outfit=outfit,
-            food=food_matin + food_midi + food_soir,
+            food=food_matin + food_midi + food_goute + food_soir,
             score=score,
             quote=quote,
         )
