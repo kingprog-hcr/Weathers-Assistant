@@ -158,49 +158,54 @@ class DayProgram:
         """
         self.slots.append(slot)
 
-
 @dataclass
 class ProfileData:
     """
     Représente les préférences et l'historique d'un utilisateur.
 
     Attributes
-    
+    ----------
     name : str
         Nom de l'utilisateur.
+    description : str
+        Bio courte de l'utilisateur, transmise à l'IA pour
+        personnaliser les suggestions (ex: "Étudiant passionné
+        de culture et de gastronomie").
     tastes : list[str]
-        Centres d'intérêt (ex: "musée", "sport", "nature").
+        Centres d'intérêt parmi :
+        "sport" | "culture" | "nature" | "shopping" | "repos" |
+        "social" | "creatif" | "gastronomie" | "academique" |
+        "religion" | "maison" | "professionnel"
     mood : str
         Type de journée souhaitée :
-    "repos" | "aventure" | "random"
-
+        "repos" | "aventure" | "random"
     style : str
-        Style vestimentaire de l'utilisateur :
-    "streetwear" | "oldmoney" | "casual" | "boheme" |
-    "sportswear" | "minimaliste" | "preppy" | "random"
-
+        Style vestimentaire :
+        "streetwear" | "oldmoney" | "casual" | "boheme" |
+        "sportswear" | "minimaliste" | "preppy" | "random"
     cuisine : str
-        Type de cuisine préférée de l'utilisateur :
-    "asiatique" | "méditerranéenne" | "africaine" |
-    "américaine" | "française" | "moyen-orientale" |
-    "latino" | "fastfood" | "random":
-        
+        Cuisine préférée :
+        "asiatique" | "méditerranéenne" | "africaine" |
+        "américaine" | "française" | "moyen-orientale" |
+        "latino" | "fastfood" | "random"
     history : list[dict]
         Historique des programmes de journées précédentes.
     """
 
-    name: str = "Utilisateur"
-    tastes: list[str] = field(default_factory=list)
-    mood: str = "random"
-    style: str = "random" 
-    cuisine: str = "random" 
-    history: list[dict] = field(default_factory=list)
+    name: str             = "Utilisateur"
+    description: str      = ""            
+    tastes: list[str]     = field(default_factory=list)
+    mood: str             = "random"
+    style: str            = "random"
+    cuisine: str          = "random"
+    history: list[dict]   = field(default_factory=list)
 
     def __str__(self) -> str:
         """
-        Retourne une description rapide du profil utilisateur.
+        Retourne une description rapide du profil.
 
-        Ex: "Profil : Alex — Goûts : musée, sport — Humeur : aventure — Style : oldmoney — Cuisine : africaine"
+        Ex: "Profil : Alex — Goûts : sport, culture — Humeur : aventure
+             — Style : oldmoney — Cuisine : africaine"
         """
         tastes_str = ", ".join(self.tastes) if self.tastes else "aucun"
         return (
@@ -215,8 +220,31 @@ class ProfileData:
         """
         Ajoute un programme de journée à l'historique.
 
-        Params
+        Parameters
+        ----------
         day : dict
             Représentation d'une journée passée.
         """
         self.history.append(day)
+
+    def to_ai_context(self) -> str:
+        """
+        Génère un résumé du profil formaté pour l'IA.
+
+        Utilisé plus tard lors de l'intégration de Claude API
+        pour personnaliser les suggestions.
+
+        Returns
+        -------
+        str
+            Contexte lisible par l'IA décrivant l'utilisateur.
+        """
+        tastes_str = ", ".join(self.tastes) if self.tastes else "aucun goût défini"
+        desc = f" — {self.description}" if self.description else ""
+        return (
+            f"Utilisateur : {self.name}{desc}. "
+            f"Goûts : {tastes_str}. "
+            f"Humeur : {self.mood}. "
+            f"Style vestimentaire : {self.style}. "
+            f"Cuisine préférée : {self.cuisine}."
+        )

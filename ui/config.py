@@ -16,6 +16,13 @@ COLORS = {
     "border":         "#2a2a4a",
 }
 
+ALL_TASTES = [
+    "sport",        "culture",      "nature",
+    "shopping",     "repos",        "social",
+    "creatif",      "gastronomie",  "academique",
+    "religion",     "maison",       "professionnel",
+]
+
 
 def load_icon(icon_code: str, size: int = 80) -> ctk.CTkImage | None:
     """
