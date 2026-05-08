@@ -1,4 +1,5 @@
 import sys
+import os
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -9,7 +10,8 @@ from models import ProfileData
 
 class UserProfile:
 
-    PROFILE_FILE = "data/profile.json"
+    BASE_DIR     = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    PROFILE_FILE = os.path.join(BASE_DIR, "data", "profile.json")
 
     def load(self) -> ProfileData:
         """Charge le profil. Crée un profil par défaut si absent."""

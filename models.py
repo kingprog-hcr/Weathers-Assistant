@@ -193,7 +193,7 @@ class ProfileData:
     """
 
     name: str             = "Utilisateur"
-    description: str      = ""            
+    description: str      = "Anything"            
     tastes: list[str]     = field(default_factory=list)
     mood: str             = "random"
     style: str            = "random"

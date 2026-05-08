@@ -324,13 +324,16 @@ class MainWindow(ctk.CTk):
         from ui.weather_frame import WeatherFrame
         from ui.program_frame import ProgramFrame
         # from ui.map_frame     import MapFrame
-        # from ui.profile_frame import ProfileFrame
+        from ui.profile_frame import ProfileFrame
 
         self._frames["weather"] = WeatherFrame(self.content)
         self._frames["program"] = ProgramFrame(self.content)
         # self._frames["map"]     = MapFrame(self.content)
-        # self._frames["profile"] = ProfileFrame(self.content)
-
+        self._frames["profile"] = ProfileFrame(self.content, on_save=self._refresh_frames)
+        
+        self.current_city = self._frames["weather"].city_label.cget("text")
+        self.city_label.configure(text = self.current_city)
+        
     # Navigation 
 
     def _set_active_nav(self, key: str):
@@ -420,9 +423,9 @@ class MainWindow(ctk.CTk):
         self.city_entry.delete(0, "end")
 
         # Rafraîchit les frames qui supportent le changement de ville
-        self._refresh_frames(city)
+        self._refresh_frames()
 
-    def _refresh_frames(self, city: str):
+    def _refresh_frames(self):
         """
         Demande à toutes les frames instanciées de se rafraîchir
         avec la nouvelle ville.
@@ -435,6 +438,7 @@ class MainWindow(ctk.CTk):
         city : str
             Nouvelle ville à utiliser pour toutes les frames.
         """
+        city = self.current_city or "Libreville"
         for frame in self._frames.values():
             if hasattr(frame, "refresh"):
                 frame.refresh(city)

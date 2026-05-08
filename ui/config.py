@@ -9,7 +9,7 @@ COLORS = {
     "bg_main":        "#1a1a2e",
     "bg_sidebar":     "#12122a",
     "bg_card":        "#1e1e38",
-    "accent":         "#3d5af1",
+    "accent":         "#2749f4",
     "text_primary":   "#e0e0f0",
     "text_secondary": "#8888aa",
     "text_muted":     "#6b6b9a",
