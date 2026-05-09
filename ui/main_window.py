@@ -55,8 +55,12 @@ class MainWindow(ctk.CTk):
         """Initialise la fenêtre principale et construit l'interface."""
         super().__init__()
         self.title("WeatherProgramm")
-        self.geometry("950x650")
-        self.minsize(750, 500)
+         # Centre la fenêtre sur l'écran
+        self.update_idletasks()
+        x = (self.winfo_screenwidth()  // 2) - 600
+        y = (self.winfo_screenheight() // 2) - 400
+        self.geometry(f"1200x800+{x}+{y}")
+        self.minsize(800, 550)
 
         self._active_frame = None   # frame actuellement affichée
         self._nav_buttons  = {}     # dict {clé: bouton} pour la nav
@@ -225,7 +229,7 @@ class MainWindow(ctk.CTk):
         # Champ de saisie
         self.city_entry = ctk.CTkEntry(
             search_frame,
-            placeholder_text="Ex: Paris, Lyon...",
+            placeholder_text="Ex: Paris, Libreville, Lisbonne...",
             font=get_font(13),
             fg_color=COLORS["bg_card"],
             border_color=COLORS["border"],
@@ -414,10 +418,7 @@ class MainWindow(ctk.CTk):
         self.city_label.configure(text=f"{city}")
         self.current_city = city
 
-        # Met à jour l'heure de dernière recherche
-        from datetime import datetime
-        now = datetime.now().strftime("%H:%M")
-        self.update_label.configure(text=f"à {now}\n\nBy HCR")
+        
 
         # Efface le champ de saisie
         self.city_entry.delete(0, "end")
@@ -438,6 +439,11 @@ class MainWindow(ctk.CTk):
         city : str
             Nouvelle ville à utiliser pour toutes les frames.
         """
+        # Met à jour l'heure de dernière recherche
+        from datetime import datetime
+        now = datetime.now().strftime("%H:%M")
+        self.update_label.configure(text=f"à {now}\n\nBy HCR")
+        
         city = self.current_city or "Libreville"
         for frame in self._frames.values():
             if hasattr(frame, "refresh"):

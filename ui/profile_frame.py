@@ -233,7 +233,7 @@ class ProfileFrame(ctk.CTkFrame):
         pills_frame = ctk.CTkFrame(tastes_card, fg_color="transparent")
         pills_frame.grid(row=1, column=0, padx=12, pady=(0, 12), sticky="ew")
 
-        max_per_row = 6
+        max_per_row = 5
         for i, taste in enumerate(ALL_TASTES):
             r = i // max_per_row
             c = i % max_per_row
@@ -255,7 +255,7 @@ class ProfileFrame(ctk.CTkFrame):
             self._taste_buttons[taste] = btn
 
         # Section humeur
-        # Trois boutons radio visuels — un seul peut être actif (bleu) à la fois.
+        # Trois boutons radio visuels  un seul peut être actif (bleu) à la fois.
         # _set_mood() remet tous les boutons en blanc puis active le bon.
         mood_card = self._make_section_card(row=4, title="Humeur du jour")
         mood_frame = ctk.CTkFrame(mood_card, fg_color="transparent")

@@ -641,6 +641,13 @@ class ProgramFrame(ctk.CTkFrame):
         quote = planner.get_quote(dominant)
 
         self._update_ui(program, weather_slots, quote)
+        from dataclasses import asdict
+        from projet import add_day_to_history
+
+        add_day_to_history(
+            program=asdict(program),
+            weather=asdict(dominant)
+        )
 
     #  Mise à jour UI 
 
