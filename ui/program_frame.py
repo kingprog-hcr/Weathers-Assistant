@@ -25,158 +25,8 @@ from core.weather_service import WeatherService
 from core.day_planner import DayPlanner
 from core.user_profile import UserProfile
 from models import DayProgram, TimeSlot
-from ui.config import COLORS, get_font, load_icon
+from ui.config import COLORS, get_font, load_icon, get_translation, SLOT_CATEGORIES
 
-
-#  Catalogue des badges 
-# Associe des mots clés d'activité à un badge coloré.
-# Format : mot_clé : (label, bg, fg, border_color)
-# Les couleurs sont choisies pour être lisibles sur fond sombre.
-# Aligné avec les catégories de data/activities.json.
-
-SLOT_CATEGORIES = {
-    #  Repas (créneaux fixes du DayPlanner) 
-    "déjeuner":     ("Repas",        "#1a1a4a", "#6b8fff", "#3d5af1"),
-    "dîner":        ("Repas",        "#1a1a4a", "#6b8fff", "#3d5af1"),
-    "gouté":       ("Repas",        "#1a1a4a", "#6b8fff", "#3d5af1"),
-    "petit":        ("Repas",        "#1a1a4a", "#6b8fff", "#3d5af1"),
-
-    # Sport 
-    "sport":        ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "yoga":         ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "salle":        ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "natation":     ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "jogging":      ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "vélo":         ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "football":     ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "tennis":       ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "escalade":     ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "kayak":        ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "fitness":      ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "pilates":      ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "boxe":         ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "danse":        ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "ski":          ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "randonnée":    ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "course":       ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-
-    # Culture 
-    "musée":        ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "cinéma":       ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "galerie":      ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "visite":       ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "exposition":   ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "festival":     ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "concert":      ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "théâtre":      ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "opéra":        ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "conférence":   ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "librairie":    ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "château":      ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-
-    # Nature 
-    "parc":         ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "balade":       ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "jardin":       ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "pique-nique":  ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "forêt":        ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "aquarium":     ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "serre":        ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "observation":  ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "astronomie":   ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "cueillette":   ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-
-    # Shopping 
-    "marché":       ("Shopping",     "#2a1a08", "#cc8844", "#995511"),
-    "shopping":     ("Shopping",     "#2a1a08", "#cc8844", "#995511"),
-    "brocante":     ("Shopping",     "#2a1a08", "#cc8844", "#995511"),
-    "vide-grenier": ("Shopping",     "#2a1a08", "#cc8844", "#995511"),
-    "boutique":     ("Shopping",     "#2a1a08", "#cc8844", "#995511"),
-
-    # Social 
-    "soirée":       ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "amis":         ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "jeux":         ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "barbecue":     ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "rencontre":    ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "discussion":   ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "escape":       ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "tournoi":      ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-
-    # Repos 
-    "café":         ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "lecture":      ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "méditation":   ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "spa":          ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "podcast":      ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "sieste":       ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "terrasse":     ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "journaling":   ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-
-    # Créatif
-    "photographie": ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "dessin":       ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "écriture":     ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "peinture":     ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "musique":      ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "composition":  ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "poterie":      ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "tricot":       ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "couture":      ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "improvisation":("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-
-    # Gastronomie 
-    "brunch":       ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "dégustation":  ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "restaurant":   ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "cuisine":      ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "pâtisserie":   ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "atelier":      ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "gastronomique":("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-
-    #  Académique 
-    "révision":     ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-    "étudier":      ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-    "cours":        ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-    "mooc":         ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-    "programmer":   ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-    "flashcards":   ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-
-    # Religion 
-    "messe":        ("Religion",     "#1a0a0a", "#cc7744", "#994422"),
-    "prière":       ("Religion",     "#1a0a0a", "#cc7744", "#994422"),
-    "chapelet":     ("Religion",     "#1a0a0a", "#cc7744", "#994422"),
-    "pèlerinage":   ("Religion",     "#1a0a0a", "#cc7744", "#994422"),
-    "adoration":    ("Religion",     "#1a0a0a", "#cc7744", "#994422"),
-
-    # Maison 
-    "jardinage":    ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    "bricolage":    ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    "ménage":       ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    "organisation": ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    "décoration":   ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    "compostage":   ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    
-    # Professionnel 
-    "réunion":      ("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-    "travail":      ("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-    "networking":   ("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-    "formation":    ("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-    "brainstorming":("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-    "coworking":    ("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-}
-
-# Icônes météo textuelles (fallback si image non dispo) 
-WEATHER_ICONS = {
-    "clear":        "☀",
-    "clouds":       "☁",
-    "rain":         "🌧",
-    "drizzle":      "🌦",
-    "thunderstorm": "⛈",
-    "snow":         "❄",
-    "mist":         "🌫",
-    "fog":          "🌫",
-}
 
 
 def get_slot_badge(activity: str) -> tuple:
@@ -282,7 +132,7 @@ class ProgramFrame(ctk.CTkFrame):
         Label de la citation du jour.
     """
 
-    def __init__(self, parent):
+    def __init__(self, parent, lang: str ="fr"):
         """
         Initialise la ProgramFrame.
 
@@ -292,6 +142,8 @@ class ProgramFrame(ctk.CTkFrame):
             Frame parente (self.content de MainWindow).
         """
         super().__init__(parent, fg_color="transparent")
+        self.T = get_translation(lang)
+
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -330,7 +182,7 @@ class ProgramFrame(ctk.CTkFrame):
         ).grid(row=0, column=0, sticky="w")
 
         ctk.CTkLabel(
-            header, text="Programme du jour",
+            header, text=self.T["program_title"],
             font=get_font(24, "bold"),
             text_color=COLORS["text_primary"],
             anchor="w"
@@ -338,7 +190,7 @@ class ProgramFrame(ctk.CTkFrame):
 
         ctk.CTkButton(
             header,
-            text="Regénérer",
+            text=self.T["regenerate"],
             font=get_font(14),
             height=38,
             corner_radius=8,
@@ -354,18 +206,18 @@ class ProgramFrame(ctk.CTkFrame):
         stats_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         self._make_summary_card(
-            stats_frame, "Score journée", "", col=0, accent=True
+            stats_frame, self.T["score"], "", col=0, accent=True
         )
         self.summary_count = self._make_summary_card(
-            stats_frame, "Activités", "--", col=1
+            stats_frame, self.T["activities"], "--", col=1
         )
         self.summary_mood = self._make_summary_card(
-            stats_frame, "Humeur", "--", col=2
+            stats_frame, self.T["mood_label"], "--", col=2
         )
 
         # Label nb créneaux
         self.slots_count_label = ctk.CTkLabel(
-            self.scroll, text="— créneaux planifiés",
+            self.scroll, text= self.T["slots_label"],
             font=get_font(13),
             text_color=COLORS["text_muted"],
             anchor="w"
@@ -682,8 +534,7 @@ class ProgramFrame(ctk.CTkFrame):
 
         n = len(program.slots)
         self.slots_count_label.configure(
-            text=f"{n} créneau{'x' if n > 1 else ''} "
-                 f"planifié{'s' if n > 1 else ''}"
+            text=f"{n} {self.T["slots_label"]} "
         )
 
         # Slots 
@@ -730,6 +581,6 @@ if __name__ == "__main__":
     root.configure(fg_color=COLORS["bg_main"])
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
-    frame = ProgramFrame(root)
+    frame = ProgramFrame(root, lang="es")
     frame.grid(row=0, column=0, sticky="nsew")
     root.mainloop()

@@ -6,12 +6,13 @@ Ce fichier contient :
     main()              : lance l'application
     is_first_launch()   : détecte le premier lancement
     add_day_to_history(): enregistre une journée dans le profil
-    get_greeting()      : salutation selon l'heure
+    get_greeting()      : salutation selon l'heure et la langue 
 """
 
 import os
 import sys
 import json
+from ui.config import COLORS, get_font, get_translation
 from pathlib import Path
 from datetime import datetime
 
@@ -68,10 +69,10 @@ def add_day_to_history(program: dict, weather: dict) -> bool:
     except:
         return False
     day = {
-        "date": datetime.now().strftime("%Y-%m-%d"),
-        "city": weather["city"],
-        "score": program["score"],
-        "slots": program["slots"],
+        "date":  datetime.now().strftime("%Y-%m-%d"),
+        "city":  weather.get("city", ""),
+        "score": program.get("score", 0),
+        "slots": program.get("slots", []),
     }
     profile["history"].append(day)
 
@@ -84,7 +85,7 @@ def add_day_to_history(program: dict, weather: dict) -> bool:
     return True
 
 
-def get_greeting(hour: int) -> str:
+def get_greeting(hour: int, lang: str = "fr") -> str:
     """
     Retourne une salutation selon l'heure de la journée.
 
@@ -92,6 +93,9 @@ def get_greeting(hour: int) -> str:
     ----------
     hour : int
         Heure entre 0 et 23.
+    lang : str
+        Code langue ex: "fr", "en", "es", "pt", "zh".
+        Défaut : "fr".
 
     Returns
     -------
@@ -100,16 +104,17 @@ def get_greeting(hour: int) -> str:
         "Bon après-midi" entre 12 et 17,
         "Bonsoir" entre 18 et 23.
     """
+    T = get_translation(lang)
 
     if hour <= 11:
-        return "Bonjour"
+        return T['greeting_morning']
     elif hour <= 17:
-        return "Bon après-midi"
+        return T['greeting_afternoon']
     else:
-        return "Bonsoir"
+        return T['greeting_evening']
 
 
-def show_welcome(detected_city: str) -> bool:
+def show_welcome(detected_city: str, lang: str = "fr") -> bool:
     """
     Affiche la fenêtre de bienvenue au premier lancement.
 
@@ -128,23 +133,24 @@ def show_welcome(detected_city: str) -> bool:
         False s'il clique "Passer".
     """
     import customtkinter as ctk
-    from ui.config import COLORS, get_font
-
+    
+    T = get_translation(lang)
     result = {"go_to_profile": False}
 
     root = ctk.CTk()
-    root.title("Bienvenue")
-    root.geometry("600x400")
+    root.title(T["welcome_title"])
+    root.geometry("600x420")
     root.resizable(False, False)
     root.configure(fg_color=COLORS["bg_main"])
 
     # Centre la fenêtre sur l'écran
     root.update_idletasks()
     x = (root.winfo_screenwidth()  // 2) - 300
-    y = (root.winfo_screenheight() // 2) - 200
+    y = (root.winfo_screenheight() // 2) - 210
     root.geometry(f"600x400+{x}+{y}")
 
     root.grid_columnconfigure(0, weight=1)
+    
 
     # Logo / icône en haut
     logo_frame = ctk.CTkFrame(
@@ -164,7 +170,7 @@ def show_welcome(detected_city: str) -> bool:
     ).place(relx=0.5, rely=0.5, anchor="center")
 
     # Salutation
-    greeting = get_greeting(datetime.now().hour)
+    greeting = get_greeting(datetime.now().hour, lang)
     ctk.CTkLabel(
         root,
         text=f"{greeting} !",
@@ -175,7 +181,7 @@ def show_welcome(detected_city: str) -> bool:
     # Sous-titre
     ctk.CTkLabel(
         root,
-        text="Bienvenue sur WeatherProgramm",
+        text=T["welcome_title"],
         font=get_font(18),
         text_color=COLORS["text_secondary"]
     ).grid(row=2, column=0, pady=(0, 20))
@@ -193,7 +199,7 @@ def show_welcome(detected_city: str) -> bool:
 
     ctk.CTkLabel(
         city_card,
-        text="Ville détectée automatiquement",
+        text=T["detected_city"],
         font=get_font(15),
         text_color=COLORS["text_muted"]
     ).grid(row=0, column=0, pady=(10, 2))
@@ -207,7 +213,7 @@ def show_welcome(detected_city: str) -> bool:
 
     ctk.CTkLabel(
         city_card,
-        text="Vous pourrez la modifier depuis la barre de recherche",
+        text=T["city_hint"],
         font=get_font(15),
         text_color=COLORS["text_muted"]
     ).grid(row=2, column=0, pady=(0, 10))
@@ -226,7 +232,7 @@ def show_welcome(detected_city: str) -> bool:
 
     ctk.CTkButton(
         btn_frame,
-        text="Configurer mon profil",
+        text=T["configure"],
         command=on_configure,
         corner_radius=10,
         fg_color=COLORS["accent"],
@@ -238,7 +244,7 @@ def show_welcome(detected_city: str) -> bool:
 
     ctk.CTkButton(
         btn_frame,
-        text="Passer",
+        text=T["skip"],
         command=on_skip,
         corner_radius=10,
         fg_color="transparent",
@@ -249,6 +255,7 @@ def show_welcome(detected_city: str) -> bool:
         border_color=COLORS["border"],
         hover_color=COLORS["bg_card"],
     ).grid(row=0, column=1, sticky="ew", padx=(6, 0))
+    
 
     root.mainloop()
     return result["go_to_profile"]
@@ -258,25 +265,31 @@ def main():
     """
     Point d'entrée de l'application.
 
-    Lance la fenêtre de bienvenue au premier lancement,
-    puis ouvre MainWindow.
+    Charge la langue du profil existant, lance la fenêtre
+    de bienvenue au premier lancement, puis ouvre MainWindow.
+    Si l'utilisateur choisit de configurer son profil depuis
+    la fenêtre de bienvenue, l'onglet Profil s'ouvre directement.
     """
     from ui.main_window import MainWindow
     from core.weather_service import WeatherService
+    from core.user_profile import UserProfile
+
+    # Charge la langue du profil
+    profile = UserProfile().load()
+    lang = profile.language
 
     go_to_profile = False
 
     if is_first_launch():
         city = WeatherService().get_city_auto() or "votre ville"
-        go_to_profile = show_welcome(city)
+        go_to_profile = show_welcome(city, lang)
 
-    app = MainWindow()
+    app = MainWindow(lang=lang)
 
     if go_to_profile:
         app.show_frame("profile")
 
     app.mainloop()
-
-
+    
 if __name__ == "__main__":
     main()

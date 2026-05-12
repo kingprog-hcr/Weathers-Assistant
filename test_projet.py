@@ -10,6 +10,10 @@ def test_get_greeting():
         assert get_greeting(i) == "Bon après-midi"
     for i in range(18,24):
         assert get_greeting(i) == "Bonsoir"
+    # Test avec une autre langue
+    assert get_greeting(8, "en") == "Good morning"
+    assert get_greeting(14, "en") == "Good afternoon"
+    assert get_greeting(20, "en") == "Good evening"
     
 def test_is_first_launch(monkeypatch, tmp_path):
     # tmp_path = dossier temporaire créé par pytest, supprimé après le test

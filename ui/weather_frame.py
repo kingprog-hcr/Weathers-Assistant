@@ -12,13 +12,16 @@ from core.activity_engine import ActivityEngine
 from core.weather_service import WeatherService
 from core.day_planner import DayPlanner
 from core.user_profile import UserProfile
-from ui.config import COLORS, get_font, load_icon
+from ui.config import COLORS, get_font, load_icon, get_translation
+from projet import get_greeting
 
 
 class WeatherFrame(ctk.CTkFrame):
 
-    def __init__(self, parent):
+    def __init__(self, parent, lang: str = "fr"):
         super().__init__(parent, fg_color="transparent")
+        self.lang = lang
+        self.T = get_translation(lang)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -36,22 +39,23 @@ class WeatherFrame(ctk.CTkFrame):
     # Construction de l'UI 
 
     def _build_ui(self):
-
+        greeting = get_greeting(datetime.now().hour, self.lang)
         # Header : date + titre 
         header = ctk.CTkFrame(self.scroll, fg_color="transparent")
         header.grid(row=0, column=0, padx=24, pady=(20, 12), sticky="ew")
         header.grid_columnconfigure(0, weight=1)
 
+        
         date_str = datetime.now().strftime("%A %d %B")
         ctk.CTkLabel(
             header, text=date_str,
-            font=get_font(14),
+            font=get_font(20),
             text_color=COLORS["text_muted"],
             anchor="w"
         ).grid(row=0, column=0, sticky="w")
 
         ctk.CTkLabel(
-            header, text="Météo du jour",
+            header, text=f"{greeting}, {self.T["weather_title"]}",
             font=get_font(24, "bold"),
             text_color=COLORS["text_primary"],
             anchor="w"
@@ -109,14 +113,14 @@ class WeatherFrame(ctk.CTkFrame):
         stats_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         self.wind_label = self._make_stat_card(
-            stats_frame, "Vent", "-- km/h", col=0
+            stats_frame, self.T["wind"], "-- km/h", col=0
         )
         # Score : accent=True → chiffre bleu + /10 gris
         self._make_stat_card(
-            stats_frame, "Score journée", "", col=1, accent=True
+            stats_frame, self.T["score"], "", col=1, accent=True
         )
         self.hum_label = self._make_stat_card(
-            stats_frame, "Humidité", "--%", col=2
+            stats_frame, self.T["humidity"], "--%", col=2
         )
 
         # Tenue suggérée 
@@ -131,7 +135,7 @@ class WeatherFrame(ctk.CTkFrame):
         outfit_card.grid_columnconfigure(0, weight=1)
 
         self.outfit_title_label = ctk.CTkLabel(
-            outfit_card, text="Tenue suggérée",
+            outfit_card, text=self.T["outfit_title"],
             font=get_font(14),
             text_color=COLORS["text_muted"],
             anchor="w"
@@ -140,7 +144,7 @@ class WeatherFrame(ctk.CTkFrame):
             row=0, column=0, padx=16, pady=(14, 8), sticky="w"
         )
 
-        # Frame badges — remplie dynamiquement dans _update_ui
+        # Frame badges remplie dynamiquement dans _update_ui
         self.outfit_badges_frame = ctk.CTkFrame(
             outfit_card, fg_color="transparent"
         )
@@ -185,7 +189,7 @@ class WeatherFrame(ctk.CTkFrame):
         food_card.grid_columnconfigure(1, weight=1)
 
         self.food_title_label = ctk.CTkLabel(
-            food_card, text="Suggestions repas",
+            food_card, text = self.T["food_title"],
             font=get_font(14),
             text_color=COLORS["text_muted"],
             anchor="w"
@@ -327,7 +331,7 @@ class WeatherFrame(ctk.CTkFrame):
         self.city_label.configure(text=weather.city)
         self.temp_label.configure(text=f"{int(weather.temp)}°")
         self.desc_label.configure(
-            text=f"Ressenti {int(weather.feels_like)}° — {weather.description}"
+            text=f"{self.T["feels_like"]} {int(weather.feels_like)}° — {weather.description}"
         )
 
         # Icône météo OpenWeatherMap
@@ -349,10 +353,10 @@ class WeatherFrame(ctk.CTkFrame):
         style_line = outfit[-1] if "Style" in outfit[-1] else ""
         style_name = style_line.strip() if style_line else ""
         self.outfit_title_label.configure(
-            text=f"Tenue suggérée{f' — {style_name}' if style_name else ''}"
+            text=f"{self.T["outfit_title"]} {f' — {style_name}' if style_name else ''}"
         )
 
-        # Badges tenue — filtre la ligne " Style : ..."
+        # Badges tenue  filtre la ligne " Style : ..."
         for widget in self.outfit_badges_frame.winfo_children():
             widget.destroy()  # nettoie les anciens badges
 
@@ -373,7 +377,7 @@ class WeatherFrame(ctk.CTkFrame):
         #Repas titre avec cuisine 
         cuisine_name = cuisine.capitalize() if cuisine != "random" else ""
         self.food_title_label.configure(
-            text=f"Suggestions repas{f' — Cuisine {cuisine_name}' if cuisine_name else ''}"
+            text=f"{self.T['food_title']} {f' {cuisine_name}' if cuisine_name else ''}"
         )
 
         # Lignes repas : nettoie d'abord
@@ -427,6 +431,6 @@ if __name__ == "__main__":
     root.configure(fg_color=COLORS["bg_main"])
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
-    frame = WeatherFrame(root)
+    frame = WeatherFrame(root, "en")
     frame.grid(row=0, column=0, sticky="nsew")
     root.mainloop()
