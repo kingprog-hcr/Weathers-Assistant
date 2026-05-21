@@ -281,7 +281,7 @@ def main():
     go_to_profile = False
 
     if is_first_launch():
-        city = WeatherService().get_city_auto() or "votre ville"
+        city = WeatherService().get_city_auto() or "Libreville"
         go_to_profile = show_welcome(city, lang)
 
     app = MainWindow(lang=lang)

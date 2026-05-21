@@ -198,7 +198,7 @@ class ProfileData:
     mood: str             = "random"
     style: str            = "random"
     cuisine: str          = "random"
-    language: str         = "en"
+    language: str         = "fr"
     history: list[dict]   = field(default_factory=list)
 
     def __str__(self) -> str:

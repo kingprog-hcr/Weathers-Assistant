@@ -4,7 +4,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import tkinter as tk
-import tkinter.font as tkfont
 import customtkinter as ctk
 from datetime import datetime
 
@@ -21,6 +20,8 @@ class WeatherFrame(ctk.CTkFrame):
     def __init__(self, parent, lang: str = "fr"):
         super().__init__(parent, fg_color="transparent")
         self.lang = lang
+        self._current_city = None 
+
         self.T = get_translation(lang)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -294,7 +295,8 @@ class WeatherFrame(ctk.CTkFrame):
         planner = DayPlanner()
         profile = UserProfile().load()
 
-        city = city or service.get_city_auto() or "Libreville"
+        city = city or self._current_city or service.get_city_auto() or "Libreville"
+        self._current_city = city 
         weather = service.get_current(city)
 
         if not weather:

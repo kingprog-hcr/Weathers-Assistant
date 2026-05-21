@@ -143,7 +143,7 @@ class ProgramFrame(ctk.CTkFrame):
         """
         super().__init__(parent, fg_color="transparent")
         self.T = get_translation(lang)
-
+        self._current_city = None
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -482,7 +482,9 @@ class ProgramFrame(ctk.CTkFrame):
         planner = DayPlanner()
         profile = UserProfile().load()
 
-        city = city or service.get_city_auto() or "Libreville"
+        # Utilise la ville passée, ou la ville mémorisée, ou géoloc
+        city = city or self._current_city or service.get_city_auto() or "Libreville"
+        self._current_city = city 
         weather_slots = service.get_day_slots(city)
 
         if not weather_slots:
@@ -546,7 +548,7 @@ class ProgramFrame(ctk.CTkFrame):
             weather = get_closest_weather(slot.time, weather_slots)
 
             if weather:
-                # load_icon importé depuis config.py — taille 28 pour les slots
+                # load_icon importé depuis config.py taille 28 pour les slots
                 img = load_icon(weather.icon, size=28)
                 weather_info = f"{int(weather.temp)}°"
             else:

@@ -1,0 +1,58 @@
+{
+            "asiatique": {
+                "chaud":      ["bubble tea glacé", "sushi bowl frais", "salade de papaye verte", "ramune citronnée", "rouleaux de printemps frais"],
+                "froid":      ["ramen tonkotsu fumant", "gyoza poêlés", "thé matcha chaud", "miso soup", "riz sauté au gingembre"],
+                "pluie":      ["ramen épicé", "udon en bouillon", "dumplings vapeur", "thé chai japonais"],
+                "neige":      ["hot pot japonais", "shabu-shabu", "thé sencha chaud", "nikujaga (ragoût japonais)"],
+                "nuageux":    ["pad thaï", "bol de riz au curry", "dim sum", "café vietnamien"]
+            },
+            "méditerranéenne": {
+                "chaud":      ["gaspacho andalou", "salade grecque", "houmous et pita", "eau citronnée à la menthe", "carpaccio de tomates"],
+                "froid":      ["pasta e fagioli", "soupe de lentilles à l'huile d'olive", "pain pita grillé", "café turc"],
+                "pluie":      ["pasta al forno", "soupe minestrone", "pain focaccia", "vin chaud aux épices"],
+                "neige":      ["osso buco", "polenta crémeuse", "soupe de poisson", "vin rouge corsé"],
+                "nuageux":    ["tapas variées", "risotto", "salade niçoise", "pastis"]
+            },
+            "africaine": {
+                "chaud":      ["bissap glacé (jus d'hibiscus)", "salade de mangue épicée", "thiéboudienne légère", "gingembre frais pressé"],
+                "froid":      ["mafé (ragoût d'arachide)", "soupe de yassa", "thé à la menthe sucré", "riz au gras"],
+                "pluie":      ["tagine de poulet aux olives", "soupe harira", "pain msemen", "café touba"],
+                "neige":      ["mafé épicé", "couscous aux légumes chauds", "thé à la menthe bien chaud"],
+                "nuageux":    ["injera et wot éthiopien", "brochettes suya", "plantain frit", "jus de gingembre"]
+            },
+            "américaine": {
+                "chaud":      ["ice tea maison", "burger sur le grill", "salade Caesar", "limonade fraîche", "sundae glacé"],
+                "froid":      ["chili con carne", "clam chowder", "mac and cheese gratiné", "café filtre américain"],
+                "pluie":      ["pot roast mijoté", "cornbread", "soupe de tomates", "hot chocolate américain"],
+                "neige":      ["chili épais", "pancakes au sirop d'érable", "café chaud", "brownies chauds"],
+                "nuageux":    ["club sandwich", "soupe de palourdes", "Buffalo wings", "milkshake"]
+            },
+            "française": {
+                "chaud":      ["salade lyonnaise", "vichyssoise froide", "rosé bien frais", "tarte aux fraises"],
+                "froid":      ["soupe à l'oignon gratinée", "boeuf bourguignon", "vin rouge de Bourgogne", "tarte tatin chaude"],
+                "pluie":      ["croque-monsieur", "quiche lorraine", "café crème", "pain au chocolat"],
+                "neige":      ["fondue savoyarde", "tartiflette", "vin chaud", "bugnes ou beignets chauds"],
+                "nuageux":    ["crêpes au beurre", "steak-frites", "kir breton", "éclair au chocolat"]
+            },
+            "moyen-orientale": {
+                "chaud":      ["ayran (yaourt salé)", "fattoush frais", "falafel léger", "eau de rose citronnée"],
+                "froid":      ["chorba (soupe épicée)", "shawarma chaud", "thé à la cannelle", "msabbaha (houmous chaud)"],
+                "pluie":      ["lentilles à la libanaise", "pain pita chaud", "soupe de pois chiches", "thé cardamome"],
+                "neige":      ["kibbeh au four", "riz aux vermicelles", "soupe harira", "café à la cardamome"],
+                "nuageux":    ["mezze complet", "manakish zaatar", "labneh et légumes", "jus de grenade"]
+            },
+            "latino": {
+                "chaud":      ["agua fresca au citron vert", "ceviche péruvien", "tacos al pastor", "horchata glacée"],
+                "froid":      ["pozole (soupe mexicaine)", "empanadas chaudes", "café de olla", "tamales"],
+                "pluie":      ["sopa de lima", "arepas garnies", "chocolate caliente mexicain", "bandeja paisa"],
+                "neige":      ["chupe de camarones (soupe péruvienne)", "tamales chauds", "champurrado (chocolat mexicain épais)"],
+                "nuageux":    ["quesadillas", "pico de gallo et chips", "horchata", "churros"]
+            },
+            "fastfood": {
+                "chaud":      ["burger végétarien frais", "wrap poulet grillé", "milkshake vanille", "salade bowl", "frozen lemonade"],
+                "froid":      ["burger double bacon", "nuggets sauce barbecue", "café chaud", "frites bien chaudes"],
+                "pluie":      ["burger fromage fondu", "hot-dog grillé", "soupe de tomates maison", "chocolat chaud"],
+                "neige":      ["burger double viande", "frites extra croustillantes", "sauce spéciale maison", "café chaud"],
+                "nuageux":    ["burger classique", "onion rings", "milkshake chocolat", "soda pression"]
+            }
+        }

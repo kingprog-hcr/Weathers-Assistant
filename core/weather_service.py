@@ -1,6 +1,5 @@
+# weather_service.py
 """
-weather_service.py
-
 Module responsable de l'accès aux données météorologiques via l'API
 OpenWeatherMap. Il fournit des méthodes pour :
 
@@ -11,6 +10,13 @@ OpenWeatherMap. Il fournit des méthodes pour :
 
 Le cache permet de conserver les données météorologiques pendant une
 durée définie afin d'éviter des requêtes inutiles vers l'API externe.
+
+Problème géolocalisation :
+    ip-api.com peut retourner de très petites communes (ex: "Canéjean")
+    qu'OpenWeatherMap ne connaît pas. get_city_auto() vérifie maintenant
+    que la ville détectée existe bien dans OpenWeatherMap avant de la
+    retourner. Si elle est inconnue, elle essaie la région, puis fallback
+    sur None pour que main() utilise une ville par défaut.
 """
 
 import sys
@@ -34,7 +40,7 @@ class WeatherService:
     et au traitement des données météorologiques.
 
     Attributes
-   
+    ----------
     BASE_URL : str
         URL de base de l'API OpenWeatherMap.
     CACHE_FILE : str
@@ -47,9 +53,9 @@ class WeatherService:
         Dernière ville consultée par l'utilisateur.
     """
 
-    BASE_URL = "https://api.openweathermap.org/data/2.5"
-    BASE_DIR   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    CACHE_FILE = os.path.join(BASE_DIR, "data", "cache_meteo.json")
+    BASE_URL       = "https://api.openweathermap.org/data/2.5"
+    BASE_DIR       = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    CACHE_FILE     = os.path.join(BASE_DIR, "data", "cache_meteo.json")
     CACHE_DURATION = 30  # minutes
 
     def __init__(self, city=None):
@@ -57,34 +63,33 @@ class WeatherService:
         Initialise le service météo.
 
         Parameters
-        
+        ----------
         city : str | None, optional
             Ville initiale utilisée par le service (facultatif).
         """
         load_dotenv()
-        self.api_key = os.getenv("API_KEY")
+        self.api_key   = os.getenv("API_KEY")
         self.last_city = city
 
     def get_current(self, city: str) -> WeatherData | None:
         """
         Récupère la météo actuelle pour une ville donnée.
 
-        Cette méthode vérifie d'abord si des données valides sont présentes
-        dans le cache. Si c'est le cas, elles sont retournées directement
-        sans effectuer d'appel à l'API.
+        Vérifie d'abord le cache local. Si les données sont encore valides
+        (moins de CACHE_DURATION minutes), les retourne directement sans
+        appel réseau. Sinon effectue la requête OpenWeatherMap.
 
         Parameters
-        
+        ----------
         city : str
             Nom de la ville dont on souhaite obtenir la météo.
 
         Returns
-
+        -------
         WeatherData | None
             Objet contenant les données météorologiques si la requête
             réussit, sinon None.
         """
-
         cached = self._load_cache(city)
         if cached:
             return cached
@@ -94,10 +99,10 @@ class WeatherService:
             return None
 
         params = {
-            "q": city,
+            "q":     city,
             "appid": self.api_key,
             "units": "metric",
-            "lang": "fr",
+            "lang":  "fr",
         }
 
         try:
@@ -118,7 +123,6 @@ class WeatherService:
 
             self._save_cache(city, weather)
             self.last_city = city
-
             return weather
 
         except requests.exceptions.HTTPError as e:
@@ -133,31 +137,29 @@ class WeatherService:
         Récupère les prévisions météorologiques pour plusieurs jours.
 
         L'API OpenWeatherMap renvoie des prévisions toutes les 3 heures.
-        Afin de simplifier l'affichage, cette méthode ne conserve que
-        l'entrée correspondant à 12h00 pour chaque journée.
+        Cette méthode ne conserve que l'entrée à 12h00 pour chaque journée.
 
         Parameters
-    
+        ----------
         city : str
             Ville pour laquelle on souhaite obtenir les prévisions.
         days : int, optional
-            Nombre de jours de prévision à récupérer (par défaut : 5).
+            Nombre de jours de prévision à récupérer (défaut : 5).
 
         Returns
-
+        -------
         list[WeatherData]
             Liste contenant les données météo pour chaque jour demandé.
         """
-
         if not self.api_key:
             print("Erreur : API_KEY non configurée")
             return []
 
         params = {
-            "q": city,
+            "q":     city,
             "appid": self.api_key,
             "units": "metric",
-            "lang": "fr",
+            "lang":  "fr",
         }
 
         try:
@@ -166,7 +168,6 @@ class WeatherService:
             data = response.json()
 
             forecasts = []
-
             for entry in data["list"]:
                 if "12:00:00" in entry["dt_txt"]:
                     weather = WeatherData(
@@ -179,9 +180,7 @@ class WeatherService:
                         humidity=entry["main"]["humidity"],
                         wind_speed=entry["wind"]["speed"],
                     )
-
                     forecasts.append(weather)
-
                     if len(forecasts) == days:
                         break
 
@@ -194,81 +193,32 @@ class WeatherService:
 
         return []
 
-    def set_city(self, city):
-        """
-        Définit la ville active du service.
-
-        Parameters
-        
-        city : str
-            Nom de la ville.
-        """
-        self.last_city = city
-
-    def get_city(self):
-        """
-        Retourne la ville actuellement définie.
-
-        Returns
-
-        str
-            Nom de la ville active.
-        """
-        return self.last_city
-
-    def get_city_auto(self) -> str | None:
-        """
-        Tente de détecter automatiquement la ville de l'utilisateur.
-
-        La détection repose sur des services de géolocalisation par adresse IP.
-        Plusieurs sources sont testées afin d'augmenter la robustesse du
-        système en cas d'indisponibilité d'un service.
-
-        Returns
-        
-        str | None
-            Nom de la ville détectée ou None si la détection échoue.
-        """
-
-        sources = [
-            {"url": "http://ip-api.com/json/?lang=fr", "check_status": True},
-            {"url": "https://ipinfo.io/json", "check_status": False},
-            {"url": "http://ip-api.com/json/", "check_status": True},
-        ]
-
-        for source in sources:
-            try:
-                response = requests.get(source["url"])
-                response.raise_for_status()
-                data = response.json()
-
-                if source["check_status"]:
-                    if data.get("status") == "success" and data.get("city"):
-                        self.last_city = data["city"]
-                        return data["city"]
-                else:
-                    if data.get("city"):
-                        self.last_city = data["city"]
-                        return data["city"]
-
-            except requests.exceptions.ConnectionError:
-                pass
-
-        return None
-    
     def get_day_slots(self, city: str) -> dict[str, WeatherData]:
         """
-        Retourne la météo pour chaque créneau de la journée (données toutes les 3h).
-        Retourne un dict { "08:00": WeatherData, "11:00": WeatherData, ... }
+        Retourne la météo pour chaque créneau de la journée (toutes les 3h).
+
+        Filtre les prévisions pour ne garder que celles d'aujourd'hui
+        et les formate en dictionnaire heure → WeatherData.
+
+        Parameters
+        ----------
+        city : str
+            Ville pour laquelle récupérer les créneaux horaires.
+
+        Returns
+        -------
+        dict[str, WeatherData]
+            Dictionnaire {"08:00": WeatherData, "11:00": WeatherData, ...}
+            Ne contient que les créneaux de la journée en cours.
         """
         if not self.api_key:
             return {}
 
         params = {
-            "q": city,
+            "q":     city,
             "appid": self.api_key,
             "units": "metric",
-            "lang": "fr",
+            "lang":  "fr",
         }
 
         try:
@@ -280,9 +230,8 @@ class WeatherService:
             today = datetime.now().strftime("%Y-%m-%d")
 
             for entry in data["list"]:
-                # garder uniquement les créneaux d'aujourd'hui
                 if entry["dt_txt"].startswith(today):
-                    time = entry["dt_txt"].split(" ")[1][:5]  # "08:00"
+                    time        = entry["dt_txt"].split(" ")[1][:5]
                     slots[time] = WeatherData(
                         city=city,
                         temp=entry["main"]["temp"],
@@ -300,22 +249,144 @@ class WeatherService:
             print(f"Erreur HTTP : {e}")
         except requests.exceptions.ConnectionError:
             print("Pas de connexion internet")
+
         return {}
 
-    # Méthodes privées (cache)
+    def set_city(self, city: str) -> None:
+        """
+        Définit la ville active du service.
+
+        Parameters
+        ----------
+        city : str
+            Nom de la ville.
+        """
+        self.last_city = city
+
+    def get_city(self) -> str | None:
+        """
+        Retourne la ville actuellement définie.
+
+        Returns
+        -------
+        str | None
+            Nom de la ville active.
+        """
+        return self.last_city
+
+    def _city_exists(self, city: str) -> bool:
+        """
+        Vérifie si OpenWeatherMap connaît cette ville.
+
+        Fait une requête légère sans cache — appelée uniquement au démarrage
+        par get_city_auto() pour valider la ville détectée par géolocalisation.
+        Les petites communes comme "Canéjean" retournent 404 et sont rejetées.
+
+        Parameters
+        ----------
+        city : str
+            Nom de la ville à vérifier.
+
+        Returns
+        -------
+        bool
+            True si OpenWeatherMap connaît cette ville, False sinon.
+        """
+        if not self.api_key or not city:
+            return False
+
+        try:
+            response = requests.get(
+                f"{self.BASE_URL}/weather",
+                params={
+                    "q":     city,
+                    "appid": self.api_key,
+                    "units": "metric",
+                },
+                timeout=3
+            )
+            return response.status_code == 200
+
+        except Exception:
+            return False
+
+    def get_city_auto(self) -> str | None:
+        """
+        Tente de détecter automatiquement la ville de l'utilisateur.
+
+        La détection repose sur des services de géolocalisation par adresse IP.
+        Problème connu : ip-api.com peut retourner de très petites communes
+        (ex: "Canéjean") qu'OpenWeatherMap ne reconnaît pas et retourne 404.
+
+        - Essaie la ville exacte détectée par IP
+        - Si inconnue d'OpenWeatherMap, essaie la région (regionName)
+        - Si la région est aussi inconnue, retourne None
+
+        Returns
+        -------
+        str | None
+            Nom de la ville validée par OpenWeatherMap, ou None si échec.
+        """
+        sources = [
+            {"url": "http://ip-api.com/json/?lang=fr", "check_status": True},
+            {"url": "https://ipinfo.io/json",           "check_status": False},
+            {"url": "http://ip-api.com/json/",          "check_status": True},
+        ]
+
+        for source in sources:
+            try:
+                response = requests.get(source["url"], timeout=4)
+                response.raise_for_status()
+                data = response.json()
+
+                city = None
+                region_name = None
+
+                if source["check_status"]:
+                    if data.get("status") == "success":
+                        city = data.get("city")
+                        region_name = data.get("regionName")
+                else:
+                    city = data.get("city")
+                    region_name = data.get("region")
+
+                if not city:
+                    continue
+
+                #vérifie la ville exacte
+                if self._city_exists(city):
+                    self.last_city = city
+                    return city
+
+                # ville inconnue, essaie la région
+                # "Canéjean" inconnue,  essaie "Gironde" ou "Nouvelle-Aquitaine"
+                if region_name and self._city_exists(region_name):
+                    print(f"Ville '{city}' inconnue d'OpenWeatherMap, utilisation de la région '{region_name}'")
+                    self.last_city = region_name
+                    return region_name
+
+                # région aussi inconnue, on essaie la source suivante
+                print(f"Ville '{city}' et région '{region_name}' inconnues d'OpenWeatherMap")
+
+            except requests.exceptions.ConnectionError:
+                continue
+            except Exception:
+                continue
+
+        # Toutes les sources ont échoué donc on retourne None
+        return None
 
     def _save_cache(self, city: str, weather: WeatherData) -> None:
         """
         Sauvegarde les données météo dans le cache JSON.
 
         Parameters
-    
+        ----------
         city : str
             Ville associée aux données météo.
         weather : WeatherData
             Données météorologiques à sauvegarder.
         """
-
         try:
             with open(self.CACHE_FILE, "r") as f:
                 cache = json.load(f)
@@ -324,7 +395,7 @@ class WeatherService:
 
         cache[city] = {
             "timestamp": datetime.now().isoformat(),
-            "data": asdict(weather),
+            "data":      asdict(weather),
         }
 
         with open(self.CACHE_FILE, "w") as f:
@@ -334,21 +405,19 @@ class WeatherService:
         """
         Charge les données météo depuis le cache si elles sont encore valides.
 
-        Le cache est considéré valide uniquement si la dernière mise à jour
-        est inférieure à CACHE_DURATION en minutes.
+        Le cache est valide si la dernière mise à jour date de moins de
+        CACHE_DURATION minutes.
 
         Parameters
-
+        ----------
         city : str
-            Ville recherchée.
+            Ville recherchée dans le cache.
 
         Returns
-    
+        -------
         WeatherData | None
-            Données météo provenant du cache ou None si le cache est absent
-            ou expiré.
+            Données météo du cache, ou None si absent ou expiré.
         """
-
         try:
             with open(self.CACHE_FILE, "r") as f:
                 cache = json.load(f)
@@ -357,11 +426,10 @@ class WeatherService:
                 return None
 
             timestamp = datetime.fromisoformat(cache[city]["timestamp"])
-            delta = datetime.now() - timestamp
+            delta     = datetime.now() - timestamp
 
             if delta.total_seconds() / 60 <= self.CACHE_DURATION:
                 data = cache[city]["data"]
-
                 return WeatherData(
                     city=data["city"],
                     temp=data["temp"],
@@ -380,4 +448,8 @@ class WeatherService:
 
 
 if __name__ == "__main__":
-    pass
+    s = WeatherService()
+    city = s.get_city_auto()
+    print(f"Ville détectée : {city}")
+    if city:
+        print(s.get_current(city))
