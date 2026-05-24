@@ -331,12 +331,12 @@ class MainWindow(ctk.CTk):
         """
         from ui.weather_frame import WeatherFrame
         from ui.program_frame import ProgramFrame
-        # from ui.map_frame     import MapFrame
+        from ui.map_frame import MapFrame
         from ui.profile_frame import ProfileFrame
 
         self._frames["weather"] = WeatherFrame(self.content, lang=self.lang)
         self._frames["program"] = ProgramFrame(self.content, lang=self.lang)
-        # self._frames["map"]     = MapFrame(self.content, lang=self.lang)
+        self._frames["map"]  = MapFrame(self.content, lang=self.lang, get_program=lambda: self._frames["program"]._last_program)
         self._frames["profile"] = ProfileFrame(self.content, on_save=self._refresh_frames, lang=self.lang)
         
         self.current_city = self._frames["weather"].city_label.cget("text")

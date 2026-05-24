@@ -142,6 +142,7 @@ class ProgramFrame(ctk.CTkFrame):
             Frame parente (self.content de MainWindow).
         """
         super().__init__(parent, fg_color="transparent")
+        self._last_program = None
         self.T = get_translation(lang)
         self._current_city = None
         self.grid_columnconfigure(0, weight=1)
@@ -491,6 +492,7 @@ class ProgramFrame(ctk.CTkFrame):
             return
 
         program = planner.build_program(weather_slots, profile)
+        self._last_program = program
         dominant = planner._get_dominant_weather(weather_slots)
         quote = planner.get_quote(dominant)
 
