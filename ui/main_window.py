@@ -11,13 +11,17 @@ import sys
 import tkinter as tk
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
-
 import customtkinter as ctk
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
 from ui.config import COLORS, get_font, get_translation
+from ui.weather_frame import WeatherFrame
+from ui.program_frame import ProgramFrame
+from ui.map_frame import MapFrame
+from ui.custom_frame import CustomFrame
+from ui.profile_frame import ProfileFrame
 
 
 
@@ -78,8 +82,8 @@ class MainWindow(ctk.CTk):
         Configure la grille principale de la fenêtre.
 
         Deux colonnes :
-        - col 0 (sidebar)  : weight=1 — plus étroite
-        - col 1 (contenu)  : weight=4 — plus large
+        - col 0 (sidebar)  : weight=1  plus étroite
+        - col 1 (contenu)  : weight=4 plus large
         La sidebar s'adapte à la taille de la fenêtre
         mais reste proportionnellement plus petite que le contenu.
         """
@@ -124,7 +128,7 @@ class MainWindow(ctk.CTk):
         city_frame.grid(row=4, column=0, padx=16, pady=(10, 10), sticky="ew")
         city_frame.grid_columnconfigure(0, weight=1)
 
-        # Ligne 0 du city_frame — label "Ville sélectionnée"
+        # Ligne 0 du city_frame  label "Ville sélectionnée"
         ctk.CTkLabel(
             city_frame,
             text=self.T["city_detected"],
@@ -265,6 +269,7 @@ class MainWindow(ctk.CTk):
             (self.T["nav_program"],     "program"),
             (self.T["nav_map"],         "map"),
             (self.T["nav_profile"],        "profile"),
+            ("Personnaliser",        "custom"),
         ]
         nav_frame = ctk.CTkFrame(self.sidebar, fg_color="transparent")
         nav_frame.grid(row=5, column=0, padx=8, pady=12, sticky="ew")
@@ -329,15 +334,13 @@ class MainWindow(ctk.CTk):
         Elles sont créées une seule fois au démarrage
         puis affichées/cachées selon la navigation.
         """
-        from ui.weather_frame import WeatherFrame
-        from ui.program_frame import ProgramFrame
-        from ui.map_frame import MapFrame
-        from ui.profile_frame import ProfileFrame
+        
 
         self._frames["weather"] = WeatherFrame(self.content, lang=self.lang)
         self._frames["program"] = ProgramFrame(self.content, lang=self.lang)
         self._frames["map"]  = MapFrame(self.content, lang=self.lang, get_program=lambda: self._frames["program"]._last_program)
         self._frames["profile"] = ProfileFrame(self.content, on_save=self._refresh_frames, lang=self.lang)
+        self._frames["custom"] = CustomFrame(self.content, lang=self.lang)
         
         self.current_city = self._frames["weather"].city_label.cget("text")
         self.city_label.configure(text = self.current_city)

@@ -3,6 +3,8 @@ import customtkinter as ctk
 import io
 import urllib.request
 from PIL import Image
+import json
+from pathlib import Path
 
 
 COLORS = {
@@ -252,145 +254,6 @@ TRANSLATIONS = {
 }
 
 
-#  Catalogue des badges 
-# Associe des mots clés d'activité à un badge coloré.
-# Format : mot_clé : (label, bg, fg, border_color)
-# Les couleurs sont choisies pour être lisibles sur fond sombre.
-# Aligné avec les catégories de data/activities.json.
-
-SLOT_CATEGORIES = {
-    #  Repas (créneaux fixes du DayPlanner) 
-    "déjeuner":     ("Repas",        "#1a1a4a", "#6b8fff", "#3d5af1"),
-    "dîner":        ("Repas",        "#1a1a4a", "#6b8fff", "#3d5af1"),
-    "gouté":       ("Repas",        "#1a1a4a", "#6b8fff", "#3d5af1"),
-    "petit":        ("Repas",        "#1a1a4a", "#6b8fff", "#3d5af1"),
-
-    # Sport 
-    "sport":        ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "yoga":         ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "salle":        ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "natation":     ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "jogging":      ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "vélo":         ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "football":     ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "tennis":       ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "escalade":     ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "kayak":        ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "fitness":      ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "pilates":      ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "boxe":         ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "danse":        ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "ski":          ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "randonnée":    ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-    "course":       ("Sport",        "#2a0a2a", "#cc55cc", "#991a99"),
-
-    # Culture 
-    "musée":        ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "cinéma":       ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "galerie":      ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "visite":       ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "exposition":   ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "festival":     ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "concert":      ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "théâtre":      ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "opéra":        ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "conférence":   ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "librairie":    ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-    "château":      ("Culture",      "#0f2a1a", "#4dbb7a", "#1a8a4a"),
-
-    # Nature 
-    "parc":         ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "balade":       ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "jardin":       ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "pique-nique":  ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "forêt":        ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "aquarium":     ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "serre":        ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "observation":  ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "astronomie":   ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-    "cueillette":   ("Nature",       "#0a2a0a", "#5dcc5d", "#1a991a"),
-
-    # Shopping 
-    "marché":       ("Shopping",     "#2a1a08", "#cc8844", "#995511"),
-    "shopping":     ("Shopping",     "#2a1a08", "#cc8844", "#995511"),
-    "brocante":     ("Shopping",     "#2a1a08", "#cc8844", "#995511"),
-    "vide-grenier": ("Shopping",     "#2a1a08", "#cc8844", "#995511"),
-    "boutique":     ("Shopping",     "#2a1a08", "#cc8844", "#995511"),
-
-    # Social 
-    "soirée":       ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "amis":         ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "jeux":         ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "barbecue":     ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "rencontre":    ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "discussion":   ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "escape":       ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-    "tournoi":      ("Social",       "#2a2a08", "#ccbb44", "#99991a"),
-
-    # Repos 
-    "café":         ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "lecture":      ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "méditation":   ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "spa":          ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "podcast":      ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "sieste":       ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "terrasse":     ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-    "journaling":   ("Repos",        "#1a2a2a", "#44bbcc", "#119999"),
-
-    # Créatif
-    "photographie": ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "dessin":       ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "écriture":     ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "peinture":     ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "musique":      ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "composition":  ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "poterie":      ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "tricot":       ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "couture":      ("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-    "improvisation":("Créatif",      "#2a1a2a", "#bb66cc", "#881188"),
-
-    # Gastronomie 
-    "brunch":       ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "dégustation":  ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "restaurant":   ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "cuisine":      ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "pâtisserie":   ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "atelier":      ("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-    "gastronomique":("Gastro",       "#2a0a0a", "#cc4444", "#991111"),
-
-    #  Académique 
-    "révision":     ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-    "étudier":      ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-    "cours":        ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-    "mooc":         ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-    "programmer":   ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-    "flashcards":   ("Académique",   "#1a1a08", "#aaaa33", "#777711"),
-
-    # Religion 
-    "messe":        ("Religion",     "#1a0a0a", "#cc7744", "#994422"),
-    "prière":       ("Religion",     "#1a0a0a", "#cc7744", "#994422"),
-    "chapelet":     ("Religion",     "#1a0a0a", "#cc7744", "#994422"),
-    "pèlerinage":   ("Religion",     "#1a0a0a", "#cc7744", "#994422"),
-    "adoration":    ("Religion",     "#1a0a0a", "#cc7744", "#994422"),
-
-    # Maison 
-    "jardinage":    ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    "bricolage":    ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    "ménage":       ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    "organisation": ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    "décoration":   ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    "compostage":   ("Maison",       "#0a1a0a", "#66aa44", "#337711"),
-    
-    # Professionnel 
-    "réunion":      ("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-    "travail":      ("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-    "networking":   ("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-    "formation":    ("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-    "brainstorming":("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-    "coworking":    ("Pro",          "#0a0a1a", "#5577cc", "#223388"),
-}
-
-
 # Noms affichés dans le sélecteur de langue
 LANGUAGE_NAMES = {
     "fr": "Français",
@@ -459,3 +322,70 @@ def get_font(size: int, weight: str = "normal") -> tuple:
             return (family, size, weight)
     return ("TkDefaultFont", size, weight)
 
+
+#  Catalogue des badges 
+# Associe des mots clés d'activité à un badge coloré.
+# Format : mot_clé : (label, bg, fg, border_color)
+# Les couleurs sont choisies pour être lisibles sur fond sombre.
+# Aligné avec les catégories de data/activities.json.
+
+
+_BASE_DIR         = Path(__file__).parent.parent
+_CATEGORIES_FILE  = _BASE_DIR / "data" / "categories.json"
+
+
+def load_slot_categories() -> dict:
+    """
+    Charge les catégories de badges depuis data/categories.json.
+
+    Retourne un dict vide si le fichier est absent.
+    """
+    try:
+        with open(_CATEGORIES_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+
+def save_slot_categories(categories: dict) -> bool:
+    """
+    Sauvegarde les catégories dans data/categories.json.
+
+    Appelée par CustomFrame quand l'utilisateur ajoute
+    une catégorie ou un keyword personnalisé.
+
+    Returns
+    -------
+    bool
+        True si sauvegarde réussie, False sinon.
+    """
+    try:
+        with open(_CATEGORIES_FILE, "w", encoding="utf-8") as f:
+            json.dump(categories, f, indent=2, ensure_ascii=False)
+        return True
+    except Exception as e:
+        print(f"Erreur sauvegarde categories.json : {e}")
+        return False
+
+
+def build_slot_categories() -> dict:
+    """
+    Construit le dict SLOT_CATEGORIES depuis categories.json.
+
+    Format retourné : {keyword: (label, bg, fg, border)}
+    Chaque catégorie contient une liste de keywords, chaque keyword
+    est mappé vers le même tuple badge.
+
+    Ex: {"sport": ("Sport", "#2a0a2a", "#cc55cc", "#991a99")}
+    """
+    raw        = load_slot_categories()
+    categories = {}
+    for key, data in raw.items():
+        badge = (data["label"], data["bg"], data["fg"], data["border"])
+        for keyword in data.get("keywords", []):
+            categories[keyword.lower()] = badge
+    return categories
+
+
+# Chargé une fois au démarrage utilisé dans program_frame et custom_frame
+SLOT_CATEGORIES = build_slot_categories()

@@ -111,7 +111,12 @@ class ActivityEngine:
         suggestions = []
         for taste in tastes:
             if taste in condition_activities:
-                suggestions.extend(condition_activities[taste])
+                for item in condition_activities[taste]:
+                    # Gère les deux formats : string simple et dict custom
+                    if isinstance(item, str):
+                        suggestions.append(item)
+                    elif isinstance(item, dict) and "name" in item:
+                        suggestions.append(item["name"])
 
         if not suggestions:
             return []
@@ -163,7 +168,13 @@ class ActivityEngine:
         if style == "random" or style not in STYLES:
             style = random.choice(list(STYLES.keys()))
 
-        outfit = list(STYLES[style][temp_key])
+        raw_outfit = list(STYLES[style][temp_key])
+        outfit = []
+        for item in raw_outfit:
+            if isinstance(item, str):
+                outfit.append(item)
+            elif isinstance(item, dict) and "name" in item:
+                outfit.append(item["name"])
 
         # random.shuffle mélange l'ordre des vêtements à chaque appel
         # pour éviter que la tenue soit toujours présentée dans le même ordre
@@ -215,7 +226,13 @@ class ActivityEngine:
         if cuisine == "random" or cuisine not in CUISINES:
             cuisine = random.choice(list(CUISINES.keys()))
 
-        suggestions = list(CUISINES[cuisine][weather_key])
+        raw_suggestions = CUISINES[cuisine][weather_key]
+        suggestions = []
+        for item in raw_suggestions:
+            if isinstance(item, str):
+                suggestions.append(item)
+            elif isinstance(item, dict) and "name" in item:
+                suggestions.append(item["name"])
 
         # random.shuffle mélange les suggestions pour plus de variété
         random.shuffle(suggestions)

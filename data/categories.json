@@ -1,0 +1,210 @@
+{
+  "repas": {
+    "label": "Repas",
+    "bg": "#1a1a4a",
+    "fg": "#6b8fff",
+    "border": "#3d5af1",
+    "keywords": [
+      "déjeuner",
+      "dîner",
+      "goûter",
+      "petit"
+    ]
+  },
+  "sport": {
+    "label": "Sport",
+    "bg": "#2a0a2a",
+    "fg": "#cc55cc",
+    "border": "#991a99",
+    "keywords": [
+      "sport",
+      "yoga",
+      "salle",
+      "natation",
+      "jogging",
+      "vélo",
+      "football",
+      "tennis",
+      "escalade",
+      "kayak",
+      "fitness",
+      "pilates",
+      "boxe",
+      "danse",
+      "ski",
+      "randonnée",
+      "course"
+    ]
+  },
+  "culture": {
+    "label": "Culture",
+    "bg": "#0f2a1a",
+    "fg": "#4dbb7a",
+    "border": "#1a8a4a",
+    "keywords": [
+      "musée",
+      "cinéma",
+      "galerie",
+      "visite",
+      "exposition",
+      "festival",
+      "concert",
+      "théâtre",
+      "opéra",
+      "conférence",
+      "librairie",
+      "château"
+    ]
+  },
+  "nature": {
+    "label": "Nature",
+    "bg": "#0a2a0a",
+    "fg": "#5dcc5d",
+    "border": "#1a991a",
+    "keywords": [
+      "parc",
+      "balade",
+      "jardin",
+      "pique-nique",
+      "forêt",
+      "aquarium",
+      "serre",
+      "observation",
+      "astronomie",
+      "cueillette"
+    ]
+  },
+  "shopping": {
+    "label": "Shopping",
+    "bg": "#2a1a08",
+    "fg": "#cc8844",
+    "border": "#995511",
+    "keywords": [
+      "marché",
+      "shopping",
+      "brocante",
+      "vide-grenier",
+      "boutique"
+    ]
+  },
+  "social": {
+    "label": "Social",
+    "bg": "#2a2a08",
+    "fg": "#ccbb44",
+    "border": "#99991a",
+    "keywords": [
+      "soirée",
+      "amis",
+      "jeux",
+      "barbecue",
+      "rencontre",
+      "discussion",
+      "escape",
+      "tournoi"
+    ]
+  },
+  "repos": {
+    "label": "Repos",
+    "bg": "#1a2a2a",
+    "fg": "#44bbcc",
+    "border": "#119999",
+    "keywords": [
+      "café",
+      "lecture",
+      "méditation",
+      "spa",
+      "podcast",
+      "sieste",
+      "terrasse",
+      "journaling"
+    ]
+  },
+  "creatif": {
+    "label": "Créatif",
+    "bg": "#2a1a2a",
+    "fg": "#bb66cc",
+    "border": "#881188",
+    "keywords": [
+      "photographie",
+      "dessin",
+      "écriture",
+      "peinture",
+      "musique",
+      "composition",
+      "poterie",
+      "tricot",
+      "couture",
+      "improvisation"
+    ]
+  },
+  "gastronomie": {
+    "label": "Gastro",
+    "bg": "#2a0a0a",
+    "fg": "#cc4444",
+    "border": "#991111",
+    "keywords": [
+      "brunch",
+      "dégustation",
+      "restaurant",
+      "cuisine",
+      "pâtisserie",
+      "atelier",
+      "gastronomique"
+    ]
+  },
+  "academique": {
+    "label": "Académique",
+    "bg": "#1a1a08",
+    "fg": "#aaaa33",
+    "border": "#777711",
+    "keywords": [
+      "révision",
+      "étudier",
+      "cours",
+      "mooc",
+      "programmer",
+      "flashcards"
+    ]
+  },
+  "religion": {
+    "label": "Religion",
+    "bg": "#1a0a0a",
+    "fg": "#cc7744",
+    "border": "#994422",
+    "keywords": [
+      "messe",
+      "prière",
+      "chapelet",
+      "pèlerinage",
+      "adoration"
+    ]
+  },
+  "maison": {
+    "label": "Maison",
+    "bg": "#0a1a0a",
+    "fg": "#66aa44",
+    "border": "#337711",
+    "keywords": [
+      "jardinage",
+      "bricolage",
+      "ménage",
+      "organisation",
+      "décoration",
+      "compostage"
+    ]
+  },
+  "professionnel": {
+    "label": "Pro",
+    "bg": "#0a0a1a",
+    "fg": "#5577cc",
+    "border": "#223388",
+    "keywords": [
+      "réunion",
+      "travail",
+      "networking",
+      "formation",
+      "brainstorming",
+      "coworking"
+    ]
+  }
+}
