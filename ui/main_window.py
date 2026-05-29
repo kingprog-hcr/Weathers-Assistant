@@ -16,7 +16,7 @@ import customtkinter as ctk
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
-from ui.config import COLORS, get_font, get_translation
+from ui.config import COLORS, get_font
 from ui.weather_frame import WeatherFrame
 from ui.program_frame import ProgramFrame
 from ui.map_frame import MapFrame
@@ -50,11 +50,9 @@ class MainWindow(ctk.CTk):
     """
     
 
-    def __init__(self, lang: str = "fr"):
+    def __init__(self):
         """Initialise la fenêtre principale et construit l'interface."""
         super().__init__()
-        self.lang = lang
-        self.T = get_translation(lang)
         self.title("WeatherProgramm")
          # Centre la fenêtre sur l'écran
         self.update_idletasks()
@@ -120,7 +118,7 @@ class MainWindow(ctk.CTk):
         # row 2 Recherche de ville
         self._build_city_search()
 
-        # row 3 — Séparateur
+        # row 3 Séparateur
         self._make_separator(row=3)
 
         # row 4 Ville détectée 
@@ -131,7 +129,7 @@ class MainWindow(ctk.CTk):
         # Ligne 0 du city_frame  label "Ville sélectionnée"
         ctk.CTkLabel(
             city_frame,
-            text=self.T["city_detected"],
+            text="Ville sélectionnée",
             font=get_font(13),
             text_color=COLORS["text_muted"],
             anchor="w"
@@ -159,15 +157,15 @@ class MainWindow(ctk.CTk):
         # row 8 Mise à jour
         ctk.CTkLabel(
             self.sidebar,
-            text = self.T["last_update"],
-            font=get_font(11),
+            text = "Mise à jour",
+            font=get_font(12),
             text_color=COLORS["text_muted"],
             anchor="w"
         ).grid(row=8, column=0, padx=16, pady=(8, 2), sticky="w")
 
         self.update_label = ctk.CTkLabel(
             self.sidebar,
-            text="—",
+            text="-",
             font=get_font(11),
             text_color=COLORS["text_secondary"],
             anchor="w"
@@ -221,7 +219,7 @@ class MainWindow(ctk.CTk):
         # Label
         ctk.CTkLabel(
             search_frame,
-            text=self.T["search_city"],
+            text="Rechercher une ville",
             font=get_font(11),
             text_color=COLORS["text_muted"],
             anchor="w"
@@ -230,7 +228,7 @@ class MainWindow(ctk.CTk):
         # Champ de saisie
         self.city_entry = ctk.CTkEntry(
             search_frame,
-            placeholder_text = self.T["search_placeholder"],
+            placeholder_text = "Ex: Paris, Libreville, Lisbonne...",
             font=get_font(13),
             fg_color=COLORS["bg_card"],
             border_color=COLORS["border"],
@@ -265,10 +263,10 @@ class MainWindow(ctk.CTk):
         """
         # Éléments de navigation : (texte affiché, clé interne)
         NAV_ITEMS = [
-            (self.T["nav_weather"], "weather"),
-            (self.T["nav_program"],     "program"),
-            (self.T["nav_map"],         "map"),
-            (self.T["nav_profile"],        "profile"),
+            ("Météo du jour", "weather"),
+            ("Programme du jour",   "program"),
+            ("Carte",         "map"),
+            ("Profil",        "profile"),
             ("Personnaliser",        "custom"),
         ]
         nav_frame = ctk.CTkFrame(self.sidebar, fg_color="transparent")
@@ -336,11 +334,11 @@ class MainWindow(ctk.CTk):
         """
         
 
-        self._frames["weather"] = WeatherFrame(self.content, lang=self.lang)
-        self._frames["program"] = ProgramFrame(self.content, lang=self.lang)
-        self._frames["map"]  = MapFrame(self.content, lang=self.lang, get_program=lambda: self._frames["program"]._last_program)
-        self._frames["profile"] = ProfileFrame(self.content, on_save=self._refresh_frames, lang=self.lang)
-        self._frames["custom"] = CustomFrame(self.content, lang=self.lang)
+        self._frames["weather"] = WeatherFrame(self.content)
+        self._frames["program"] = ProgramFrame(self.content)
+        self._frames["map"]  = MapFrame(self.content, get_program=lambda: self._frames["program"]._last_program)
+        self._frames["profile"] = ProfileFrame(self.content, on_save=self._refresh_frames)
+        self._frames["custom"] = CustomFrame(self.content, on_category_added=self._frames["profile"]._reload_tastes())
         
         self.current_city = self._frames["weather"].city_label.cget("text")
         self.city_label.configure(text = self.current_city)
@@ -449,7 +447,7 @@ class MainWindow(ctk.CTk):
         # Met à jour l'heure de dernière recherche
         from datetime import datetime
         now = datetime.now().strftime("%H:%M")
-        self.update_label.configure(text=f"at {now}\n\nBy HCR le GOAT")
+        self.update_label.configure(text=f"at {now}\nBy HCR The GOAT")
         
         city = self.current_city or "Libreville"
         for frame in self._frames.values():
@@ -458,5 +456,5 @@ class MainWindow(ctk.CTk):
 
 
 if __name__ == "__main__":
-    app = MainWindow("pt")
+    app = MainWindow()
     app.mainloop()

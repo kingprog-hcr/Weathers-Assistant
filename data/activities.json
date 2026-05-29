@@ -1,303 +1,551 @@
 {
   "clear": {
     "sport": [
-      "vélo en ville", "jogging matinal", "football", "basketball", "tennis",
-      "roller", "natation extérieure", "yoga en plein air", "randonnée",
-      "escalade en falaise", "kayak", "surf", "golf", "volleyball de plage",
-      "course à pied", "skateboard", "badminton", "frisbee", "parapente",
-      "équitation", "slackline", "tir à l'arc", "pétanque", "accrobranche",
-      "planche à voile", "boxe en plein air", "tai-chi au parc"
+      "vélo en ville",
+      "jogging matinal",
+      "football",
+      "basketball",
+      "tennis",
+      "roller",
+      "natation extérieure",
+      "yoga en plein air",
+      "randonnée",
+      "escalade en falaise",
+      "kayak",
+      "surf",
+      "golf",
+      "volleyball de plage",
+      "course à pied",
+      "skateboard",
+      "badminton",
+      "frisbee",
+      "parapente",
+      "équitation",
+      "slackline",
+      "tir à l'arc",
+      "pétanque",
+      "accrobranche",
+      "planche à voile",
+      "boxe en plein air",
+      "tai-chi au parc"
     ],
     "culture": [
-      "musée en plein air", "galerie d'art", "festival de rue", "cinéma en plein air",
-      "visite de vieux quartiers", "tour guidé à pied", "visite de château",
-      "marché artisanal", "concert en plein air", "spectacle de rue",
-      "visite d'une cathédrale", "exposition temporaire", "lecture publique",
-      "slam poetry", "conférence en extérieur"
+      "musée en plein air",
+      "galerie d'art",
+      "festival de rue",
+      "cinéma en plein air",
+      "visite de vieux quartiers",
+      "tour guidé à pied",
+      "visite de château",
+      "marché artisanal",
+      "concert en plein air",
+      "spectacle de rue",
+      "visite d'une cathédrale",
+      "exposition temporaire",
+      "lecture publique",
+      "slam poetry",
+      "conférence en extérieur"
     ],
     "nature": [
-      "pique-nique", "randonnée en forêt", "jardin botanique", "parc naturel",
-      "observation des oiseaux", "sortie astronomie", "visite d'une ferme",
-      "cueillette de fruits", "balade le long d'une rivière",
-      "découverte de sentiers naturels", "plongée en apnée", "photographie nature"
+      "pique-nique",
+      "randonnée en forêt",
+      "jardin botanique",
+      "parc naturel",
+      "observation des oiseaux",
+      "sortie astronomie",
+      "visite d'une ferme",
+      "cueillette de fruits",
+      "balade le long d'une rivière",
+      "découverte de sentiers naturels",
+      "plongée en apnée",
+      "photographie nature"
     ],
     "shopping": [
-      "marché en plein air", "brocante", "shopping en centre-ville",
-      "marché de producteurs", "vide-grenier", "marché aux fleurs",
-      "boutiques de créateurs locaux", "marché vintage"
+      "marché en plein air",
+      "brocante",
+      "shopping en centre-ville",
+      "marché de producteurs",
+      "vide-grenier",
+      "marché aux fleurs",
+      "boutiques de créateurs locaux",
+      "marché vintage"
     ],
     "repos": [
-      "terrasse de café", "lecture au parc", "sieste au soleil",
-      "écouter un podcast dehors", "méditation en plein air",
-      "journaling au jardin", "bain de soleil", "hammock entre les arbres"
+      "terrasse de café",
+      "lecture au parc",
+      "sieste au soleil",
+      "écouter un podcast dehors",
+      "méditation en plein air",
+      "journaling au jardin",
+      "bain de soleil",
+      "hammock entre les arbres"
     ],
     "religion": [
-      "messe en plein air", "adoration eucharistique", "chapelet en marchant",
-      "pèlerinage local", "temps de prière en nature", "lecture biblique au parc",
-      "visite d'une mosquée", "visite d'un temple bouddhiste",
-      "visite d'une synagogue", "méditation spirituelle en forêt",
-      "retraite de plein air", "groupe de partage en extérieur"
+      "messe en plein air",
+      "adoration eucharistique",
+      "chapelet en marchant",
+      "pèlerinage local",
+      "temps de prière en nature",
+      "lecture biblique au parc",
+      "visite d'une mosquée",
+      "visite d'un temple bouddhiste",
+      "visite d'une synagogue",
+      "méditation spirituelle en forêt",
+      "retraite de plein air",
+      "groupe de partage en extérieur"
     ],
     "academique": [
-      "réviser dans un parc", "lecture académique en terrasse",
-      "coder en extérieur", "mind mapping à l'air libre",
-      "discussion intellectuelle en café", "sketchnoting de concepts"
+      "réviser dans un parc",
+      "lecture académique en terrasse",
+      "coder en extérieur",
+      "mind mapping à l'air libre",
+      "discussion intellectuelle en café",
+      "sketchnoting de concepts"
     ],
     "professionnel": [
-      "réunion informelle en terrasse", "brainstorming en extérieur",
-      "networking lors d'un événement local", "présentation en coworking ouvert"
+      "réunion informelle en terrasse",
+      "brainstorming en extérieur",
+      "networking lors d'un événement local",
+      "présentation en coworking ouvert"
     ],
     "creatif": [
-      "photographie urbaine", "dessin de paysage", "peinture en plein air",
-      "écriture créative au parc", "musique en plein air", "chant choral",
-      "poterie en atelier", "street art légal", "confection de bijoux",
-      "land art", "danse en plein air", "improvisation théâtrale"
+      "photographie urbaine",
+      "dessin de paysage",
+      "peinture en plein air",
+      "écriture créative au parc",
+      "musique en plein air",
+      "chant choral",
+      "poterie en atelier",
+      "street art légal",
+      "confection de bijoux",
+      "land art",
+      "danse en plein air",
+      "improvisation théâtrale"
     ],
     "social": [
-      "barbecue entre amis", "rencontre associative", "jeux en plein air",
-      "pique-nique communautaire", "tournoi sportif de quartier",
-      "sortie en groupe à vélo", "jeux de cartes en terrasse",
+      "barbecue entre amis",
+      "rencontre associative",
+      "jeux en plein air",
+      "pique-nique communautaire",
+      "tournoi sportif de quartier",
+      "sortie en groupe à vélo",
+      "jeux de cartes en terrasse",
       "soirée étoiles avec des amis"
     ],
     "maison": [
-      "jardinage", "aérer et nettoyer la maison", "nettoyage extérieur",
-      "bricolage", "décoration de balcon", "compostage"
+      "jardinage",
+      "aérer et nettoyer la maison",
+      "nettoyage extérieur",
+      "bricolage",
+      "décoration de balcon",
+      "compostage"
     ],
     "gastronomie": [
-      "brunch en terrasse", "pique-nique gastronomique", "visite d'un marché de producteurs",
-      "déjeuner dans un restaurant avec vue", "dégustation de vins en extérieur",
-      "cours de cuisine en plein air", "visite d'une ferme avec dégustation"
-    ]
+      "brunch en terrasse",
+      "pique-nique gastronomique",
+      "visite d'un marché de producteurs",
+      "déjeuner dans un restaurant avec vue",
+      "dégustation de vins en extérieur",
+      "cours de cuisine en plein air",
+      "visite d'une ferme avec dégustation"
+    ],
+    "hcr": []
   },
-
   "clouds": {
     "sport": [
-      "marche rapide", "fitness en extérieur", "vélo tranquille",
-      "jogging", "yoga doux", "tennis", "natation couverte",
-      "parcours de santé", "boot camp urbain"
+      "marche rapide",
+      "fitness en extérieur",
+      "vélo tranquille",
+      "jogging",
+      "yoga doux",
+      "tennis",
+      "natation couverte",
+      "parcours de santé",
+      "boot camp urbain"
     ],
     "culture": [
-      "cinéma", "musée", "exposition temporaire", "visite architecturale",
-      "librairie indépendante", "conférence", "théâtre", "opéra",
-      "visite d'un atelier d'artiste", "festival intérieur"
+      "cinéma",
+      "musée",
+      "exposition temporaire",
+      "visite architecturale",
+      "librairie indépendante",
+      "conférence",
+      "théâtre",
+      "opéra",
+      "visite d'un atelier d'artiste",
+      "festival intérieur"
     ],
     "nature": [
-      "balade en forêt", "visite de parc", "observation de la faune",
-      "jardinage", "visite de serres", "photographie sous ciel nuageux"
+      "balade en forêt",
+      "visite de parc",
+      "observation de la faune",
+      "jardinage",
+      "visite de serres",
+      "photographie sous ciel nuageux"
     ],
     "shopping": [
-      "centre commercial", "librairie", "boutiques locales",
-      "marché couvert", "shopping vintage", "brocante couverte"
+      "centre commercial",
+      "librairie",
+      "boutiques locales",
+      "marché couvert",
+      "shopping vintage",
+      "brocante couverte"
     ],
     "repos": [
-      "café chaleureux", "lecture", "podcast", "bain relaxant",
-      "sieste", "musique douce", "journaling"
+      "café chaleureux",
+      "lecture",
+      "podcast",
+      "bain relaxant",
+      "sieste",
+      "musique douce",
+      "journaling"
     ],
     "religion": [
-      "messe quotidienne", "temps de prière personnelle",
-      "groupe de lecture spirituelle", "retraite intérieure",
-      "visite d'un lieu de culte", "méditation guidée"
+      "messe quotidienne",
+      "temps de prière personnelle",
+      "groupe de lecture spirituelle",
+      "retraite intérieure",
+      "visite d'un lieu de culte",
+      "méditation guidée"
     ],
     "academique": [
-      "révisions", "lecture scientifique", "suivre un cours en ligne",
-      "résoudre des exercices", "rédiger un rapport",
-      "regarder une conférence TED", "apprendre une nouvelle compétence"
+      "révisions",
+      "lecture scientifique",
+      "suivre un cours en ligne",
+      "résoudre des exercices",
+      "rédiger un rapport",
+      "regarder une conférence TED",
+      "apprendre une nouvelle compétence"
     ],
     "professionnel": [
-      "travail de bureau", "réunion professionnelle", "formation en ligne",
-      "planification de projets", "mise à jour du portfolio"
+      "travail de bureau",
+      "réunion professionnelle",
+      "formation en ligne",
+      "planification de projets",
+      "mise à jour du portfolio"
     ],
     "creatif": [
-      "écriture", "dessin", "apprendre un instrument",
-      "composition musicale", "photographie", "scrapbooking",
-      "tricot ou crochet", "couture", "origami"
+      "écriture",
+      "dessin",
+      "apprendre un instrument",
+      "composition musicale",
+      "photographie",
+      "scrapbooking",
+      "tricot ou crochet",
+      "couture",
+      "origami"
     ],
     "social": [
-      "rencontre entre amis dans un café", "jeux de société",
-      "débat philosophique", "soirée cinéma", "escape game"
+      "rencontre entre amis dans un café",
+      "jeux de société",
+      "débat philosophique",
+      "soirée cinéma",
+      "escape game"
     ],
     "maison": [
-      "cuisine créative", "organisation de la maison",
-      "redécoration intérieure", "tri et don d'objets",
-      "projet DIY", "lecture de recettes"
+      "cuisine créative",
+      "organisation de la maison",
+      "redécoration intérieure",
+      "tri et don d'objets",
+      "projet DIY",
+      "lecture de recettes"
     ],
     "gastronomie": [
-      "brunch maison", "cours de cuisine", "découverte d'un nouveau restaurant",
-      "atelier pâtisserie", "dégustation de thés", "cuisine du monde"
-    ]
+      "brunch maison",
+      "cours de cuisine",
+      "découverte d'un nouveau restaurant",
+      "atelier pâtisserie",
+      "dégustation de thés",
+      "cuisine du monde"
+    ],
+    "hcr": []
   },
-
   "rain": {
     "sport": [
-      "piscine couverte", "salle de sport", "yoga intérieur",
-      "arts martiaux", "danse en salle", "squash",
-      "escalade en salle", "boxe", "pilates"
+      "piscine couverte",
+      "salle de sport",
+      "yoga intérieur",
+      "arts martiaux",
+      "danse en salle",
+      "squash",
+      "escalade en salle",
+      "boxe",
+      "pilates"
     ],
     "culture": [
-      "musée", "cinéma", "escape game", "théâtre",
-      "concert indoor", "visite d'une galerie", "expo photo",
-      "lecture publique", "quiz culturel", "visite virtuelle de musée"
+      "musée",
+      "cinéma",
+      "escape game",
+      "théâtre",
+      "concert indoor",
+      "visite d'une galerie",
+      "expo photo",
+      "lecture publique",
+      "quiz culturel",
+      "visite virtuelle de musée"
     ],
     "nature": [
-      "aquarium", "serre tropicale", "jardin d'hiver",
-      "documentaire nature", "observation de la pluie",
+      "aquarium",
+      "serre tropicale",
+      "jardin d'hiver",
+      "documentaire nature",
+      "observation de la pluie",
       "photographie sous la pluie avec imperméable"
     ],
     "shopping": [
-      "centre commercial", "librairie", "boutiques de créateurs",
-      "shopping en ligne", "flânerie dans une galerie marchande"
+      "centre commercial",
+      "librairie",
+      "boutiques de créateurs",
+      "shopping en ligne",
+      "flânerie dans une galerie marchande"
     ],
     "repos": [
-      "spa", "café lecture", "écouter de la musique",
-      "regarder une série", "bain chaud aux huiles essentielles",
-      "méditation guidée", "sieste sous la pluie", "journaling"
+      "spa",
+      "café lecture",
+      "écouter de la musique",
+      "regarder une série",
+      "bain chaud aux huiles essentielles",
+      "méditation guidée",
+      "sieste sous la pluie",
+      "journaling"
     ],
     "religion": [
-      "lecture biblique", "méditation spirituelle", "prière personnelle",
-      "chapelet", "partage de foi en groupe", "écoute de podcasts spirituels"
+      "lecture biblique",
+      "méditation spirituelle",
+      "prière personnelle",
+      "chapelet",
+      "partage de foi en groupe",
+      "écoute de podcasts spirituels"
     ],
     "academique": [
-      "étudier", "programmer", "suivre un MOOC",
-      "prendre des notes sur un livre", "faire des flashcards",
-      "apprendre une nouvelle langue", "rédiger un essai"
+      "étudier",
+      "programmer",
+      "suivre un MOOC",
+      "prendre des notes sur un livre",
+      "faire des flashcards",
+      "apprendre une nouvelle langue",
+      "rédiger un essai"
     ],
     "professionnel": [
-      "travail à distance", "planification stratégique",
-      "mise à jour du CV", "réseautage en ligne", "formation certifiante"
+      "travail à distance",
+      "planification stratégique",
+      "mise à jour du CV",
+      "réseautage en ligne",
+      "formation certifiante"
     ],
     "creatif": [
-      "écriture créative", "dessin", "montage vidéo",
-      "composition musicale", "création de contenu",
-      "photographie d'intérieur", "reliure artisanale", "broderie"
+      "écriture créative",
+      "dessin",
+      "montage vidéo",
+      "composition musicale",
+      "création de contenu",
+      "photographie d'intérieur",
+      "reliure artisanale",
+      "broderie"
     ],
     "social": [
-      "soirée jeux de société", "discussion autour d'un café",
-      "soirée film entre amis", "quiz en ligne", "jeux vidéo en groupe",
+      "soirée jeux de société",
+      "discussion autour d'un café",
+      "soirée film entre amis",
+      "quiz en ligne",
+      "jeux vidéo en groupe",
       "atelier créatif partagé"
     ],
     "maison": [
-      "cuisine réconfortante", "ménage en musique", "organisation de placards",
-      "projet de décoration", "tri de photos", "préparer un album souvenir"
+      "cuisine réconfortante",
+      "ménage en musique",
+      "organisation de placards",
+      "projet de décoration",
+      "tri de photos",
+      "préparer un album souvenir"
     ],
     "gastronomie": [
-      "cuisine mijotée", "pâtisserie maison", "essayer une nouvelle recette",
-      "commander un repas d'un restaurant local", "atelier chocolat maison",
+      "cuisine mijotée",
+      "pâtisserie maison",
+      "essayer une nouvelle recette",
+      "commander un repas d'un restaurant local",
+      "atelier chocolat maison",
       "dégustation de vins et fromages"
     ]
   },
-
   "drizzle": {
     "sport": [
-      "salle de sport", "stretching", "yoga doux",
-      "natation couverte", "marche avec imperméable"
+      "salle de sport",
+      "stretching",
+      "yoga doux",
+      "natation couverte",
+      "marche avec imperméable"
     ],
     "culture": [
-      "cinéma", "musée", "expo temporaire",
-      "librairie", "visite d'un atelier"
+      "cinéma",
+      "musée",
+      "expo temporaire",
+      "librairie",
+      "visite d'un atelier"
     ],
     "nature": [
-      "serre botanique", "promenade sous la bruine",
-      "photographie pluviale", "jardinage avec équipement"
+      "serre botanique",
+      "promenade sous la bruine",
+      "photographie pluviale",
+      "jardinage avec équipement"
     ],
     "shopping": [
-      "librairie indépendante", "petites boutiques",
-      "marché couvert", "galerie marchande"
+      "librairie indépendante",
+      "petites boutiques",
+      "marché couvert",
+      "galerie marchande"
     ],
     "repos": [
-      "lecture avec une boisson chaude", "écouter un podcast",
-      "regarder un documentaire", "journaling", "méditation"
+      "lecture avec une boisson chaude",
+      "écouter un podcast",
+      "regarder un documentaire",
+      "journaling",
+      "méditation"
     ],
     "religion": [
-      "chapelet méditatif", "lecture spirituelle",
-      "prière silencieuse", "groupe de partage en ligne"
+      "chapelet méditatif",
+      "lecture spirituelle",
+      "prière silencieuse",
+      "groupe de partage en ligne"
     ],
     "academique": [
-      "révisions", "travail universitaire",
-      "veille documentaire", "apprentissage en ligne"
+      "révisions",
+      "travail universitaire",
+      "veille documentaire",
+      "apprentissage en ligne"
     ],
     "professionnel": [
-      "avancer sur un projet", "veille professionnelle",
-      "rédaction de rapports", "organisation de tâches"
+      "avancer sur un projet",
+      "veille professionnelle",
+      "rédaction de rapports",
+      "organisation de tâches"
     ],
     "creatif": [
-      "écriture poétique inspirée par la pluie", "illustration",
-      "photographie de gouttes d'eau", "musique d'ambiance"
+      "écriture poétique inspirée par la pluie",
+      "illustration",
+      "photographie de gouttes d'eau",
+      "musique d'ambiance"
     ],
     "social": [
-      "discussion profonde en café", "jeux de société",
-      "soirée quiz", "atelier créatif entre amis"
+      "discussion profonde en café",
+      "jeux de société",
+      "soirée quiz",
+      "atelier créatif entre amis"
     ],
     "maison": [
-      "cuisine douce", "rangement créatif",
-      "revoir de vieux albums photos", "plantes d'intérieur"
+      "cuisine douce",
+      "rangement créatif",
+      "revoir de vieux albums photos",
+      "plantes d'intérieur"
     ],
     "gastronomie": [
-      "soupe maison", "thé et gâteau fait maison",
-      "fondue entre amis", "déjeuner dans un bistrot cosy"
-    ]
+      "soupe maison",
+      "thé et gâteau fait maison",
+      "fondue entre amis",
+      "déjeuner dans un bistrot cosy"
+    ],
+    "hcr": []
   },
-
   "snow": {
     "sport": [
-      "ski alpin", "snowboard", "luge", "marche dans la neige",
-      "raquettes", "patinage sur glace", "ski de fond",
-      "bataille de boules de neige", "construction d'igloo"
+      "ski alpin",
+      "snowboard",
+      "luge",
+      "marche dans la neige",
+      "raquettes",
+      "patinage sur glace",
+      "ski de fond",
+      "bataille de boules de neige",
+      "construction d'igloo"
     ],
     "culture": [
-      "cinéma", "musée", "concert de musique classique",
-      "opéra", "exposition hivernale", "marché de Noël"
+      "cinéma",
+      "musée",
+      "concert de musique classique",
+      "opéra",
+      "exposition hivernale",
+      "marché de Noël"
     ],
     "nature": [
-      "photographie de paysages enneigés", "observer les empreintes d'animaux",
-      "balade en forêt enneigée", "nourrissage des oiseaux"
+      "photographie de paysages enneigés",
+      "observer les empreintes d'animaux",
+      "balade en forêt enneigée",
+      "nourrissage des oiseaux"
     ],
     "shopping": [
-      "centre commercial chauffé", "shopping de Noël",
-      "librairie cosy", "marchés artisanaux d'hiver"
+      "centre commercial chauffé",
+      "shopping de Noël",
+      "librairie cosy",
+      "marchés artisanaux d'hiver"
     ],
     "repos": [
-      "chocolat chaud au coin du feu", "lecture sous un plaid",
-      "regarder la neige tomber", "bain chaud", "sieste hivernale"
+      "chocolat chaud au coin du feu",
+      "lecture sous un plaid",
+      "regarder la neige tomber",
+      "bain chaud",
+      "sieste hivernale"
     ],
     "religion": [
-      "messe de l'Avent ou de Noël", "temps de prière hivernal",
-      "retraite spirituelle", "lecture de textes de sagesse"
+      "messe de l'Avent ou de Noël",
+      "temps de prière hivernal",
+      "retraite spirituelle",
+      "lecture de textes de sagesse"
     ],
     "academique": [
-      "étudier à la maison", "lecture académique au chaud",
-      "rédaction de travaux", "cours en ligne"
+      "étudier à la maison",
+      "lecture académique au chaud",
+      "rédaction de travaux",
+      "cours en ligne"
     ],
     "professionnel": [
-      "travail à distance", "planification annuelle",
-      "bilan de l'année", "formation en ligne"
+      "travail à distance",
+      "planification annuelle",
+      "bilan de l'année",
+      "formation en ligne"
     ],
     "creatif": [
-      "écriture hivernale", "dessin au chaud",
-      "photographie de neige", "composition musicale inspirée de l'hiver",
+      "écriture hivernale",
+      "dessin au chaud",
+      "photographie de neige",
+      "composition musicale inspirée de l'hiver",
       "sculpture de neige"
     ],
     "social": [
-      "soirée film sous des plaids", "jeux de société au chaud",
-      "fondue entre amis", "soirée raclette"
+      "soirée film sous des plaids",
+      "jeux de société au chaud",
+      "fondue entre amis",
+      "soirée raclette"
     ],
     "maison": [
-      "cuisine de plats chauds", "préparer des soupes",
-      "décoration hivernale", "entretien de la maison"
+      "cuisine de plats chauds",
+      "préparer des soupes",
+      "décoration hivernale",
+      "entretien de la maison"
     ],
     "gastronomie": [
-      "raclette maison", "fondue savoyarde", "vin chaud épicé",
-      "soupe de légumes", "pain d'épices maison", "chocolat chaud artisanal"
-    ]
+      "raclette maison",
+      "fondue savoyarde",
+      "vin chaud épicé",
+      "soupe de légumes",
+      "pain d'épices maison",
+      "chocolat chaud artisanal"
+    ],
+    "hcr": []
   },
-
   "thunderstorm": {
     "sport": [
-      "fitness intérieur", "yoga", "pilates",
-      "corde à sauter", "abdominaux et gainage"
+      "fitness intérieur",
+      "yoga",
+      "pilates",
+      "corde à sauter",
+      "abdominaux et gainage"
     ],
     "culture": [
-      "cinéma à domicile", "documentaire", "exposition virtuelle",
-      "visite musée en ligne", "écouter un album en entier"
+      "cinéma à domicile",
+      "documentaire",
+      "exposition virtuelle",
+      "visite musée en ligne",
+      "écouter un album en entier"
     ],
     "nature": [
       "observer l'orage depuis chez soi en sécurité",
@@ -305,103 +553,145 @@
       "écouter les sons de la nature"
     ],
     "shopping": [
-      "shopping en ligne", "découvrir des boutiques locales en ligne",
+      "shopping en ligne",
+      "découvrir des boutiques locales en ligne",
       "wishlist pour plus tard"
     ],
     "repos": [
-      "méditation profonde", "lecture immersive",
-      "dormir avec le son de la pluie", "bain aromathérapie",
+      "méditation profonde",
+      "lecture immersive",
+      "dormir avec le son de la pluie",
+      "bain aromathérapie",
       "journaling introspectif"
     ],
     "religion": [
-      "prière contemplative", "lecture biblique ou spirituelle",
-      "méditation profonde", "écoute de musique sacrée"
+      "prière contemplative",
+      "lecture biblique ou spirituelle",
+      "méditation profonde",
+      "écoute de musique sacrée"
     ],
     "academique": [
-      "étudier intensément", "programmer un projet",
-      "rédiger", "préparer une présentation"
+      "étudier intensément",
+      "programmer un projet",
+      "rédiger",
+      "préparer une présentation"
     ],
     "professionnel": [
-      "travail à distance en profondeur", "planification stratégique",
-      "nettoyage de sa boîte mail", "mise à jour de documents"
+      "travail à distance en profondeur",
+      "planification stratégique",
+      "nettoyage de sa boîte mail",
+      "mise à jour de documents"
     ],
     "creatif": [
-      "écriture inspirée par l'orage", "composition musicale dramatique",
-      "illustration sombre et atmosphérique", "podcast ou narration audio"
+      "écriture inspirée par l'orage",
+      "composition musicale dramatique",
+      "illustration sombre et atmosphérique",
+      "podcast ou narration audio"
     ],
     "social": [
-      "discussion en ligne avec des proches", "jeux en réseau",
-      "appel vidéo convivial", "soirée quiz virtuelle"
+      "discussion en ligne avec des proches",
+      "jeux en réseau",
+      "appel vidéo convivial",
+      "soirée quiz virtuelle"
     ],
     "maison": [
-      "organisation profonde", "nettoyage méticuleux",
-      "préparer des plats réconfortants", "trier ses affaires"
+      "organisation profonde",
+      "nettoyage méticuleux",
+      "préparer des plats réconfortants",
+      "trier ses affaires"
     ],
     "gastronomie": [
-      "cuisine réconfortante", "pain fait maison",
-      "soupe copieuse", "gâteau maison", "tisane artisanale"
-    ]
+      "cuisine réconfortante",
+      "pain fait maison",
+      "soupe copieuse",
+      "gâteau maison",
+      "tisane artisanale"
+    ],
+    "hcr": []
   },
-
   "mist": {
     "sport": [
-      "marche légère dans la brume", "yoga matinal",
-      "tai-chi", "stretching doux"
+      "marche légère dans la brume",
+      "yoga matinal",
+      "tai-chi",
+      "stretching doux"
     ],
     "culture": [
-      "musée", "exposition", "librairie",
-      "atelier artistique", "concert intimiste"
+      "musée",
+      "exposition",
+      "librairie",
+      "atelier artistique",
+      "concert intimiste"
     ],
     "nature": [
-      "photographie de brume", "balade contemplative",
-      "observation de la rosée", "jardinage matinal"
+      "photographie de brume",
+      "balade contemplative",
+      "observation de la rosée",
+      "jardinage matinal"
     ],
     "shopping": [
-      "librairie cosy", "boutiques d'artisanat",
+      "librairie cosy",
+      "boutiques d'artisanat",
       "marché matinal"
     ],
     "repos": [
-      "lecture avec thé chaud", "café du matin contemplatif",
-      "journaling au réveil", "méditation matinale"
+      "lecture avec thé chaud",
+      "café du matin contemplatif",
+      "journaling au réveil",
+      "méditation matinale"
     ],
     "religion": [
-      "prière du matin", "méditation contemplative",
-      "lectio divina", "marche spirituelle"
+      "prière du matin",
+      "méditation contemplative",
+      "lectio divina",
+      "marche spirituelle"
     ],
     "academique": [
-      "lecture approfondie", "prise de notes créative",
+      "lecture approfondie",
+      "prise de notes créative",
       "étude calme et concentrée"
     ],
     "professionnel": [
-      "travail calme et focalisé", "rédaction créative",
+      "travail calme et focalisé",
+      "rédaction créative",
       "planification de la semaine"
     ],
     "creatif": [
-      "écriture poétique", "photographie atmosphérique",
+      "écriture poétique",
+      "photographie atmosphérique",
       "peinture aquarelle inspirée de la brume"
     ],
     "social": [
       "conversation profonde autour d'un café",
-      "petit déjeuner partagé", "appel matinal à un ami"
+      "petit déjeuner partagé",
+      "appel matinal à un ami"
     ],
     "maison": [
-      "organisation douce", "préparation d'un bon repas",
+      "organisation douce",
+      "préparation d'un bon repas",
       "soin des plantes d'intérieur"
     ],
     "gastronomie": [
-      "petit déjeuner élaboré", "café de spécialité",
-      "porridge aux fruits", "thé matcha cérémoniel"
+      "petit déjeuner élaboré",
+      "café de spécialité",
+      "porridge aux fruits",
+      "thé matcha cérémoniel"
     ]
   },
-
   "fog": {
     "sport": [
-      "yoga intérieur", "fitness doux",
-      "pilates", "natation couverte", "danse"
+      "yoga intérieur",
+      "fitness doux",
+      "pilates",
+      "natation couverte",
+      "danse"
     ],
     "culture": [
-      "cinéma", "musée", "documentaire atmosphérique",
-      "écouter un album concept", "lire un roman noir"
+      "cinéma",
+      "musée",
+      "documentaire atmosphérique",
+      "écouter un album concept",
+      "lire un roman noir"
     ],
     "nature": [
       "photographie atmosphérique du brouillard",
@@ -409,41 +699,60 @@
       "observer la faune matinale"
     ],
     "shopping": [
-      "librairie", "boutique de curiosités",
-      "marché couvert", "disquaire indépendant"
+      "librairie",
+      "boutique de curiosités",
+      "marché couvert",
+      "disquaire indépendant"
     ],
     "repos": [
-      "lecture immersive", "écouter de la musique ambiante",
-      "regarder un film noir", "bain aux herbes", "sieste"
+      "lecture immersive",
+      "écouter de la musique ambiante",
+      "regarder un film noir",
+      "bain aux herbes",
+      "sieste"
     ],
     "religion": [
-      "temps de prière silencieux", "méditation profonde",
-      "lecture de textes mystiques", "retraite intérieure"
+      "temps de prière silencieux",
+      "méditation profonde",
+      "lecture de textes mystiques",
+      "retraite intérieure"
     ],
     "academique": [
-      "révision concentrée", "lecture de fond",
-      "recherche documentaire", "écriture académique"
+      "révision concentrée",
+      "lecture de fond",
+      "recherche documentaire",
+      "écriture académique"
     ],
     "professionnel": [
-      "travail concentré en profondeur", "rédaction de contenu",
-      "analyse de données", "préparation de réunions"
+      "travail concentré en profondeur",
+      "rédaction de contenu",
+      "analyse de données",
+      "préparation de réunions"
     ],
     "creatif": [
-      "écriture de fiction mystérieuse", "dessin au fusain",
-      "composition ambient", "photographie en contre-jour",
+      "écriture de fiction mystérieuse",
+      "dessin au fusain",
+      "composition ambient",
+      "photographie en contre-jour",
       "création de zine"
     ],
     "social": [
-      "jeux de société thématiques", "soirée jeu de rôle",
-      "discussion philosophique", "écoute collective d'un album"
+      "jeux de société thématiques",
+      "soirée jeu de rôle",
+      "discussion philosophique",
+      "écoute collective d'un album"
     ],
     "maison": [
-      "cuisine de saison", "rangement thématique",
-      "création d'une ambiance cosy", "aromatisation de la maison"
+      "cuisine de saison",
+      "rangement thématique",
+      "création d'une ambiance cosy",
+      "aromatisation de la maison"
     ],
     "gastronomie": [
-      "soupe crémeuse de saison", "pain artisanal maison",
-      "café filtre et viennoiserie", "plat mijoté aux épices",
+      "soupe crémeuse de saison",
+      "pain artisanal maison",
+      "café filtre et viennoiserie",
+      "plat mijoté aux épices",
       "infusion de plantes fraîches"
     ]
   }

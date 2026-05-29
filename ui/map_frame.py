@@ -39,7 +39,7 @@ class MapFrame(ctk.CTkFrame):
         Label affichant le nombre de lieux géolocalisés.
     """
 
-    def __init__(self, parent, lang: str = "fr", get_program=None):
+    def __init__(self, parent, get_program=None):
         """
         Initialise la MapFrame.
 
@@ -133,6 +133,7 @@ class MapFrame(ctk.CTkFrame):
 
         city = city or self._current_city or service.get_city_auto() or "Libreville"
         self._current_city = city
+        weather = service.get_current(city)
 
         # Récupère le programme de ProgramFrame via le callback
         # Si aucun programme n'est disponible encore, slots sera vide
@@ -145,9 +146,9 @@ class MapFrame(ctk.CTkFrame):
                 return
             slots = program.slots
 
-        self._update_ui(city, slots)
+        self._update_ui(weather, slots)
 
-    def _update_ui(self, city: str, slots: list):
+    def _update_ui(self, weather, slots: list):
         """
         Centre la carte et place les marqueurs des activités géolocalisées.
 
@@ -158,9 +159,11 @@ class MapFrame(ctk.CTkFrame):
         slots : list[TimeSlot]
             Créneaux du programme seuls ceux avec lat/lon ont un marqueur.
         """
-        # Centre la carte sur la ville
-        self.mapp.after(100, lambda: self.mapp.set_address(city))
-        self.mapp.set_zoom(13)
+        # set_position avec coordonnées réelles
+        if weather and weather.lat and weather.lon:
+            self.mapp.after(100, lambda: self.mapp.set_position(weather.lat, weather.lon))
+        else:
+            self.mapp.after(100, lambda: self.mapp.set_address(self._current_city))
 
         # Supprime les anciens marqueurs
         self.mapp.delete_all_marker()

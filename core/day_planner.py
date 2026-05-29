@@ -179,8 +179,7 @@ class DayPlanner:
     def _enrich_with_ai(
         self,
         program: DayProgram,
-        city: str,
-        lang: str = "fr"
+        city: str
     ) -> DayProgram:
         """
         Enrichit optionnellement les activités avec de vrais lieux via Groq.
@@ -219,7 +218,7 @@ class DayPlanner:
         ]
 
         # Appelle l'IA pour enrichir les lieux
-        enrichments = self.ai.enrich_activities(activities_for_ai, city=city, lang=lang)
+        enrichments = self.ai.enrich_activities(activities_for_ai, city=city)
 
         if not enrichments:
             # Groq indisponible ou JSON invalide, programme local intact
@@ -234,8 +233,7 @@ class DayPlanner:
                 location = e.get("location")
                 address  = e.get("address")
 
-                # N'applique l'enrichissement que si l'IA a trouvé quelque chose
-                # et que ce n'est pas null — on ne force jamais un lieu fictif
+
                 if location and location.lower() not in ("null", "none", ""):
                     slot.location = f"{location}, {address}" if address else location
                     slot.lat      = e.get("lat")
@@ -274,7 +272,6 @@ class DayPlanner:
             program = self._enrich_with_ai(
                 program,
                 city=dominant.city,
-                lang=profile.language
             )
 
         return program

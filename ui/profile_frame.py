@@ -24,26 +24,9 @@ import customtkinter as ctk
 
 from core.user_profile import UserProfile
 from models import ProfileData
-from ui.config import COLORS,LANGUAGE_NAMES, get_font, get_translation
+from ui.config import COLORS, get_font, get_all_tastes, ALL_CUISINES, ALL_STYLES, MOODS
 
 
-ALL_TASTES = [
-    "sport", "culture", "nature", "shopping",
-    "repos", "social", "creatif", "gastronomie",
-    "academique", "religion", "maison", "professionnel",
-]
-
-ALL_STYLES = [
-    "random", "casual", "streetwear", "oldmoney",
-    "boheme", "sportswear", "minimaliste", "preppy",
-]
-
-ALL_CUISINES = [
-    "random", "française", "asiatique", "méditerranéenne",
-    "africaine", "américaine", "moyen-orientale", "latino", "fastfood",
-]
-
-MOODS = ["repos", "aventure", "random"]
 
 
 class ProfileFrame(ctk.CTkFrame):
@@ -89,9 +72,8 @@ class ProfileFrame(ctk.CTkFrame):
             Normalement MainWindow._refresh_frames().
         """
         super().__init__(parent, fg_color="transparent")
-        self.T = get_translation(lang)
-        self.lang = lang
         self._on_save = on_save
+        self._all_tastes = get_all_tastes()
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -124,14 +106,14 @@ class ProfileFrame(ctk.CTkFrame):
         header.grid_columnconfigure(0, weight=1)
 
         ctk.CTkLabel(
-            header, text=self.T["settings"],
+            header, text="Paramètres",
             font=get_font(15),
             text_color=COLORS["text_muted"],
             anchor="w"
         ).grid(row=0, column=0, sticky="w")
 
         ctk.CTkLabel(
-            header, text=self.T["profile_title"],
+            header, text="Mon profil",
             font=get_font(24, "bold"),
             text_color=COLORS["text_primary"],
             anchor="w"
@@ -177,7 +159,7 @@ class ProfileFrame(ctk.CTkFrame):
 
         ctk.CTkLabel(
             name_frame,
-            text=self.T["full_name"],
+            text="Nom complet",
             font=get_font(15),
             text_color=COLORS["text_muted"],
             anchor="w"
@@ -205,7 +187,7 @@ class ProfileFrame(ctk.CTkFrame):
 
         ctk.CTkLabel(
             description_frame,
-            text=self.T["description"],
+            text="Description",
             font=get_font(15),
             text_color=COLORS["text_muted"],
             anchor="w"
@@ -229,37 +211,17 @@ class ProfileFrame(ctk.CTkFrame):
         # La formule row = i // max_per_row et col = i % max_per_row
         # place automatiquement les boutons en lignes de 6.
         tastes_card = self._make_section_card(
-            row=3, title=self.T["my_tastes"]
+            row=3, title="Mes goûts : sélectionne ce que tu aimes"
         )
+        
+        self.pills_frame = ctk.CTkFrame(tastes_card, fg_color="transparent")
+        self.pills_frame.grid(row=1, column=0, padx=12, pady=(0, 12), sticky="ew")
 
-        pills_frame = ctk.CTkFrame(tastes_card, fg_color="transparent")
-        pills_frame.grid(row=1, column=0, padx=12, pady=(0, 12), sticky="ew")
-
-        max_per_row = 5
-        for i, taste in enumerate(ALL_TASTES):
-            r = i // max_per_row
-            c = i % max_per_row
-            btn = ctk.CTkButton(
-                pills_frame,
-                text=taste.capitalize(),
-                width=110,
-                height=40,
-                corner_radius=16,
-                fg_color="white",
-                hover_color="#6174d7",
-                border_width=1,
-                border_color=COLORS["border"],
-                text_color=COLORS["text_secondary"],
-                font=get_font(15),
-                command=lambda t=taste: self._toggle_taste(t)
-            )
-            btn.grid(row=r, column=c, padx=4, pady=4, sticky="w")
-            self._taste_buttons[taste] = btn
-
+        self._reload_tastes()
         # Section humeur
         # Trois boutons radio visuels  un seul peut être actif (bleu) à la fois.
         # _set_mood() remet tous les boutons en blanc puis active le bon.
-        mood_card = self._make_section_card(row=4, title=self.T["mood_day"])
+        mood_card = self._make_section_card(row=4, title="Humeur du jour")
         mood_frame = ctk.CTkFrame(mood_card, fg_color="transparent")
         mood_frame.grid(row=1, column=0, padx=12, pady=(0, 12), sticky="ew")
         mood_frame.grid_columnconfigure((0, 1, 2), weight=1)
@@ -285,11 +247,11 @@ class ProfileFrame(ctk.CTkFrame):
         # CTkComboBox est préféré à CTkOptionMenu car son dropdown est
         # entièrement stylisable et reste dans la fenêtre de l'application.
         # state="readonly" empêche la saisie libre tout en permettant la sélection.
-        pref_card = self._make_section_card(row=5, title = self.T["preferences"])
+        pref_card = self._make_section_card(row=5, title = "Préférences")
         pref_card.grid_columnconfigure((0, 1), weight=1)
 
         ctk.CTkLabel(
-            pref_card, text=self.T["style_label"],
+            pref_card, text="Style vestimentaire",
             font=get_font(15),
             text_color=COLORS["text_muted"],
             anchor="w"
@@ -314,7 +276,7 @@ class ProfileFrame(ctk.CTkFrame):
         self.style_menu.grid(row=2, column=0, padx=(16, 8), pady=(0, 16), sticky="ew")
 
         ctk.CTkLabel(
-            pref_card, text=self.T["cuisine_label"],
+            pref_card, text="Cuisine préférée",
             font=get_font(15),
             text_color=COLORS["text_muted"],
             anchor="w"
@@ -337,31 +299,12 @@ class ProfileFrame(ctk.CTkFrame):
             state="readonly"
         )
         self.cuisine_menu.grid(row=2, column=1, padx=(8, 16), pady=(0, 16), sticky="ew")
-        
-        lang_card = self._make_section_card(row=6, title=self.T["language"])
-        lang_card.grid_columnconfigure(0, weight=1)
-
-        self.lang_menu = ctk.CTkComboBox(
-            lang_card,
-            values=list(LANGUAGE_NAMES.values()),
-            state="readonly"
-        )
-        self.lang_menu.grid(row=1, column=0, padx=16, pady=(0, 8), sticky="ew")
-
-        # Message d'info
-        ctk.CTkLabel(
-            lang_card,
-            text=self.T["lang_restart"],
-            font=get_font(13),
-            text_color=COLORS["text_muted"],
-            anchor="w"
-        ).grid(row=2, column=0, padx=16, pady=(0, 12), sticky="w")
-
+    
         # Section historique
         # Affiche le nombre de journées enregistrées dans self._profile.history.
         # Le bouton Effacer vide la liste et met à jour le label sans sauvegarder.
         # La suppression n'est réellement persistée qu'au prochain clic Sauvegarder.
-        history_card = self._make_section_card(row=7, title=self.T["history"])
+        history_card = self._make_section_card(row=6, title="Historique")
 
         self.history_label = ctk.CTkLabel(
             history_card,
@@ -378,7 +321,7 @@ class ProfileFrame(ctk.CTkFrame):
             height=34,
             border_width=1,
             border_color=COLORS["border"],
-            text=self.T["clear"],
+            text="Effacer",
             text_color=COLORS["text_secondary"],
             hover_color="#2a0a0a",
             command=self._clear_history
@@ -392,7 +335,7 @@ class ProfileFrame(ctk.CTkFrame):
             corner_radius=10,
             fg_color=COLORS["accent"],
             height=44,
-            text=self.T["save"],
+            text="Sauvegarder",
             text_color="white",
             font=get_font(14, "bold"),
             hover_color="#2d47d4",
@@ -554,7 +497,6 @@ class ProfileFrame(ctk.CTkFrame):
         # Style et cuisine
         self.style_menu.set(self._profile.style)
         self.cuisine_menu.set(self._profile.cuisine)
-        self.lang_menu.set(LANGUAGE_NAMES.get(self._profile.language, "Français"))
         # Historique
         n = len(self._profile.history)
         self.history_label.configure(
@@ -574,21 +516,53 @@ class ProfileFrame(ctk.CTkFrame):
         self._profile.style       = self.style_menu.get()
         self._profile.cuisine     = self.cuisine_menu.get()
         
-        # Convertit le nom affiché en code langue
-        lang_name = self.lang_menu.get()
-        self._profile.language = next(
-            code for code, name in LANGUAGE_NAMES.items()
-            if name == lang_name
-        )
-
         UserProfile().save(self._profile)
         if self._on_save:
             self._on_save()
             
-
         self.save_btn.configure(text=self.T["saved"])
         self.after(2000, lambda: self.save_btn.configure(text=self.T["save"]))
         
+    def _reload_tastes(self):
+        """
+        Recharge les goûts depuis categories.json et reconstruit les pills.
+        Appelée par MainWindow quand CustomFrame ajoute ou spprime une catégorie.
+        """
+        self._all_tastes = get_all_tastes()
+
+        # Détruit et recrée les pills
+        for widget in self.pills_frame.winfo_children():
+            widget.destroy()
+        self._taste_buttons = {}
+
+        max_per_row = 5
+        for i, taste in enumerate(self._all_tastes):
+            r = i // max_per_row
+            c = i % max_per_row
+            btn = ctk.CTkButton(
+                self.pills_frame,
+                text=taste.capitalize(),
+                width=110,
+                height=40,
+                corner_radius=16,
+                fg_color="white",
+                hover_color="#6174d7",
+                border_width=1,
+                border_color=COLORS["border"],
+                text_color=COLORS["text_secondary"],
+                font=get_font(15),
+                command=lambda t=taste: self._toggle_taste(t)
+            )
+            btn.grid(row=r, column=c, padx=4, pady=4, sticky="w")
+            self._taste_buttons[taste] = btn
+
+        # Réapplique les goûts sélectionnés
+        for taste, btn in self._taste_buttons.items():
+            if taste in self._profile.tastes:
+                btn.configure(fg_color=COLORS["accent"], text_color="white")
+            else:
+                btn.configure(fg_color="white", text_color=COLORS["text_muted"])
+            
 
     def refresh(self, city: str = None):
         """

@@ -7,10 +7,14 @@ Permet à l'utilisateur de :
     - Ajouter ses propres activités dans n'importe quelle catégorie
       pour des conditions météo spécifiques
     - Supprimer ses activités et catégories personnalisées
+    - Ajouter un plat dans un type de cuisine specifique
+    - Ajouter un habit dans un style vestimentaire precis
 
 Les modifications sont sauvegardées directement dans :
     - data/categories.json  : catégories et leurs keywords/couleurs
     - data/activities.json  : activités par condition météo et catégorie
+    - data/food.json pour la cuisine
+    -data/styles.json pour ;es styles vestimentaire
 """
 
 import sys
@@ -20,15 +24,15 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import customtkinter as ctk
 from CTkColorPicker import AskColor
-from ui.config import (
-    COLORS, get_font,
-    load_slot_categories, save_slot_categories, build_slot_categories
-)
+from ui.config import COLORS, get_font, load_slot_categories, save_slot_categories, build_slot_categories
+
 
 BASE_DIR        = Path(__file__).parent.parent
 ACTIVITIES_FILE = BASE_DIR / "data" / "activities.json"
 
+
 # Conditions météo disponibles avec leurs 
+
 WEATHER_CONDITIONS = {
     "clear":        " Beau temps",
     "clouds":       " Nuageux",
@@ -37,15 +41,6 @@ WEATHER_CONDITIONS = {
     "thunderstorm": " Orage",
     "snow":         " Neige",
     "mist":         " Brume",
-}
-
-# Conditions météo pour la NOURRITURE  correspondent aux clés de food.json
-FOOD_CONDITIONS = {
-    "chaud":   " Chaud (>23°C)",
-    "nuageux": " Nuageux",
-    "pluie":   " Pluie",
-    "neige":   " Neige",
-    "froid":   " Froid (<10°C)",
 }
 
 # Conditions météo pour les STYLES correspondent aux clés de styles.json
@@ -95,7 +90,7 @@ class CustomFrame(ctk.CTkFrame):
         Variables des checkboxes de sélection météo.
     """
 
-    def __init__(self, parent, lang: str = "fr"):
+    def __init__(self, parent, on_category_added=None):
         """
         Initialise la CustomFrame.
 
@@ -107,6 +102,7 @@ class CustomFrame(ctk.CTkFrame):
             Langue de l'interface.
         """
         super().__init__(parent, fg_color="transparent")
+        self._on_category_added = on_category_added
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
@@ -416,7 +412,8 @@ class CustomFrame(ctk.CTkFrame):
     def _build_new_food_section(self, row: int):
         """
         Section d'ajout d'un plat personnalisé dans food.json.
-        Champs : description du plat, cuisine, météo(s).
+        Champs : description du plat + cuisine uniquement.
+        La météo n'influence plus le choix des plats.
         """
         card = self._make_section_card(row=row, title="Ajouter un plat personnalisé")
         card.grid_columnconfigure(0, weight=1)
@@ -434,7 +431,7 @@ class CustomFrame(ctk.CTkFrame):
 
         self.food_entry = ctk.CTkEntry(
             inner,
-            placeholder_text="Ex:  Pizza, Poulet nyembwe, Thiéboudienne...",
+            placeholder_text="Ex: Pizza, Poulet nyembwe, Thiéboudienne...",
             font=get_font(13),
             fg_color=COLORS["bg_main"],
             border_color=COLORS["border"],
@@ -469,32 +466,6 @@ class CustomFrame(ctk.CTkFrame):
         )
         self.food_cuisine_menu.grid(row=3, column=0, sticky="ew", pady=(0, 12))
 
-        ctk.CTkLabel(
-            inner, text="Météo(s) concernée(s)",
-            font=get_font(12),
-            text_color=COLORS["text_muted"],
-            anchor="w"
-        ).grid(row=4, column=0, sticky="w", pady=(0, 6))
-
-        self._food_weather_vars = {}
-        weather_frame = ctk.CTkFrame(inner, fg_color="transparent")
-        weather_frame.grid(row=5, column=0, sticky="ew", pady=(0, 12))
-
-        for i, (condition, label) in enumerate(FOOD_CONDITIONS.items()):
-            var = ctk.BooleanVar(value=True)
-            self._food_weather_vars[condition] = var
-            ctk.CTkCheckBox(
-                weather_frame,
-                text=label,
-                variable=var,
-                font=get_font(12),
-                text_color=COLORS["text_secondary"],
-                fg_color=COLORS["accent"],
-                hover_color="#2d47d4",
-                checkmark_color="white",
-                border_color=COLORS["border"]
-            ).grid(row=i // 3, column=i % 3, padx=(0, 12), pady=4, sticky="w")
-
         ctk.CTkButton(
             inner,
             text="Ajouter le plat",
@@ -505,8 +476,7 @@ class CustomFrame(ctk.CTkFrame):
             hover_color="#2d47d4",
             text_color="white",
             command=self._add_food
-        ).grid(row=6, column=0, sticky="ew")
-
+        ).grid(row=4, column=0, sticky="ew")
 
     def _build_new_style_section(self, row: int):
         """
@@ -606,19 +576,14 @@ class CustomFrame(ctk.CTkFrame):
     def _add_food(self):
         """
         Ajoute un plat personnalisé dans food.json.
-        Même logique que _add_activity mais pour food.json.
+
+        food.json est maintenant une liste plate par cuisine :
+        {"Gabonaise": ["plat1", "plat2", ...]}
         """
         food_name    = self.food_entry.get().strip()
         cuisine_name = self.food_cuisine_menu.get()
 
         if not food_name or not cuisine_name:
-            return
-
-        selected_conditions = [
-            cond for cond, var in self._food_weather_vars.items()
-            if var.get()
-        ]
-        if not selected_conditions:
             return
 
         food_file = BASE_DIR / "data" / "food.json"
@@ -630,22 +595,22 @@ class CustomFrame(ctk.CTkFrame):
 
         cuisine_key = cuisine_name.lower()
 
-        for condition in selected_conditions:
-            if cuisine_key not in food_data:
-                food_data[cuisine_key] = {}
-            if condition not in food_data[cuisine_key]:
-                food_data[cuisine_key][condition] = []
+        if cuisine_key not in food_data:
+            food_data[cuisine_key] = []
 
-            existing = [
-                item for item in food_data[cuisine_key][condition]
-                if (isinstance(item, str) and item == food_name)
-                or (isinstance(item, dict) and item.get("name") == food_name)
-            ]
-            if not existing:
-                food_data[cuisine_key][condition].append({
-                    "name":   food_name,
-                    "custom": True
-                })
+        # Vérifie que le plat n'existe pas déjà
+        existing = [
+            item for item in food_data[cuisine_key]
+            if (isinstance(item, str) and item == food_name)
+            or (isinstance(item, dict) and item.get("name") == food_name)
+        ]
+
+        if not existing:
+            # Stocke comme dict avec marqueur custom pour pouvoir supprimer
+            food_data[cuisine_key].append({
+                "name":   food_name,
+                "custom": True
+            })
 
         try:
             with open(food_file, "w", encoding="utf-8") as f:
@@ -653,7 +618,6 @@ class CustomFrame(ctk.CTkFrame):
             self.food_entry.delete(0, "end")
         except Exception as e:
             print(f"Erreur sauvegarde food.json : {e}")
-
 
     def _add_style_item(self):
         """
@@ -933,6 +897,8 @@ class CustomFrame(ctk.CTkFrame):
             self._selected_color = COLORS["accent"]
             self._color_preview.configure(fg_color=COLORS["accent"])
             self._refresh_categories_list()
+            if self._on_category_added:
+                self._on_category_added()
 
     def _delete_category(self, key: str):
         """
@@ -950,6 +916,8 @@ class CustomFrame(ctk.CTkFrame):
             del raw[key]
             save_slot_categories(raw)
             self._refresh_categories_list()
+        if self._on_category_added:
+                self._on_category_added()
 
     def _add_activity(self):
         """

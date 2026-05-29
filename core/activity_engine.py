@@ -193,56 +193,52 @@ class ActivityEngine:
 
     def suggest_food(self, weather: WeatherData, cuisine: str = "random") -> list[str]:
         """
-        Retourne des suggestions de plats selon la météo et la cuisine préférée.
+        Retourne des suggestions de plats selon la cuisine préférée.
+
+        La météo n'influence plus le choix des plats on peut manger
+        n'importe quel plat par n'importe quel temps.
+        Un pool de 4 plats est retourné mélangé aléatoirement.
 
         Parameters
         ----------
         weather : WeatherData
-            Données météo actuelles.
+            Données météo conservées en paramètre pour compatibilité
+            avec les appels existants mais non utilisé dans la logique.
         cuisine : str
-            Type de cuisine parmi : "asiatique", "méditerranéenne", "africaine",
-            "américaine", "française", "moyen-orientale", "latino",
-            "fastfood", "random".
+            Type de cuisine parmi les clés de food.json, ou "random".
+
+        Returns
+        -------
+        list[str]
+            Liste de suggestions mélangées + ligne "Cuisine : ..." en dernier.
         """
-        temp      = weather.temp
-        condition = weather.condition.lower()
-        is_rainy  = weather.is_rainy()
-
         CUISINES = self._load_food()
-
-        # Détermine la clé météo pour le catalogue de nourriture
-        if condition == "snow":
-            weather_key = "neige"
-        elif is_rainy or condition == "thunderstorm":
-            weather_key = "pluie"
-        elif temp > 23:
-            weather_key = "chaud"
-        elif temp < 10:
-            weather_key = "froid"
-        else:
-            weather_key = "nuageux"
 
         # Choisit une cuisine aléatoire si "random" ou cuisine inconnue
         if cuisine == "random" or cuisine not in CUISINES:
             cuisine = random.choice(list(CUISINES.keys()))
 
-        raw_suggestions = CUISINES[cuisine][weather_key]
+        # Récupère tous les plats de cette cuisine format str ou dict custom
+        raw_items = CUISINES.get(cuisine, [])
         suggestions = []
-        for item in raw_suggestions:
+        for item in raw_items:
             if isinstance(item, str):
                 suggestions.append(item)
             elif isinstance(item, dict) and "name" in item:
                 suggestions.append(item["name"])
 
-        # random.shuffle mélange les suggestions pour plus de variété
+        if not suggestions:
+            return [f"Cuisine : {cuisine.capitalize()}"]
+
+        # Mélange et retourne un pool de 4 plats maximum
         random.shuffle(suggestions)
+        result = suggestions[:8]   # pool plus large pour cycle() dans DayPlanner
 
-        # Ajoute la note de cuisine en dernière position
+        # Ligne de référence cuisine en dernière position
         # exclue par [:-1] dans DayPlanner avant random.choice
-        suggestions.append(f"Cuisine : {cuisine.capitalize()}")
+        result.append(f"Cuisine : {cuisine.capitalize()}")
 
-        return suggestions
-
+        return result
 
 if __name__ == "__main__":
     pass

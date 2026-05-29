@@ -12,7 +12,7 @@ Ce fichier contient :
 import os
 import sys
 import json
-from ui.config import COLORS, get_font, get_translation
+from ui.config import COLORS, get_font
 from pathlib import Path
 from datetime import datetime
 
@@ -85,7 +85,7 @@ def add_day_to_history(program: dict, weather: dict) -> bool:
     return True
 
 
-def get_greeting(hour: int, lang: str = "fr") -> str:
+def get_greeting(hour: int) -> str:
     """
     Retourne une salutation selon l'heure de la journée.
 
@@ -104,17 +104,16 @@ def get_greeting(hour: int, lang: str = "fr") -> str:
         "Bon après-midi" entre 12 et 17,
         "Bonsoir" entre 18 et 23.
     """
-    T = get_translation(lang)
 
     if hour <= 11:
-        return T['greeting_morning']
+        return "Bonjour"
     elif hour <= 17:
-        return T['greeting_afternoon']
+        return "Bon après-midi"
     else:
-        return T['greeting_evening']
+        return "Bonsoir"
 
 
-def show_welcome(detected_city: str, lang: str = "fr") -> bool:
+def show_welcome(detected_city: str) -> bool:
     """
     Affiche la fenêtre de bienvenue au premier lancement.
 
@@ -133,12 +132,11 @@ def show_welcome(detected_city: str, lang: str = "fr") -> bool:
         False s'il clique "Passer".
     """
     import customtkinter as ctk
-    
-    T = get_translation(lang)
+
     result = {"go_to_profile": False}
 
     root = ctk.CTk()
-    root.title(T["welcome_title"])
+    root.title("Bienvenu sur WeatherProgramm")
     root.geometry("600x420")
     root.resizable(False, False)
     root.configure(fg_color=COLORS["bg_main"])
@@ -170,7 +168,7 @@ def show_welcome(detected_city: str, lang: str = "fr") -> bool:
     ).place(relx=0.5, rely=0.5, anchor="center")
 
     # Salutation
-    greeting = get_greeting(datetime.now().hour, lang)
+    greeting = get_greeting(datetime.now().hour)
     ctk.CTkLabel(
         root,
         text=f"{greeting} !",
@@ -181,7 +179,7 @@ def show_welcome(detected_city: str, lang: str = "fr") -> bool:
     # Sous-titre
     ctk.CTkLabel(
         root,
-        text=T["welcome_title"],
+        text="Bienvenue sur WeatherProgramm",
         font=get_font(18),
         text_color=COLORS["text_secondary"]
     ).grid(row=2, column=0, pady=(0, 20))
@@ -199,7 +197,7 @@ def show_welcome(detected_city: str, lang: str = "fr") -> bool:
 
     ctk.CTkLabel(
         city_card,
-        text=T["detected_city"],
+        text="Ville détectée",
         font=get_font(15),
         text_color=COLORS["text_muted"]
     ).grid(row=0, column=0, pady=(10, 2))
@@ -213,7 +211,7 @@ def show_welcome(detected_city: str, lang: str = "fr") -> bool:
 
     ctk.CTkLabel(
         city_card,
-        text=T["city_hint"],
+        text= "Vous pourrez la modifier plus tard depuis la barre de recherche",
         font=get_font(15),
         text_color=COLORS["text_muted"]
     ).grid(row=2, column=0, pady=(0, 10))
@@ -232,7 +230,7 @@ def show_welcome(detected_city: str, lang: str = "fr") -> bool:
 
     ctk.CTkButton(
         btn_frame,
-        text=T["configure"],
+        text="Configurer mon profil",
         command=on_configure,
         corner_radius=10,
         fg_color=COLORS["accent"],
@@ -244,7 +242,7 @@ def show_welcome(detected_city: str, lang: str = "fr") -> bool:
 
     ctk.CTkButton(
         btn_frame,
-        text=T["skip"],
+        text="Passer",
         command=on_skip,
         corner_radius=10,
         fg_color="transparent",
@@ -276,15 +274,14 @@ def main():
 
     # Charge la langue du profil
     profile = UserProfile().load()
-    lang = profile.language
 
     go_to_profile = False
 
     if is_first_launch():
         city = WeatherService().get_city_auto()  or "Libreville"
-        go_to_profile = show_welcome(city, lang)
+        go_to_profile = show_welcome(city)
 
-    app = MainWindow(lang=lang)
+    app = MainWindow()
 
     if go_to_profile:
         app.show_frame("profile")

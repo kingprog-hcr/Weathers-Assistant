@@ -68,7 +68,6 @@ class AIService:
         self,
         activities: list[dict],
         city: str,
-        lang: str = "fr"
     ) -> list[dict] | None:
         """
         Enrichit une liste d'activités existantes avec de vrais lieux.
@@ -84,8 +83,7 @@ class AIService:
             Générés localement par DayPlanner._build_local().
         city : str
             Ville de l'utilisateur : Groq cherche des lieux dans cette ville.
-        lang : str
-            Langue pour les réponses ex: "fr", "en".
+        
 
         Returns
         -------
@@ -108,7 +106,7 @@ class AIService:
 Tu es un assistant de localisation urbaine.
 
 Ville : {city}
-Langue de réponse : {lang}
+Langue de réponse : Francais
 
 Voici une liste d'activités générées pour un utilisateur à {city}.
 Pour chaque activité, si tu connais avec certitude un vrai lieu existant
@@ -158,7 +156,7 @@ Format exact,  un objet par activité dans le même ordre :
 
 
 if __name__ == "__main__":
-    # Test standalone : enrichit une liste d'activités fictives pour une ville au choix
+    # On enrichit une liste d'activités fictives pour une ville au choix
     service = AIService()
 
     test_activities = [
@@ -168,7 +166,7 @@ if __name__ == "__main__":
         {"time": "21:00", "activity": "Jouer au foot"},
     ]
     ville = input("Entre une ville: ")
-    result = service.enrich_activities(test_activities, city=ville, lang="fr")
+    result = service.enrich_activities(test_activities, city=ville)
 
     if result:
         print(json.dumps(result, indent=2, ensure_ascii=False))

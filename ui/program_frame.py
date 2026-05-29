@@ -25,7 +25,7 @@ from core.weather_service import WeatherService
 from core.day_planner import DayPlanner
 from core.user_profile import UserProfile
 from models import DayProgram, TimeSlot
-from ui.config import COLORS, get_font, load_icon, get_translation, SLOT_CATEGORIES
+from ui.config import COLORS, get_font, load_icon, SLOT_CATEGORIES
 
 
 
@@ -53,7 +53,7 @@ def get_slot_badge(activity: str) -> tuple:
     for keyword, badge in SLOT_CATEGORIES.items():
         if keyword in activity_lower:
             return badge
-    return ("Activité", "#1a1a2a", "#7777aa", "#3a3a6a")
+    return ("Activité", "#1f1f39", "#7777aa", "#3a3a6a")
 
 
 def get_closest_weather(time: str, weather_slots: dict):
@@ -70,7 +70,7 @@ def get_closest_weather(time: str, weather_slots: dict):
     time : str
         Heure cherchée au format "HH:MM" ex: "10:00"
     weather_slots : dict[str, WeatherData]
-        Dictionnaire heure → WeatherData retourné par get_day_slots()
+        Dictionnaire heure -> WeatherData retourné par get_day_slots()
 
     Returns
     -------
@@ -132,7 +132,7 @@ class ProgramFrame(ctk.CTkFrame):
         Label de la citation du jour.
     """
 
-    def __init__(self, parent, lang: str ="fr"):
+    def __init__(self, parent):
         """
         Initialise la ProgramFrame.
 
@@ -143,7 +143,6 @@ class ProgramFrame(ctk.CTkFrame):
         """
         super().__init__(parent, fg_color="transparent")
         self._last_program = None
-        self.T = get_translation(lang)
         self._current_city = None
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -183,7 +182,7 @@ class ProgramFrame(ctk.CTkFrame):
         ).grid(row=0, column=0, sticky="w")
 
         ctk.CTkLabel(
-            header, text=self.T["program_title"],
+            header, text="Programme du jour",
             font=get_font(24, "bold"),
             text_color=COLORS["text_primary"],
             anchor="w"
@@ -191,7 +190,7 @@ class ProgramFrame(ctk.CTkFrame):
 
         ctk.CTkButton(
             header,
-            text=self.T["regenerate"],
+            text="Regénérer",
             font=get_font(14),
             height=38,
             corner_radius=8,
@@ -207,18 +206,18 @@ class ProgramFrame(ctk.CTkFrame):
         stats_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
         self._make_summary_card(
-            stats_frame, self.T["score"], "", col=0, accent=True
+            stats_frame, "Score", "", col=0, accent=True
         )
         self.summary_count = self._make_summary_card(
-            stats_frame, self.T["activities"], "--", col=1
+            stats_frame,"Activités" , "--", col=1
         )
         self.summary_mood = self._make_summary_card(
-            stats_frame, self.T["mood_label"], "--", col=2
+            stats_frame, "Humeur", "--", col=2
         )
 
         # Label nb créneaux
         self.slots_count_label = ctk.CTkLabel(
-            self.scroll, text= self.T["slots_label"],
+            self.scroll, text= "Créneaux planifiés",
             font=get_font(13),
             text_color=COLORS["text_muted"],
             anchor="w"
@@ -538,7 +537,7 @@ class ProgramFrame(ctk.CTkFrame):
 
         n = len(program.slots)
         self.slots_count_label.configure(
-            text=f"{n} {self.T["slots_label"]} "
+            text=f"{n} créneaux planifiés"
         )
 
         # Slots 
@@ -585,6 +584,6 @@ if __name__ == "__main__":
     root.configure(fg_color=COLORS["bg_main"])
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
-    frame = ProgramFrame(root, lang="es")
+    frame = ProgramFrame(root)
     frame.grid(row=0, column=0, sticky="nsew")
     root.mainloop()

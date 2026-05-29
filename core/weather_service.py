@@ -119,6 +119,8 @@ class WeatherService:
                 icon=data["weather"][0]["icon"],
                 humidity=data["main"]["humidity"],
                 wind_speed=data["wind"]["speed"],
+                lat=data["coord"]["lat"],
+                lon=data["coord"]["lon"],
             )
 
             self._save_cache(city, weather)
@@ -439,6 +441,8 @@ class WeatherService:
                     icon=data["icon"],
                     humidity=data["humidity"],
                     wind_speed=data["wind_speed"],
+                    lat=data.get("lat", 0.0),
+                    lon=data.get("lon", 0.0),
                 )
 
             return None
