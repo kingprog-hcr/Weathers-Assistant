@@ -1,65 +1,74 @@
 {
-            "streetwear": {
-                "froid_extreme":  ["doudoune oversize", "hoodie graphique", "cargo pants", "sneakers montantes", "bonnet streetwear"],
-                "froid":          ["bomber jacket", "hoodie épais", "jogging cargo", "Air Force 1 ou Jordan"],
-                "frais":          ["jacket en nylon", "sweat à capuche", "baggy jeans", "sneakers chunky"],
-                "doux":           ["t-shirt graphique oversize", "cargo pants", "sneakers basses"],
-                "chaud":          ["jersey mesh", "short cargo", "claquettes avec chaussettes", "casquette snapback"],
-                "pluie":          ["trench technique imperméable", "hoodie waterproof", "sneakers Gore-Tex"],
-                "neige":          ["doudoune puffer oversize", "jogger imperméable", "bottes de neige chunky"]
-            },
-            "oldmoney": {
-                "froid_extreme":  ["manteau en cachemire", "pull col roulé en laine", "pantalon en flanelle", "chelsea boots"],
-                "froid":          ["trench coat beige", "pull en merinos", "pantalon droit", "loafers en cuir"],
-                "frais":          ["blazer en tweed", "chemise oxford", "chino beige", "mocassins"],
-                "doux":           ["chemise en lin boutonnée", "pantalon chino", "loafers sans chaussettes"],
-                "chaud":          ["chemise en lin blanc", "short chino", "mocassins en cuir clair", "montre sobre"],
-                "pluie":          ["trench coat classique", "pull fin", "pantalon imperméable", "bottes en caoutchouc élégantes"],
-                "neige":          ["manteau en laine longue", "écharpe en cachemire", "bottes en cuir doublées"]
-            },
-            "casual": {
-                "froid_extreme":  ["doudoune", "pull chaud", "jean épais", "bottes chaudes"],
-                "froid":          ["veste chaude", "sweat", "jean", "baskets montantes"],
-                "frais":          ["veste légère", "t-shirt manches longues", "jean slim", "sneakers"],
-                "doux":           ["t-shirt", "jean ou chino", "baskets"],
-                "chaud":          ["t-shirt léger", "short ou jupe", "sandales"],
-                "pluie":          ["imperméable", "pull", "jean", "chaussures imperméables"],
-                "neige":          ["manteau chaud", "pull", "jean doublé", "bottes"]
-            },
-            "boheme": {
-                "froid_extreme":  ["manteau en laine bouclée", "pull en mohair", "jupe longue en velours", "bottines à franges"],
-                "froid":          ["kimono en velours", "robe longue superposée", "gilet en laine", "bottines"],
-                "frais":          ["cardigan oversized", "robe midi fleurie", "collants", "bottines"],
-                "doux":           ["robe fluide imprimée", "gilet en crochet", "sandales plates"],
-                "chaud":          ["robe légère tie-dye", "top crochet", "sandales en cuir tressé", "chapeau de paille"],
-                "pluie":          ["poncho en laine", "robe longue", "bottines imperméables"],
-                "neige":          ["cape en laine", "robe en velours", "collants épais", "bottes fourrées"]
-            },
-            "sportswear": {
-                "froid_extreme":  ["veste running thermique", "collant thermique", "t-shirt technique", "chaussures trail"],
-                "froid":          ["coupe-vent", "legging de sport", "t-shirt technique", "running shoes"],
-                "frais":          ["veste légère sport", "jogging slim", "t-shirt dry-fit"],
-                "doux":           ["t-shirt technique", "short de sport", "sneakers running"],
-                "chaud":          ["débardeur sport", "short léger", "chaussures respirantes", "casquette sport"],
-                "pluie":          ["veste imperméable sport", "legging imperméable", "chaussures trail imperméables"],
-                "neige":          ["veste ski", "pantalon de ski ou snow", "chaussures imperméables chaudes"]
-            },
-            "minimaliste": {
-                "froid_extreme":  ["manteau long noir ou beige", "col roulé blanc", "pantalon droit", "chelsea boots noires"],
-                "froid":          ["manteau structuré", "pull uni", "pantalon droit", "boots simples"],
-                "frais":          ["blazer épuré", "t-shirt blanc", "pantalon tailleur", "sneakers blanches"],
-                "doux":           ["chemise oversize unie", "pantalon flottant", "mules simples"],
-                "chaud":          ["robe droite unie", "sandales minimalistes", "sac structuré"],
-                "pluie":          ["imperméable épuré", "tenue monochrome", "boots simples"],
-                "neige":          ["manteau long uni", "tenue monochrome", "bottes simples"]
-            },
-            "preppy": {
-                "froid_extreme":  ["duffel coat", "pull jacquard", "pantalon en velours côtelé", "loafers"],
-                "froid":          ["blazer à carreaux", "chemise rayée", "chino", "mocassins"],
-                "frais":          ["gilet en maille", "chemise à col boutonné", "chino beige", "boat shoes"],
-                "doux":           ["polo brodé", "chino pastel", "loafers colorés"],
-                "chaud":          ["polo en coton", "short madras", "topsiders", "lunettes de soleil"],
-                "pluie":          ["ciré jaune ou marine", "pull fin", "pantalon imperméable", "loafers caoutchouc"],
-                "neige":          ["duffel coat", "pull en laine d'agneau", "pantalon chaud", "bottes"]
-            }
-        }
+    "traditionnel": {
+        "froid_extreme":  ["manteau long doublé en wax", "pull col roulé en laine", "pantalon en wax lourd", "bottes en cuir fourrées", "écharpe en pagne tissé kita", "bonnet en maille assorti", "gants en cuir doublés"],
+        "froid":          ["veste en wax matelassée", "ensemble boubou en brocard lourd", "sweat épais à motifs ethniques", "bottines en daim", "foulard de tête en pagne plissé", "chaussettes thermiques motifs géométriques"],
+        "frais":          ["chemise longue en dashiki", "veste légère en bazin", "pantalon droit en wax", "sneakers blanches épurées", "foulard de tête assorti", "tunique en lin avec empiècements kente"],
+        "doux":           ["ensemble tunique et pantalon en wax", "robe midi en kente", "mules en cuir artisanal", "t-shirt brodé traditionnel", "jupe crayon en pagne", "sandales en cuir souple"],
+        "chaud":          ["robe légère fluide en pagne de wax", "short en wax avec débardeur", "boubou ultra-léger en coton", "sandales plates en cuir", "top crop en wax", "chemise à manches courtes en dashiki", "chapeau de paille stylisé"],
+        "pluie":          ["coupe-vent long avec doublure imprimée wax", "tunique imperméable", "bottes de pluie en caoutchouc", "chapeau de pluie assorti", "parapluie aux motifs africains", "pantalon technique déperlant"],
+        "neige":          ["doudoune puffer aux motifs traditionnels", "pantalon lourd doublé polaire", "gros pull en maille torsadée", "bottes de neige thermiques", "cache-oreilles en fausse fourrure", "écharpe épaisse en kente"]
+    },
+    "streetwear": {
+        "froid_extreme":  ["doudoune oversize en duvet", "hoodie graphique lourd 500 gsm", "cargo pants multipoches", "sneakers montantes de skate", "bonnet streetwear côtelé", "passamontagne ou cagoule en maille", "écharpe logotée extra-large"],
+        "froid":          ["bomber jacket alpha style", "hoodie épais à imprimé", "jogging cargo en molleton", "Air Force 1 ou Jordan 1 High", "casquette fitted", "chaussettes hautes tie-dye"],
+        "frais":          ["jacket de coach en nylon", "sweat court à capuche", "baggy jeans délavés", "sneakers chunky", "casquette snapback", "sacoche bandoulière technique", "veste en jean oversize"],
+        "doux":           ["t-shirt graphique oversize", "cargo pants amples", "sneakers basses rétro", "chaussettes de skate blanches", "chaîne en acier", "lunettes de soleil futuristes"],
+        "chaud":          ["jersey de basket en mesh", "short cargo en coton léger", "claquettes de marque avec chaussettes", "casquette de baseball", "débardeur blanc graphique", "short de bain streetwear", "sac banane"],
+        "pluie":          ["trench technique imperméable gore-tex", "hoodie waterproof", "sneakers de trail Gore-Tex", "pantalon de pluie en nylon ripstop", "bob ou bucket hat imperméable"],
+        "neige":          ["doudoune puffer oversize brillante", "jogger imperméable doublé", "bottes de neige chunky style moonboot", "gants de ski urbains texturés", "lunettes de ski miroitantes"]
+    },
+    "oldmoney": {
+        "froid_extreme":  ["manteau long en cachemire croisé", "pull col roulé en laine mérinos", "pantalon en flanelle grise", "chelsea boots en cuir grainé", "gants en cuir de cerf", "écharpe en cachemire uni"],
+        "froid":          ["trench coat beige ceinturé", "pull col en v en agneau", "pantalon droit en twill", "loafers en cuir patiné", "chemise oxford blanche", "chaussettes en fil d'écosse"],
+        "frais":          ["blazer ajusté en tweed", "chemise oxford à rayures", "chino beige coupe droite", "mocassins à pampilles", "ceinture en cuir tressé", "cardigan boutonné en maille"],
+        "doux":           ["chemise en lin boutonnée", "pantalon chino bleu marine", "loafers en daim sans chaussettes", "lunettes de soleil écaille de tortue", "montre vintage avec bracelet en cuir"],
+        "chaud":          ["chemise en lin blanc col mao", "short chino beige boutonné", "mocassins en cuir clair perforé", "ceinture fine", "lunettes de soleil aviateur", "panama en paille fine"],
+        "pluie":          ["trench coat classique imperméable", "pull fin torsadé", "pantalon tailleur traité déperlant", "bottes en caoutchouc élégantes noires", "parapluie à canne en bois de hêtre"],
+        "neige":          ["manteau en laine longue avec col fourrure", "écharpe en cachemire à carreaux", "bottes en cuir doublées en peau de mouton", "gants en cuir doublés soie", "pull col cheminée épais"]
+    },
+    "casual": {
+        "froid_extreme":  ["doudoune matelassée classique", "pull chaud en laine tricotée", "jean brut épais", "bottes d'hiver fourrées", "bonnet en laine simple", "gants polaires discrets"],
+        "froid":          ["veste en jean doublée sherpa", "sweat col rond uni", "jean coupe droite", "baskets montantes en toile", "écharpe en maille classique"],
+        "frais":          ["veste saharienne ou bomber léger", "t-shirt manches longues", "jean slim gris", "sneakers blanches basiques", "petite veste en daim"],
+        "doux":           ["t-shirt blanc col rond", "jean basique ou chino stretch", "baskets en toile basses", "chemise à carreaux ouverte en surchemise"],
+        "chaud":          ["t-shirt léger col en v", "short en jean ou bermuda en coton", "sandales en cuir ou espadrilles", "casquette unie", "lunettes de soleil classiques"],
+        "pluie":          ["coupe-vent ou k-way moderne", "pull fin en coton", "jean traité", "chaussures en cuir imperméables", "parapluie pliable"],
+        "neige":          ["manteau doudoune long", "pull en maille épaisse", "jean doublé ou thermique", "bottes de randonnée étanches", "gants de ski simples"]
+    },
+    "boheme": {
+        "froid_extreme":  ["manteau long en laine bouclée", "pull oversize en mohair", "jupe longue en velours côtelé", "bottines en cuir à franges", "grand poncho à motifs aztèques", "chapeau en feutre à large bord"],
+        "froid":          ["kimono long en velours", "robe longue superposée", "gilet long en grosse laine", "bottines en daim beige", "foulard en soie noué au cou"],
+        "frais":          ["cardigan oversized en maille ajourée", "robe midi fleurie", "collants opaques bordeaux", "bottines à lacets style rétro", "veste en jean brodée"],
+        "doux":           ["robe fluide imprimé paisley", "gilet court en crochet", "sandales plates en cuir tressé", "bandeau de cheveux fleuri", "accumulation de bijoux en argent"],
+        "chaud":          ["robe longue légère tie-dye", "top en dentelle ou crochet", "sandales plates", "chapeau de paille souple", "sac en bandoulière en macramé", "lunettes rondes vintage"],
+        "pluie":          ["poncho en laine imperméabilisé", "robe longue avec bottines en cuir ciré", "veste imperméable à franges", "parapluie transparent cloche"],
+        "neige":          ["cape en laine lourde à carreaux", "robe longue en velours épais", "collants en laine", "bottes fourrées style suédine", "bandeau d'oreilles en fausse fourrure"]
+    },
+    "sportswear": {
+        "froid_extreme":  ["veste de running thermique isolante", "collant technique de course", "t-shirt de compression manches longues", "chaussures de trail cramponnées", "gants tactiles thermiques", "bandeau de sport polaire"],
+        "froid":          ["coupe-vent zippé doublé", "legging de sport stretch", "sweat à capuche dry-fit", "chaussures de running matelassées", "chaussettes de compression"],
+        "frais":          ["veste légère de survêtement", "jogging slim en coton technique", "t-shirt technique respirant", "sneakers de sport basses", "casquette de running"],
+        "doux":           ["t-shirt technique imprimé", "short de sport double épaisseur", "sneakers running légères", "brassière de sport ajustée", "sac de sport en toile"],
+        "chaud":          ["débardeur de sport en mesh", "short de course ultra-léger", "chaussures de running respirantes", "casquette de sport perforée", "lunettes de soleil polarisées pour le sport"],
+        "pluie":          ["veste imperméable de trail respirante", "legging déperlant", "chaussures de trail imperméables gore-tex", "casquette imperméable"],
+        "neige":          ["veste de ski technique gore-tex", "pantalon de ski doublé", "sous-vêtements thermiques complets", "bottes de neige de sport étanches", "masque de ski haute définition", "gants de ski renforcés"]
+    },
+    "minimaliste": {
+        "froid_extreme":  ["manteau structuré long noir", "col roulé blanc en cachemire", "pantalon droit en laine noire", "chelsea boots en cuir lisse noir", "écharpe en maille fine grise", "gants en cuir épurés"],
+        "froid":          ["manteau droit beige coupe masculine", "pull uni gris col rond", "pantalon de tailleur droit", "boots simples en cuir noir sans fioritures", "sac cabas en cuir lisse"],
+        "frais":          ["blazer épuré gris ou noir", "t-shirt blanc en coton lourd", "pantalon fluide gris anthracite", "sneakers blanches totalement épurées", "montre en acier minimaliste"],
+        "doux":           ["chemise oversize en popeline unie", "pantalon flottant en lin noir", "mules en cuir simples noires", "lunettes de soleil rectangulaires noires"],
+        "chaud":          ["robe droite monochrome", "sandales minimalistes à brides fines", "sac seau structuré", "petites créoles en or discrètes"],
+        "pluie":          ["imperméable épuré mi-long beige", "tenue monochrome noire", "boots en caoutchouc mates", "parapluie noir mat de haute qualité"],
+        "neige":          ["manteau long droit doublé", "tenue monochrome grise en maille", "bottes simples en cuir étanche", "bonnet en cachemire fin uni"]
+    },
+    "preppy": {
+        "froid_extreme":  ["duffel coat classique à brandebourgs", "pull jacquard en laine épaisse", "pantalon en velours côtelé bordeaux", "loafers en cuir verni avec grosses chaussettes", "écharpe à franges en tartan"],
+        "froid":          ["blazer croisé à carreaux", "chemise rayée à col boutonné", "pantalon chino beige", "mocassins en cuir marron", "pull noué sur les épaules"],
+        "frais":          ["gilet sans manches en maille torsadée", "chemise blanche ajustée", "jupe plissée ou chino bleu marine", "boat shoes en cuir", "serre-tête en velours"],
+        "doux":           ["polo blanc brodé", "chino de couleur pastel", "loafers colorés en daim", "lunettes de soleil carrées rétro", "ceinture en toile rayée"],
+        "chaud":          ["polo de tennis en coton piqué", "short à motifs seersucker", "topsiders légères", "lunettes de soleil de créateur", "casquette de club brodée"],
+        "pluie":          ["ciré marin jaune ou bleu marine", "pull fin col marin", "pantalon imperméable beige", "loafers en caoutchouc brillant", "parapluie à motif tartan écossais"],
+        "neige":          ["duffel coat doublé écossais", "pull en laine d'agneau torsadée", "pantalon chaud en drap de laine", "bottes d'hiver en cuir imperméable", "gants en laine à torsades"]
+    }
+}

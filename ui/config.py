@@ -20,13 +20,34 @@ COLORS = {
     "border":         "#2a2a4a",
 }
 ALL_STYLES = [
-    "random", "casual", "streetwear", "oldmoney",
-    "boheme", "sportswear", "minimaliste", "preppy",
+    "random",
+    "casual",
+    "streetwear",
+    "oldmoney",
+    "boheme",
+    "sportswear",
+    "minimaliste",
+    "preppy",
+    "traditionnel"
 ]
 
 ALL_CUISINES = [
-    "random", "française", "asiatique", "méditerranéenne",
-    "africaine", "américaine", "moyen-orientale", "latino", "fastfood",
+    "random",
+    "française",
+    "asiatique",
+    "américaine",
+    "moyen-orientale",
+    "latino",
+    "fastfood",
+    "gabonaise",
+    "sénégalaise",
+    "ivoirienne",
+    "camerounaise",
+    "marocaine",
+    "algérienne",
+    "italienne",
+    "espagnole",
+    "portugaise"
 ]
 
 MOODS = ["repos", "aventure", "random"]

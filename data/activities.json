@@ -27,7 +27,11 @@
       "accrobranche",
       "planche à voile",
       "boxe en plein air",
-      "tai-chi au parc"
+      "tai-chi au parc",
+      "calisthenics en Street Workout",
+      "paddle",
+      "aviron",
+      "course d'orientation"
     ],
     "culture": [
       "musée en plein air",
@@ -44,7 +48,9 @@
       "exposition temporaire",
       "lecture publique",
       "slam poetry",
-      "conférence en extérieur"
+      "conférence en extérieur",
+      "visite de ruines archéologiques",
+      "parcours de street-art guidé"
     ],
     "nature": [
       "pique-nique",
@@ -58,7 +64,10 @@
       "balade le long d'une rivière",
       "découverte de sentiers naturels",
       "plongée en apnée",
-      "photographie nature"
+      "photographie nature",
+      "camping sauvage",
+      "observation du coucher de soleil",
+      "exploration de grottes"
     ],
     "shopping": [
       "marché en plein air",
@@ -68,7 +77,8 @@
       "vide-grenier",
       "marché aux fleurs",
       "boutiques de créateurs locaux",
-      "marché vintage"
+      "marché vintage",
+      "foire commerciale de plein air"
     ],
     "repos": [
       "terrasse de café",
@@ -78,7 +88,8 @@
       "méditation en plein air",
       "journaling au jardin",
       "bain de soleil",
-      "hammock entre les arbres"
+      "hammock entre les arbres",
+      "rêvasser au bord de l'eau"
     ],
     "religion": [
       "messe en plein air",
@@ -92,7 +103,8 @@
       "visite d'une synagogue",
       "méditation spirituelle en forêt",
       "retraite de plein air",
-      "groupe de partage en extérieur"
+      "groupe de partage en extérieur",
+      "procession religieuse"
     ],
     "academique": [
       "réviser dans un parc",
@@ -100,13 +112,15 @@
       "coder en extérieur",
       "mind mapping à l'air libre",
       "discussion intellectuelle en café",
-      "sketchnoting de concepts"
+      "sketchnoting de concepts",
+      "observation scientifique de terrain"
     ],
     "professionnel": [
       "réunion informelle en terrasse",
       "brainstorming en extérieur",
       "networking lors d'un événement local",
-      "présentation en coworking ouvert"
+      "présentation en coworking ouvert",
+      "shooting photo pro corporate en extérieur"
     ],
     "creatif": [
       "photographie urbaine",
@@ -130,7 +144,9 @@
       "tournoi sportif de quartier",
       "sortie en groupe à vélo",
       "jeux de cartes en terrasse",
-      "soirée étoiles avec des amis"
+      "soirée étoiles avec des amis",
+      "feu de camp autorisé",
+      "fête de quartier"
     ],
     "maison": [
       "jardinage",
@@ -138,7 +154,9 @@
       "nettoyage extérieur",
       "bricolage",
       "décoration de balcon",
-      "compostage"
+      "compostage",
+      "laver la voiture",
+      "peindre les volets ou barrières"
     ],
     "gastronomie": [
       "brunch en terrasse",
@@ -147,9 +165,35 @@
       "déjeuner dans un restaurant avec vue",
       "dégustation de vins en extérieur",
       "cours de cuisine en plein air",
-      "visite d'une ferme avec dégustation"
+      "visite d'une ferme avec dégustation",
+      "food-truck tour"
     ],
-    "hcr": []
+    "hcr": [
+      "boire un verre en rooftop",
+      "dîner en terrasse de restaurant",
+      "café matinal en brasserie",
+      "glacier en bord de plage ou centre-ville",
+      "cocktail de fin d'après-midi en guinguette"
+    ],
+    "divertissement": [
+      "parc d'attractions",
+      "laser game en extérieur (laser tag)",
+      "parc aquatique",
+      "mini-golf",
+      "karting en plein air"
+    ],
+    "sante_bien_etre": [
+      "yoga de l'énergie au lever du soleil",
+      "marche afghane oxygénante",
+      "thermalisme en bassin extérieur",
+      "automassage dans un parc"
+    ],
+    "repas": [
+      "petit-déjeuner sur le balcon",
+      "déjeuner sur le pouce au parc",
+      "goûter sous les arbres",
+      "dîner barbecue tardif"
+    ]
   },
   "clouds": {
     "sport": [
@@ -161,7 +205,9 @@
       "tennis",
       "natation couverte",
       "parcours de santé",
-      "boot camp urbain"
+      "boot camp urbain",
+      "course de fond",
+      "randonnée à rollers"
     ],
     "culture": [
       "cinéma",
@@ -173,7 +219,8 @@
       "théâtre",
       "opéra",
       "visite d'un atelier d'artiste",
-      "festival intérieur"
+      "festival intérieur",
+      "médiathèque municipal"
     ],
     "nature": [
       "balade en forêt",
@@ -181,7 +228,8 @@
       "observation de la faune",
       "jardinage",
       "visite de serres",
-      "photographie sous ciel nuageux"
+      "photographie sous ciel nuageux",
+      "identification des essences d'arbres"
     ],
     "shopping": [
       "centre commercial",
@@ -198,7 +246,8 @@
       "bain relaxant",
       "sieste",
       "musique douce",
-      "journaling"
+      "journaling",
+      "infusion cocooning"
     ],
     "religion": [
       "messe quotidienne",
@@ -215,14 +264,16 @@
       "résoudre des exercices",
       "rédiger un rapport",
       "regarder une conférence TED",
-      "apprendre une nouvelle compétence"
+      "apprendre une nouvelle compétence",
+      "exercices de calcul mental"
     ],
     "professionnel": [
       "travail de bureau",
       "réunion professionnelle",
       "formation en ligne",
       "planification de projets",
-      "mise à jour du portfolio"
+      "mise à jour du portfolio",
+      "tri des mails professionnels"
     ],
     "creatif": [
       "écriture",
@@ -233,14 +284,16 @@
       "scrapbooking",
       "tricot ou crochet",
       "couture",
-      "origami"
+      "origami",
+      "maquettisme"
     ],
     "social": [
       "rencontre entre amis dans un café",
       "jeux de société",
       "débat philosophique",
       "soirée cinéma",
-      "escape game"
+      "escape game",
+      "billard entre potes"
     ],
     "maison": [
       "cuisine créative",
@@ -248,7 +301,8 @@
       "redécoration intérieure",
       "tri et don d'objets",
       "projet DIY",
-      "lecture de recettes"
+      "lecture de recettes",
+      "nettoyage des filtres d'appareils"
     ],
     "gastronomie": [
       "brunch maison",
@@ -258,7 +312,31 @@
       "dégustation de thés",
       "cuisine du monde"
     ],
-    "hcr": []
+    "hcr": [
+      "boire un chocolat chaud en salle",
+      "déjeuner dans une brasserie de quartier",
+      "apéro dinatoire dans un pub cosy",
+      "pause café gourmand après-midi"
+    ],
+    "divertissement": [
+      "bowling",
+      "salle d'arcade",
+      "escape game en salle",
+      "laser game indoor",
+      "visite d'un planétarium"
+    ],
+    "sante_bien_etre": [
+      "rendez-vous chez le coiffeur ou barbier",
+      "massage en institut",
+      "séance de chiropraxie ou ostéopathie",
+      "étirements musculaires complets"
+    ],
+    "repas": [
+      "petit-déjeuner complet en cuisine",
+      "déjeuner bistrot",
+      "goûter thé et cookies",
+      "dîner réconfortant fait maison"
+    ]
   },
   "rain": {
     "sport": [
@@ -270,7 +348,9 @@
       "squash",
       "escalade en salle",
       "boxe",
-      "pilates"
+      "pilates",
+      "futsal (foot en salle)",
+      "aquagym"
     ],
     "culture": [
       "musée",
@@ -282,7 +362,8 @@
       "expo photo",
       "lecture publique",
       "quiz culturel",
-      "visite virtuelle de musée"
+      "visite virtuelle de musée",
+      "visite d'archives historiques"
     ],
     "nature": [
       "aquarium",
@@ -290,7 +371,8 @@
       "jardin d'hiver",
       "documentaire nature",
       "observation de la pluie",
-      "photographie sous la pluie avec imperméable"
+      "photographie sous la pluie avec imperméable",
+      "écoute des sons d'orage et d'eau"
     ],
     "shopping": [
       "centre commercial",
@@ -307,7 +389,8 @@
       "bain chaud aux huiles essentielles",
       "méditation guidée",
       "sieste sous la pluie",
-      "journaling"
+      "journaling",
+      "ASMR ou bruits blancs relaxants"
     ],
     "religion": [
       "lecture biblique",
@@ -324,7 +407,8 @@
       "prendre des notes sur un livre",
       "faire des flashcards",
       "apprendre une nouvelle langue",
-      "rédiger un essai"
+      "rédiger un essai",
+      "résolution d'équations complexes"
     ],
     "professionnel": [
       "travail à distance",
@@ -341,7 +425,8 @@
       "création de contenu",
       "photographie d'intérieur",
       "reliure artisanale",
-      "broderie"
+      "broderie",
+      "pixel art numérique"
     ],
     "social": [
       "soirée jeux de société",
@@ -349,7 +434,8 @@
       "soirée film entre amis",
       "quiz en ligne",
       "jeux vidéo en groupe",
-      "atelier créatif partagé"
+      "atelier créatif partagé",
+      "session de jeu de rôle sur table (Jdr)"
     ],
     "maison": [
       "cuisine réconfortante",
@@ -357,7 +443,8 @@
       "organisation de placards",
       "projet de décoration",
       "tri de photos",
-      "préparer un album souvenir"
+      "préparer un album souvenir",
+      "nettoyage des recoins oubliés"
     ],
     "gastronomie": [
       "cuisine mijotée",
@@ -366,6 +453,30 @@
       "commander un repas d'un restaurant local",
       "atelier chocolat maison",
       "dégustation de vins et fromages"
+    ],
+    "hcr": [
+      "salon de thé cosy à l'abri",
+      "dîner dans un estaminet ou restaurant intimiste",
+      "boire un cocktail dans un bar à ambiance caché",
+      "cafétéria de musée"
+    ],
+    "divertissement": [
+      "gaming console / PC intense",
+      "laser game",
+      "karaoké en box privé",
+      "salle de réalité virtuelle (VR)"
+    ],
+    "sante_bien_etre": [
+      "séance de sauna ou hammam",
+      "long bain thermal chaud hydromassant",
+      "méditation pleine conscience anti-grisaille",
+      "soin du visage à la maison"
+    ],
+    "repas": [
+      "soupe chaude et croûtons",
+      "plat en sauce réconfortant",
+      "goûter chocolat chaud brioche",
+      "dîner raclette de repli"
     ]
   },
   "drizzle": {
@@ -374,7 +485,8 @@
       "stretching",
       "yoga doux",
       "natation couverte",
-      "marche avec imperméable"
+      "marche avec imperméable",
+      "renforcement musculaire au poids du corps"
     ],
     "culture": [
       "cinéma",
@@ -444,7 +556,28 @@
       "fondue entre amis",
       "déjeuner dans un bistrot cosy"
     ],
-    "hcr": []
+    "hcr": [
+      "brasserie traditionnelle",
+      "bar à jeux de société",
+      "café-librairie",
+      "salon de thé traditionnel"
+    ],
+    "divertissement": [
+      "jeux de cartes en intérieur",
+      "visionnage de rediffusions de streams",
+      "blind test musical en salon"
+    ],
+    "sante_bien_etre": [
+      "auto-massage des mains et pieds",
+      "exercices de respiration (Pranayama)",
+      "application d'un masque de soin hydratant"
+    ],
+    "repas": [
+      "bouillon de légumes fait maison",
+      "tarte salée tiède",
+      "thé gourmand d'après-midi",
+      "pâtes fraîches réconfortantes"
+    ]
   },
   "snow": {
     "sport": [
@@ -456,7 +589,8 @@
       "patinage sur glace",
       "ski de fond",
       "bataille de boules de neige",
-      "construction d'igloo"
+      "construction d'igloo",
+      "hockey sur glace"
     ],
     "culture": [
       "cinéma",
@@ -464,13 +598,15 @@
       "concert de musique classique",
       "opéra",
       "exposition hivernale",
-      "marché de Noël"
+      "marché de Noël",
+      "écoute de contes d'hiver"
     ],
     "nature": [
       "photographie de paysages enneigés",
       "observer les empreintes d'animaux",
       "balade en forêt enneigée",
-      "nourrissage des oiseaux"
+      "nourrissage des oiseaux",
+      "admirer les stalactites de glace"
     ],
     "shopping": [
       "centre commercial chauffé",
@@ -483,7 +619,8 @@
       "lecture sous un plaid",
       "regarder la neige tomber",
       "bain chaud",
-      "sieste hivernale"
+      "sieste hivernale",
+      "cocooning intégral"
     ],
     "religion": [
       "messe de l'Avent ou de Noël",
@@ -514,13 +651,15 @@
       "soirée film sous des plaids",
       "jeux de société au chaud",
       "fondue entre amis",
-      "soirée raclette"
+      "soirée raclette",
+      "repas partagé au coin du feu"
     ],
     "maison": [
       "cuisine de plats chauds",
       "préparer des soupes",
       "décoration hivernale",
-      "entretien de la maison"
+      "entretien de la maison",
+      "déneiger les accès extérieurs"
     ],
     "gastronomie": [
       "raclette maison",
@@ -528,9 +667,31 @@
       "vin chaud épicé",
       "soupe de légumes",
       "pain d'épices maison",
-      "chocolat chaud artisanal"
+      "chocolat chaud artisanal",
+      "tartiflette"
     ],
-    "hcr": []
+    "hcr": [
+      "restaurant de spécialités montagnardes",
+      "bar-pub de station d'hiver",
+      "salon de thé avec cheminée",
+      "repas en refuge chauffé"
+    ],
+    "divertissement": [
+      "patinoire publique",
+      "marathon de films de Noël / d'hiver",
+      "tournoi de jeux vidéo rétro"
+    ],
+    "sante_bien_etre": [
+      "bain nordique extérieur chauffé",
+      "sauna sec après le froid",
+      "hydratation intense de la peau contre le gel"
+    ],
+    "repas": [
+      "soupe à l'oignon gratinée",
+      "tartiflette ou croziflette",
+      "goûter pain d'épices chaud",
+      "fondue au fromage"
+    ]
   },
   "thunderstorm": {
     "sport": [
@@ -538,19 +699,22 @@
       "yoga",
       "pilates",
       "corde à sauter",
-      "abdominaux et gainage"
+      "abdominaux et gainage",
+      "HIIT intense en intérieur"
     ],
     "culture": [
       "cinéma à domicile",
       "documentaire",
       "exposition virtuelle",
       "visite musée en ligne",
-      "écouter un album en entier"
+      "écouter un album en entier",
+      "visite de bibliothèques numériques"
     ],
     "nature": [
       "observer l'orage depuis chez soi en sécurité",
       "photographier l'orage depuis l'intérieur",
-      "écouter les sons de la nature"
+      "écouter les sons de la nature",
+      "analyser les cartes météo en temps réel"
     ],
     "shopping": [
       "shopping en ligne",
@@ -562,7 +726,8 @@
       "lecture immersive",
       "dormir avec le son de la pluie",
       "bain aromathérapie",
-      "journaling introspectif"
+      "journaling introspectif",
+      "exercices de cohérence cardiaque"
     ],
     "religion": [
       "prière contemplative",
@@ -574,31 +739,36 @@
       "étudier intensément",
       "programmer un projet",
       "rédiger",
-      "préparer une présentation"
+      "préparer une présentation",
+      "recherche bibliographique poussée"
     ],
     "professionnel": [
       "travail à distance en profondeur",
       "planification stratégique",
       "nettoyage de sa boîte mail",
-      "mise à jour de documents"
+      "mise à jour de documents",
+      "archivage numérique de fichiers de projet"
     ],
     "creatif": [
       "écriture inspirée par l'orage",
       "composition musicale dramatique",
       "illustration sombre et atmosphérique",
-      "podcast ou narration audio"
+      "podcast ou narration audio",
+      "conception et modélisation 3D"
     ],
     "social": [
       "discussion en ligne avec des proches",
       "jeux en réseau",
       "appel vidéo convivial",
-      "soirée quiz virtuelle"
+      "soirée quiz virtuelle",
+      "partage de playlists en ligne"
     ],
     "maison": [
       "organisation profonde",
       "nettoyage méticuleux",
       "préparer des plats réconfortants",
-      "trier ses affaires"
+      "trier ses affaires",
+      "vérification des disjoncteurs et équipements"
     ],
     "gastronomie": [
       "cuisine réconfortante",
@@ -607,14 +777,35 @@
       "gâteau maison",
       "tisane artisanale"
     ],
-    "hcr": []
+    "hcr": [
+      "livraison de repas à domicile",
+      "click and collect dans le resto d'à côté",
+      "tester un service de chef à domicile"
+    ],
+    "divertissement": [
+      "marathon de séries (binge-watching)",
+      "développement d'un mod ou mini-jeu vidéo",
+      "casse-têtes ou puzzles complexes"
+    ],
+    "sante_bien_etre": [
+      "sieste récupératrice profonde",
+      "exercices d'auto-grandissement et posture",
+      "soin des mains et des ongles"
+    ],
+    "repas": [
+      "plat de pâtes ultra-gourmand",
+      "pizza faite maison de A à Z",
+      "mug cake express au chocolat",
+      "soupe de nouilles ramen chaudes"
+    ]
   },
   "mist": {
     "sport": [
       "marche légère dans la brume",
       "yoga matinal",
       "tai-chi",
-      "stretching doux"
+      "stretching doux",
+      "gymnastique douce"
     ],
     "culture": [
       "musée",
@@ -627,7 +818,8 @@
       "photographie de brume",
       "balade contemplative",
       "observation de la rosée",
-      "jardinage matinal"
+      "jardinage matinal",
+      "cueillette matinale de champignons (si saison)"
     ],
     "shopping": [
       "librairie cosy",
@@ -676,6 +868,27 @@
       "café de spécialité",
       "porridge aux fruits",
       "thé matcha cérémoniel"
+    ],
+    "hcr": [
+      "petit café de quartier à l'ouverture",
+      "brunch matinal intimiste",
+      "salon de thé feutré"
+    ],
+    "divertissement": [
+      "écoute de livres audio atmosphériques",
+      "jeu d'énigmes sur smartphone",
+      "mots croisés ou Sudoku"
+    ],
+    "sante_bien_etre": [
+      "exercices de réveil articulaire",
+      "douche écossaise (chaud/froid) stimulante",
+      "respiration ventrale purifiante"
+    ],
+    "repas": [
+      "œufs brouillés et tartines",
+      "porridge chaud à la cannelle",
+      "bol de granola maison",
+      "soupe miso matinale"
     ]
   },
   "fog": {
@@ -714,7 +927,7 @@
     "religion": [
       "temps de prière silencieux",
       "méditation profonde",
-      "lecture de textes mystiques",
+      "lecture de textes de cookies mystiques",
       "retraite intérieure"
     ],
     "academique": [
@@ -754,6 +967,27 @@
       "café filtre et viennoiserie",
       "plat mijoté aux épices",
       "infusion de plantes fraîches"
+    ],
+    "hcr": [
+      "bar à ambiance tamisée",
+      "bistrot rétro en intérieur",
+      "café-théâtre cosy"
+    ],
+    "divertissement": [
+      "escape game d'horreur ou d'enquête",
+      "jeu de cartes d'ambiance",
+      "visionner un thriller captivant"
+    ],
+    "sante_bien_etre": [
+      "luminothérapie contre le manque de soleil",
+      "méditation d'ancrage corporel",
+      "soin capillaire complet"
+    ],
+    "repas": [
+      "velouté de potimarron aux châtaignes",
+      "bœuf bourguignon ou alternative végétale",
+      "tarte aux pommes cannelle tiède",
+      "gratin de pâtes réconfortant"
     ]
   }
 }

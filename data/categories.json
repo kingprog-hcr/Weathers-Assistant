@@ -8,7 +8,13 @@
       "déjeuner",
       "dîner",
       "goûter",
-      "petit"
+      "petit",
+      "repas",
+      "soupe",
+      "pizza",
+      "velouté",
+      "tartines",
+      "porridge"
     ]
   },
   "sport": {
@@ -33,7 +39,14 @@
       "danse",
       "ski",
       "randonnée",
-      "course"
+      "course",
+      "calisthenics",
+      "workout",
+      "paddle",
+      "stretching",
+      "luge",
+      "futsal",
+      "aquagym"
     ]
   },
   "culture": {
@@ -53,7 +66,11 @@
       "opéra",
       "conférence",
       "librairie",
-      "château"
+      "château",
+      "expo",
+      "slam",
+      "médiathèque",
+      "archives"
     ]
   },
   "nature": {
@@ -71,7 +88,15 @@
       "serre",
       "observation",
       "astronomie",
-      "cueillette"
+      "cueillette",
+      "rivière",
+      "faune",
+      "orage",
+      "pluie",
+      "brume",
+      "brouillard",
+      "oiseaux",
+      "camping"
     ]
   },
   "shopping": {
@@ -84,7 +109,11 @@
       "shopping",
       "brocante",
       "vide-grenier",
-      "boutique"
+      "boutique",
+      "vendeur",
+      "créateurs",
+      "vintage",
+      "disquaire"
     ]
   },
   "social": {
@@ -100,7 +129,11 @@
       "rencontre",
       "discussion",
       "escape",
-      "tournoi"
+      "tournoi",
+      "potes",
+      "appel",
+      "communautaire",
+      "partage"
     ]
   },
   "repos": {
@@ -116,7 +149,13 @@
       "podcast",
       "sieste",
       "terrasse",
-      "journaling"
+      "journaling",
+      "bain",
+      "soleil",
+      "hammock",
+      "rêvasser",
+      "cocooning",
+      "relaxant"
     ]
   },
   "creatif": {
@@ -134,7 +173,13 @@
       "poterie",
       "tricot",
       "couture",
-      "improvisation"
+      "improvisation",
+      "illustration",
+      "montage",
+      "bijoux",
+      "fusain",
+      "3d",
+      "modélisation"
     ]
   },
   "gastronomie": {
@@ -149,7 +194,13 @@
       "cuisine",
       "pâtisserie",
       "atelier",
-      "gastronomique"
+      "gastronomique",
+      "fondue",
+      "raclette",
+      "tartiflette",
+      "vin",
+      "fromages",
+      "chocolat"
     ]
   },
   "academique": {
@@ -163,7 +214,12 @@
       "cours",
       "mooc",
       "programmer",
-      "flashcards"
+      "flashcards",
+      "scientifique",
+      "calcul",
+      "équations",
+      "notes",
+      "essai"
     ]
   },
   "religion": {
@@ -176,7 +232,14 @@
       "prière",
       "chapelet",
       "pèlerinage",
-      "adoration"
+      "adoration",
+      "mosquée",
+      "temple",
+      "synagogue",
+      "spirituelle",
+      "retraite",
+      "foi",
+      "biblique"
     ]
   },
   "maison": {
@@ -190,7 +253,10 @@
       "ménage",
       "organisation",
       "décoration",
-      "compostage"
+      "compostage",
+      "rangement",
+      "placards",
+      "plantes"
     ]
   },
   "professionnel": {
@@ -204,7 +270,67 @@
       "networking",
       "formation",
       "brainstorming",
-      "coworking"
+      "coworking",
+      "cv",
+      "portfolio",
+      "stratégique",
+      "mails"
+    ]
+  },
+  "hcr": {
+    "label": "Sorties HCR",
+    "bg": "#3a1a1a",
+    "fg": "#ff7777",
+    "border": "#cc4444",
+    "keywords": [
+      "rooftop",
+      "terrasse",
+      "brasserie",
+      "glacier",
+      "guinguette",
+      "pub",
+      "bar",
+      "salon",
+      "thé",
+      "bistrot",
+      "estaminet"
+    ]
+  },
+  "divertissement": {
+    "label": "Divertissement",
+    "bg": "#1a3a3a",
+    "fg": "#77ffff",
+    "border": "#44cccc",
+    "keywords": [
+      "attractions",
+      "laser",
+      "game",
+      "bowling",
+      "arcade",
+      "planétarium",
+      "gaming",
+      "karaoké",
+      "virtuelle",
+      "vr",
+      "puzzle",
+      "thriller"
+    ]
+  },
+  "sante_bien_etre": {
+    "label": "Bien-être",
+    "bg": "#1a3a1a",
+    "fg": "#77ff77",
+    "border": "#44cc44",
+    "keywords": [
+      "coiffeur",
+      "massage",
+      "ostéopathie",
+      "sauna",
+      "hammam",
+      "respiration",
+      "soin",
+      "luminothérapie",
+      "ancrage"
     ]
   }
 }

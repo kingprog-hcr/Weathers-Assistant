@@ -189,7 +189,7 @@ class ActivityEngine:
         # Indique le style choisi en dernière position
         outfit.append(f"Style : {style.capitalize()}")
 
-        return outfit
+        return outfit[:4]  # Limite à 4 éléments pour éviter surcharge d'informations
 
     def suggest_food(self, weather: WeatherData, cuisine: str = "random") -> list[str]:
         """
