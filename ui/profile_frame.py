@@ -520,8 +520,8 @@ class ProfileFrame(ctk.CTkFrame):
         if self._on_save:
             self._on_save()
             
-        self.save_btn.configure(text=self.T["saved"])
-        self.after(2000, lambda: self.save_btn.configure(text=self.T["save"]))
+        self.save_btn.configure(text="Sauvegardé !")
+        self.after(2000, lambda: self.save_btn.configure(text="Sauvegarder"))
         
     def _reload_tastes(self):
         """

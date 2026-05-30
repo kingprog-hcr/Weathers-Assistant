@@ -447,7 +447,7 @@ class MainWindow(ctk.CTk):
         # Met à jour l'heure de dernière recherche
         from datetime import datetime
         now = datetime.now().strftime("%H:%M")
-        self.update_label.configure(text=f"at {now}\nBy HCR The GOAT")
+        self.update_label.configure(text=f"at {now} By HCR The GOAT")
         
         city = self.current_city or "Libreville"
         for frame in self._frames.values():
