@@ -23,7 +23,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import customtkinter as ctk
 
 from core.user_profile import UserProfile
-from models import ProfileData
 from ui.config import COLORS, get_font, get_all_tastes, ALL_CUISINES, ALL_STYLES, MOODS
 
 
@@ -59,7 +58,7 @@ class ProfileFrame(ctk.CTkFrame):
         Bouton de sauvegarde avec feedback visuel temporaire.
     """
 
-    def __init__(self, parent, on_save = None, lang: str = "fr"):
+    def __init__(self, parent, on_save = None):
         """
         Initialise la ProfileFrame.
 
@@ -384,8 +383,7 @@ class ProfileFrame(ctk.CTkFrame):
         """
         Génère les initiales depuis un nom complet.
 
-        Prend la première lettre du prénom et la première lettre
-        du deuxième mot. Si un seul mot, prend les deux premières lettres.
+        Prend la première lettre du prénom et la première lettre du deuxième mot. Si un seul mot, prend les deux premières lettres.
 
         Parameters
         ----------
@@ -507,13 +505,11 @@ class ProfileFrame(ctk.CTkFrame):
         """
         Lit tous les champs, met à jour self._profile et persiste dans le JSON.
 
-        Après la sauvegarde, affiche "Sauvegardé !" sur le bouton
-        pendant 2 secondes avant de revenir au texte original.
-        self.after() est utilisé pour ne pas bloquer l'interface.
+        Après la sauvegarde, affiche "Sauvegardé !" sur le bouton pendant 2,5 secondes avant de revenir au texte original.
         """
-        self._profile.name        = self.name_entry.get().strip()
+        self._profile.name = self.name_entry.get().strip()
         self._profile.description = self.description.get("1.0", "end").strip()
-        self._profile.style       = self.style_menu.get()
+        self._profile.style = self.style_menu.get()
         self._profile.cuisine     = self.cuisine_menu.get()
         
         UserProfile().save(self._profile)
@@ -521,7 +517,7 @@ class ProfileFrame(ctk.CTkFrame):
             self._on_save()
             
         self.save_btn.configure(text="Sauvegardé !")
-        self.after(2000, lambda: self.save_btn.configure(text="Sauvegarder"))
+        self.after(2500, lambda: self.save_btn.configure(text="Sauvegarder"))
         
     def _reload_tastes(self):
         """
@@ -580,6 +576,6 @@ if __name__ == "__main__":
     root.configure(fg_color=COLORS["bg_main"])
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
-    frame = ProfileFrame(root, lang = "es")
+    frame = ProfileFrame(root)
     frame.grid(row=0, column=0, sticky="nsew")
     root.mainloop()

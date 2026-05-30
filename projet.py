@@ -93,9 +93,6 @@ def get_greeting(hour: int) -> str:
     ----------
     hour : int
         Heure entre 0 et 23.
-    lang : str
-        Code langue ex: "fr", "en", "es", "pt", "zh".
-        Défaut : "fr".
 
     Returns
     -------
@@ -272,8 +269,6 @@ def main():
     from core.weather_service import WeatherService
     from core.user_profile import UserProfile
 
-    # Charge la langue du profil
-    profile = UserProfile().load()
 
     go_to_profile = False
 

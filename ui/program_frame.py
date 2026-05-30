@@ -2,9 +2,7 @@
 """
 Page Programme du jour.
 
-Affiche le programme complet de la journée sous forme de cartes
-chronologiques (TimeSlots), avec un résumé en haut (score, nombre
-d'activités, humeur) et un bouton pour regénérer le programme.
+Affiche le programme complet de la journée sous forme de cartes chronologiques (TimeSlots), avec un résumé en haut (score, nombre d'activités, humeur) et un bouton pour regénérer le programme.
 
 Dépendances :
     - core.weather_service  : récupère la météo par créneaux horaires
@@ -268,8 +266,7 @@ class ProgramFrame(ctk.CTkFrame):
         """
         Crée une carte résumé dans la grille des stats.
 
-        Pour la carte Score (accent=True), affiche le chiffre en bleu
-        suivi de "/10" en gris sur la même ligne.
+        Pour la carte Score (accent=True), affiche le chiffre en bleu suivi de "/10" en gris sur la même ligne.
         Pour les autres cartes, affiche une valeur simple en blanc.
 
         Parameters
@@ -283,7 +280,7 @@ class ProgramFrame(ctk.CTkFrame):
         col : int
             Colonne dans la grille (0, 1 ou 2).
         accent : bool
-            Si True → chiffre bleu + "/10" gris (carte Score).
+            Si True : chiffre bleu + "/10" gris (carte Score).
 
         Returns
         -------
@@ -468,8 +465,7 @@ class ProgramFrame(ctk.CTkFrame):
         """
         Charge les données météo et construit le programme de la journée.
 
-        Appelle WeatherService pour récupérer la météo par créneaux,
-        puis DayPlanner pour construire le DayProgram selon le profil.
+        Appelle WeatherService pour récupérer la météo par créneaux, puis DayPlanner pour construire le DayProgram selon le profil.
         Enfin appelle _update_ui() pour afficher les résultats.
 
         Parameters

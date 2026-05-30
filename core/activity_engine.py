@@ -1,7 +1,6 @@
 # core/activity_engine.py
 """
 Moteur de suggestions locales d'activités, tenues et repas.
-
 Génère des suggestions personnalisées à partir des fichiers JSON locaux.
 """
 
@@ -195,8 +194,7 @@ class ActivityEngine:
         """
         Retourne des suggestions de plats selon la cuisine préférée.
 
-        La météo n'influence plus le choix des plats on peut manger
-        n'importe quel plat par n'importe quel temps.
+        La météo n'influence plus le choix des plats on peut manger n'importe quel plat par n'importe quel temps.
         Un pool de 4 plats est retourné mélangé aléatoirement.
 
         Parameters

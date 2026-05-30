@@ -52,13 +52,17 @@ class WeatherFrame(ctk.CTkFrame):
             anchor="w"
         ).grid(row=0, column=0, sticky="w")
 
-        ctk.CTkLabel(
+        self.greeting_label = ctk.CTkLabel(
             header, text=f"{greeting}, Voici la météo du jour ",
             font=get_font(24, "bold"),
             text_color=COLORS["text_primary"],
             anchor="w"
-        ).grid(row=1, column=0, sticky="w")
-
+        )
+        self.greeting_label.grid(
+        row=1,
+        column=0,
+        sticky="w"
+        )
         # Carte météo principale 
         main_card = ctk.CTkFrame(
             self.scroll,
@@ -91,7 +95,7 @@ class WeatherFrame(ctk.CTkFrame):
 
         # Ressenti + condition
         self.desc_label = ctk.CTkLabel(
-            main_card, text="Ressenti --° — --",
+            main_card, text="Ressenti --° - --",
             font=get_font(16),
             text_color=COLORS["text_secondary"],
             anchor="w"
@@ -295,6 +299,8 @@ class WeatherFrame(ctk.CTkFrame):
         city = city or self._current_city or service.get_city_auto() or "Libreville"
         self._current_city = city 
         weather = service.get_current(city)
+        
+        self.user_name = profile.name or "Utilisateur"
 
         if not weather:
             return
@@ -310,7 +316,8 @@ class WeatherFrame(ctk.CTkFrame):
             food=food,
             quote=quote,
             score=score,
-            cuisine=profile.cuisine
+            cuisine=profile.cuisine,
+            name=self.user_name
         )
 
     # Mise à jour de l'UI
@@ -322,9 +329,14 @@ class WeatherFrame(ctk.CTkFrame):
         food,
         quote,
         score,
+        name,
         cuisine: str = "random"
     ):
         """Injecte toutes les données dans les widgets existants."""
+        
+        #salutations
+        
+        self.greeting_label.configure(text=f"{get_greeting(datetime.now().hour)} {self.user_name}, Voici la météo du jour ")
 
         # Carte principale :
         

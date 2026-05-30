@@ -25,8 +25,7 @@ class AIService:
     """
     Service IA basé sur Groq API (llama-3.3-70b-versatile).
 
-    Rôle unique : enrichir les activités déjà générées localement
-    avec de vrais lieux et adresses dans la ville de l'utilisateur.
+    Rôle unique : enrichir les activités déjà générées localement avec de vrais lieux et adresses dans la ville de l'utilisateur.
     Ne génère rien de nouveau complète seulement ce qui existe.
 
     Attributes
@@ -72,9 +71,7 @@ class AIService:
         """
         Enrichit une liste d'activités existantes avec de vrais lieux.
 
-        Envoie à Groq la liste des activités déjà générées localement
-        et lui demande uniquement d'ajouter un lieu réel et une adresse
-        si il en connaît un qui correspond. Ne crée aucune nouvelle activité.
+        Envoie à Groq la liste des activités déjà générées localement et lui demande uniquement d'ajouter un lieu réel et une adresse s'il en connaît un qui correspond. Ne crée aucune nouvelle activité.
 
         Parameters
         ----------

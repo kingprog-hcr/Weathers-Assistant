@@ -51,7 +51,7 @@ class MapFrame(ctk.CTkFrame):
             Langue de l'interface.
         get_program : callable | None
             Fonction sans argument qui retourne le DayProgram actuel
-            de ProgramFrame. Passé par MainWindow via lambda.
+            de ProgramFrame. Passé par MainWindow.
         """
         super().__init__(parent, fg_color="transparent")
         self._current_city = None
@@ -186,7 +186,7 @@ class MapFrame(ctk.CTkFrame):
         n = len(slots_with_coords)
         if n == 0:
             self.info_label.configure(
-                text="Aucun lieu géolocalisé, donc utilise ton imagination pour savoir ou aller."
+                text="Aucun lieu géolocalisé, donc utilise ton imagination pour savoir où aller."
             )
         else:
             self.info_label.configure(

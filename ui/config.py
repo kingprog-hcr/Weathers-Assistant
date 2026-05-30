@@ -19,6 +19,7 @@ COLORS = {
     "text_muted":     "#6b6b9a",
     "border":         "#2a2a4a",
 }
+
 ALL_STYLES = [
     "random",
     "casual",
@@ -51,6 +52,7 @@ ALL_CUISINES = [
 ]
 
 MOODS = ["repos", "aventure", "random"]
+
 def load_icon(icon_code: str, size: int = 80) -> ctk.CTkImage | None:
     """
     Télécharge une icône météo depuis OpenWeatherMap et retourne
@@ -78,17 +80,32 @@ def load_icon(icon_code: str, size: int = 80) -> ctk.CTkImage | None:
         return None
 
 
-def get_font(size: int, weight: str = "normal") -> tuple:
+def get_font(size: int, weight: str = "normal") -> ctk.CTkFont:
     """
-    Retourne la meilleure police disponible sur le système.
-    Priorité : Bell MT → Helvetica → police système par défaut.
+    Retourne la meilleure police disponible sous forme d'objet CTkFont.
+    Priorité : Bell MT -> Helvetica -> Arial -> police système par défaut.
     """
-    available = tkfont.families()
-    for family in ("Bell MT", "Helvetica Neue", "Helvetica", "Arial"):
-        if family in available:
-            return (family, size, weight)
-    return ("TkDefaultFont", size, weight)
+    # 1. Sécuriser la récupération des polices
+    try:
+        # Ne fonctionnera que si la fenêtre principale a déjà été initialisée
+        available = tkfont.families()
+    except Exception:
+        available = []
 
+    # 2. Chercher la famille disponible
+    chosen_family = "TkDefaultFont" # Fallback sécurisé
+    
+    # Si 'available' est vide (appel trop tôt), on force quand même la vérification en laissant CustomTkinter gérer le fallback natif s'il ne trouve pas la police
+    if not available:
+        chosen_family = "Bell MT" 
+    else:
+        for family in ("Bell MT", "Helvetica Neue", "Helvetica", "Arial"):
+            if family in available:
+                chosen_family = family
+                break
+
+    # 3. Retourner un objet propre à CustomTkinter
+    return ctk.CTkFont(family=chosen_family, size=size, weight=weight)
 
 _BASE_DIR        = Path(__file__).parent.parent
 _CATEGORIES_FILE = _BASE_DIR / "data" / "categories.json"
@@ -130,8 +147,7 @@ def build_slot_categories() -> dict:
     Construit le dict SLOT_CATEGORIES depuis categories.json.
 
     Format retourné : {keyword: (label, bg, fg, border)}
-    Chaque catégorie contient une liste de keywords — chaque keyword
-    est mappé vers le même tuple badge.
+    Chaque catégorie contient une liste de keywords  chaque keyword est mappe vers le même tuple badge.
     """
     raw        = load_slot_categories()
     categories = {}

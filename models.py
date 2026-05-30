@@ -147,9 +147,9 @@ class ProfileData:
         Style vestimentaire : "streetwear" | "oldmoney" | "casual" |
         "boheme" | "sportswear" | "minimaliste" | "preppy" | "random".
     cuisine : str
-        Cuisine préférée : "asiatique" | "méditerranéenne" | "africaine" |
+        Cuisine préférée : "asiatique" | "méditerranéenne" | "gabonaise" |
         "américaine" | "française" | "moyen-orientale" | "latino" |
-        "fastfood" | "random".
+        "fastfood" | "random" | etc.
     history : list[dict]
         Historique des programmes de journées précédentes.
     """

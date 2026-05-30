@@ -82,8 +82,7 @@ class MainWindow(ctk.CTk):
         Deux colonnes :
         - col 0 (sidebar)  : weight=1  plus étroite
         - col 1 (contenu)  : weight=4 plus large
-        La sidebar s'adapte à la taille de la fenêtre
-        mais reste proportionnellement plus petite que le contenu.
+        La sidebar s'adapte à la taille de la fenêtre tout en restant proportionnellement plus petite que le contenu.
         """
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=4)
@@ -209,8 +208,7 @@ class MainWindow(ctk.CTk):
         """
         Construit la zone de recherche de ville dans la sidebar.
 
-        L'utilisateur peut taper une ville et appuyer sur Entrée
-        ou cliquer sur le bouton pour actualiser toutes les données.
+        L'utilisateur peut taper une ville et appuyer sur Entrée ou cliquer sur le bouton pour actualiser toutes les données.
         """
         search_frame = ctk.CTkFrame(self.sidebar, fg_color="transparent")
         search_frame.grid(row=2, column=0, padx=12, pady=(10, 10), sticky="ew")
@@ -264,10 +262,10 @@ class MainWindow(ctk.CTk):
         # Éléments de navigation : (texte affiché, clé interne)
         NAV_ITEMS = [
             ("Météo du jour", "weather"),
-            ("Programme du jour",   "program"),
-            ("Carte",         "map"),
-            ("Profil",        "profile"),
-            ("Personnaliser",        "custom"),
+            ("Programme du jour", "program"),
+            ("Carte", "map"),
+            ("Profil", "profile"),
+            ("Personnaliser", "custom"),
         ]
         nav_frame = ctk.CTkFrame(self.sidebar, fg_color="transparent")
         nav_frame.grid(row=5, column=0, padx=8, pady=12, sticky="ew")
@@ -314,8 +312,7 @@ class MainWindow(ctk.CTk):
     def _build_content(self):
         """
         Crée la zone de contenu principale (colonne 1).
-        Les frames des différentes pages y sont placées
-        et affichées via show_frame().
+        Les frames des différentes pages y sont placées et affichées via show_frame().
         """
         self.content = ctk.CTkFrame(
             self,

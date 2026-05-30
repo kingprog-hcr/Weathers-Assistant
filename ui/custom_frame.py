@@ -4,8 +4,7 @@ Page de personnalisation de WeatherProgramm.
 
 Permet à l'utilisateur de :
     - Créer ses propres catégories d'activités avec une couleur personnalisée
-    - Ajouter ses propres activités dans n'importe quelle catégorie
-      pour des conditions météo spécifiques
+    - Ajouter ses propres activités dans n'importe quelle catégorie pour des conditions météo spécifiques
     - Supprimer ses activités et catégories personnalisées
     - Ajouter un plat dans un type de cuisine specifique
     - Ajouter un habit dans un style vestimentaire precis
@@ -14,7 +13,7 @@ Les modifications sont sauvegardées directement dans :
     - data/categories.json  : catégories et leurs keywords/couleurs
     - data/activities.json  : activités par condition météo et catégorie
     - data/food.json pour la cuisine
-    -data/styles.json pour ;es styles vestimentaire
+    -data/styles.json pour les styles vestimentaires
 """
 
 import sys
@@ -412,7 +411,7 @@ class CustomFrame(ctk.CTkFrame):
     def _build_new_food_section(self, row: int):
         """
         Section d'ajout d'un plat personnalisé dans food.json.
-        Champs : description du plat + cuisine uniquement.
+        Champs : description du plat avec cuisine uniquement.
         La météo n'influence plus le choix des plats.
         """
         card = self._make_section_card(row=row, title="Ajouter un plat personnalisé")
@@ -576,9 +575,6 @@ class CustomFrame(ctk.CTkFrame):
     def _add_food(self):
         """
         Ajoute un plat personnalisé dans food.json.
-
-        food.json est maintenant une liste plate par cuisine :
-        {"Gabonaise": ["plat1", "plat2", ...]}
         """
         food_name    = self.food_entry.get().strip()
         cuisine_name = self.food_cuisine_menu.get()
@@ -675,8 +671,7 @@ class CustomFrame(ctk.CTkFrame):
         """
         Ouvre le sélecteur de couleur CTkColorPicker.
 
-        Met à jour self._selected_color et le carré de prévisualisation
-        avec la couleur choisie par l'utilisateur.
+        Met à jour self._selected_color et le carré de prévisualisation avec la couleur choisie par l'utilisateur.
         """
         # AskColor() ouvre une fenêtre modale et retourne la couleur hex
         picker = AskColor()          # ouvre la fenêtre modale
