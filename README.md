@@ -231,11 +231,10 @@ The `GROQ_API_KEY` is optional. Without it the app works fully — AI venue enri
 python project.py
 ```
 
----
 
 ## 📦 Download the executable
 
-Pre-built executables for Linux, Windows, and macOS are available on the [Releases page](https://github.com/your-username/Weathers-Assistant/releases).
+Pre-built executables for Linux, Windows, and macOS are available on the [Releases page](https://github.com/kingprog-hcr/Weathers-Assistant/releases).
 
 **Setup:**
 1. Download the executable for your system
