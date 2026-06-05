@@ -28,7 +28,7 @@ MAP_PATH = Path(tkintermapview.__file__).parent
 
 a = Analysis(
     # Point d'entrée
-    ['projet.py'],
+    ['project.py'],
 
     pathex=[str(ROOT)],
 
