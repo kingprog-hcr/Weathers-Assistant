@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import json
 import random
 from models import WeatherData
+from core.config import DATA_DIR
 
 
 class ActivityEngine:
@@ -35,10 +36,9 @@ class ActivityEngine:
         Catalogue d'activités chargé depuis activities.json.
     """
 
-    BASE_DIR        = Path(__file__).resolve().parent.parent
-    ACTIVITIES_FILE = BASE_DIR / "data" / "activities.json"
-    STYLES_FILE     = BASE_DIR / "data" / "styles.json"
-    FOOD_FILE       = BASE_DIR / "data" / "food.json"
+    ACTIVITIES_FILE = DATA_DIR / "activities.json"
+    STYLES_FILE     = DATA_DIR / "styles.json"
+    FOOD_FILE       = DATA_DIR / "food.json"
 
     def __init__(self):
         """Initialise le moteur et charge les activités."""

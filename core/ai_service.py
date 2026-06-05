@@ -14,11 +14,8 @@ import json
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from dotenv import load_dotenv
 from groq import Groq
-from models import WeatherData, ProfileData
-
-load_dotenv()
+import core.config 
 
 
 class AIService:
@@ -43,7 +40,6 @@ class AIService:
         Initialise le client Groq depuis la clé dans .env.
         Ne plante pas si la clé est absente, mode local uniquement.
         """
-        load_dotenv()
         api_key = os.getenv("GROQ_API_KEY")
 
         if api_key:

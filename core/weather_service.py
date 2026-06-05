@@ -23,11 +23,11 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import core.config  
 import os
 import requests
 import json
 from datetime import datetime
-from dotenv import load_dotenv
 from models import WeatherData
 from dataclasses import asdict
 
@@ -54,8 +54,7 @@ class WeatherService:
     """
 
     BASE_URL       = "https://api.openweathermap.org/data/2.5"
-    BASE_DIR       = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    CACHE_FILE     = os.path.join(BASE_DIR, "data", "cache_meteo.json")
+    CACHE_FILE     =CACHE_FILE = str(core.config.DATA_DIR / "cache_meteo.json")
     CACHE_DURATION = 30  # minutes
 
     def __init__(self, city=None):
@@ -67,7 +66,6 @@ class WeatherService:
         city : str | None, optional
             Ville initiale utilisée par le service (facultatif).
         """
-        load_dotenv()
         self.api_key   = os.getenv("API_KEY")
         self.last_city = city
 

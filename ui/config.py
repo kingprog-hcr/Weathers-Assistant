@@ -6,7 +6,7 @@ import io
 import urllib.request
 from PIL import Image
 import json
-from pathlib import Path
+from core.config import DATA_DIR
 
 
 COLORS = {
@@ -107,8 +107,8 @@ def get_font(size: int, weight: str = "normal") -> ctk.CTkFont:
     # 3. Retourner un objet propre à CustomTkinter
     return ctk.CTkFont(family=chosen_family, size=size, weight=weight)
 
-_BASE_DIR        = Path(__file__).parent.parent
-_CATEGORIES_FILE = _BASE_DIR / "data" / "categories.json"
+
+_CATEGORIES_FILE = DATA_DIR / "categories.json"
 
 
 def load_slot_categories() -> dict:

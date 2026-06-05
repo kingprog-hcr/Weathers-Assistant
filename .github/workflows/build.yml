@@ -1,0 +1,76 @@
+name: Build WeatherProgramm
+
+on:
+  push:
+    tags:
+      - 'v*'          
+  workflow_dispatch:  
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build executable
+        run: pyinstaller projet.spec --clean
+
+      - name: Rename executable (Linux/Mac)
+        if: runner.os != 'Windows'
+        run: |
+          mv dist/WeatherProgramm dist/WeatherProgramm-${{ runner.os }}
+
+      - name: Rename executable (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          mv dist/WeatherProgramm.exe dist/WeatherProgramm-Windows.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WeatherProgramm-${{ runner.os }}
+          path: dist/WeatherProgramm*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            WeatherProgramm-Linux/WeatherProgramm-Linux
+            WeatherProgramm-Windows/WeatherProgramm-Windows.exe
+            WeatherProgramm-macOS/WeatherProgramm-macOS
+          body: |
+            ## WeatherProgramm ${{ github.ref_name }}
+
+            Téléchargez la version pour votre système :
+            - **Windows** : WeatherProgramm-Windows.exe
+            - **Linux** : WeatherProgramm-Linux
+            - **macOS** : WeatherProgramm-macOS
+
+            Placez votre fichier `.env` dans le même dossier que l'exécutable.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
