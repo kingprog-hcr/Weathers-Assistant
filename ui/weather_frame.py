@@ -12,7 +12,7 @@ from core.weather_service import WeatherService
 from core.day_planner import DayPlanner
 from core.user_profile import UserProfile
 from ui.config import COLORS, get_font, load_icon
-from projet import get_greeting
+from project import get_greeting
 
 
 class WeatherFrame(ctk.CTkFrame):

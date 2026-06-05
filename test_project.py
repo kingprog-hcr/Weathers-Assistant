@@ -1,5 +1,5 @@
 import json
-from projet import add_day_to_history, is_first_launch, get_greeting
+from project import add_day_to_history, is_first_launch, get_greeting
 
 
 
