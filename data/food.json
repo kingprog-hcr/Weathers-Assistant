@@ -398,6 +398,10 @@
     "milkshake chocolat",
     "soda pression",
     "tenders de poulet croustillants kfc",
-    "sundae caramel et cacahuètes"
+    "sundae caramel et cacahuètes",
+    {
+      "name": "Tasty crousty",
+      "custom": true
+    }
   ]
 }

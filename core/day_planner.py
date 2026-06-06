@@ -218,7 +218,7 @@ class DayPlanner:
         ]
 
         # Appelle l'IA pour enrichir les lieux
-        enrichments = self.ai.enrich_activities(activities_for_ai, city=city)
+        enrichments = self.ai.enrich_activities(activities = activities_for_ai, city=city)
 
         if not enrichments:
             # Groq indisponible ou JSON invalide, programme local intact

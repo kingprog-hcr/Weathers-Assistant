@@ -193,6 +193,12 @@
       "déjeuner sur le pouce au parc",
       "goûter sous les arbres",
       "dîner barbecue tardif"
+    ],
+    "informatique": [
+      {
+        "name": "Learn Python",
+        "custom": true
+      }
     ]
   },
   "clouds": {
@@ -336,6 +342,12 @@
       "déjeuner bistrot",
       "goûter thé et cookies",
       "dîner réconfortant fait maison"
+    ],
+    "informatique": [
+      {
+        "name": "Learn Python",
+        "custom": true
+      }
     ]
   },
   "rain": {
@@ -477,6 +489,12 @@
       "plat en sauce réconfortant",
       "goûter chocolat chaud brioche",
       "dîner raclette de repli"
+    ],
+    "informatique": [
+      {
+        "name": "Learn Python",
+        "custom": true
+      }
     ]
   },
   "drizzle": {
@@ -577,6 +595,12 @@
       "tarte salée tiède",
       "thé gourmand d'après-midi",
       "pâtes fraîches réconfortantes"
+    ],
+    "informatique": [
+      {
+        "name": "Learn Python",
+        "custom": true
+      }
     ]
   },
   "snow": {
@@ -691,6 +715,12 @@
       "tartiflette ou croziflette",
       "goûter pain d'épices chaud",
       "fondue au fromage"
+    ],
+    "informatique": [
+      {
+        "name": "Learn Python",
+        "custom": true
+      }
     ]
   },
   "thunderstorm": {
@@ -797,6 +827,12 @@
       "pizza faite maison de A à Z",
       "mug cake express au chocolat",
       "soupe de nouilles ramen chaudes"
+    ],
+    "informatique": [
+      {
+        "name": "Learn Python",
+        "custom": true
+      }
     ]
   },
   "mist": {
@@ -889,6 +925,12 @@
       "porridge chaud à la cannelle",
       "bol de granola maison",
       "soupe miso matinale"
+    ],
+    "informatique": [
+      {
+        "name": "Learn Python",
+        "custom": true
+      }
     ]
   },
   "fog": {
