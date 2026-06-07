@@ -116,5 +116,5 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     # Icône selon le système
-    icon=None,        # on ajoutera une icône plus tard
+    icon='assets/logo.ico'
 )
