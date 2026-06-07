@@ -46,6 +46,18 @@ jobs:
         shell: pwsh
         run: |
           choco install innosetup --yes --no-progress
+          # Vérifie que les fichiers requis existent
+          if (-not (Test-Path "dist\WeatherProgramm-Windows.exe")) {
+            Write-Error "dist\WeatherProgramm-Windows.exe introuvable"
+            exit 1
+          }
+          if (-not (Test-Path "assets\logo.ico")) {
+            Write-Error "assets\logo.ico introuvable"
+            exit 1
+          }
+          if (-not (Test-Path ".env.example")) {
+            New-Item -Path ".env.example" -ItemType File -Value "API_KEY=`nGROQ_API_KEY="
+          }
           iscc installer.iss
 
       - name: Upload artifact (Linux/Mac)
