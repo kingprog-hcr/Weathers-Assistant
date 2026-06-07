@@ -45,24 +45,13 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          choco install innosetup --yes --no-progress
-          
-          # Recharge le PATH pour trouver iscc
-          $env:PATH = [System.Environment]::GetEnvironmentVariable("PATH", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("PATH", "User")
-          
-          # Trouve iscc manuellement si nécessaire
-          $iscc = Get-Command iscc -ErrorAction SilentlyContinue
-          if (-not $iscc) {
-            $iscc = "C:\Program Files (x86)\Inno Setup 6\iscc.exe"
-          } else {
-            $iscc = $iscc.Source
+          $env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + $env:PATH
+          # Copie l'exe avec le bon nom pour Inno Setup
+          Copy-Item dist\WeatherProgramm.exe dist\WeatherProgramm-Windows.exe
+          if (-not (Test-Path ".env.example")) {
+            New-Item -Path ".env.example" -Value "API_KEY=`nGROQ_API_KEY=" | Out-Null
           }
-          
-          Write-Host "iscc path: $iscc"
-          Write-Host "Fichiers dist:"
-          Get-ChildItem dist\
-          
-          & $iscc installer.iss
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
       - name: Upload artifact (Linux/Mac)
         if: runner.os != 'Windows'
         uses: actions/upload-artifact@v4
