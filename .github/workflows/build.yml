@@ -35,22 +35,28 @@ jobs:
         if: runner.os != 'Windows'
         run: mv dist/WeatherProgramm dist/WeatherProgramm-${{ runner.os }}
 
-      - name: Create Windows installer
+      - name: Build installer and rename (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           $env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + $env:PATH
+
+          Write-Host "=== Contenu de dist/ avant Inno Setup ==="
+          Get-ChildItem dist\
+
           if (-not (Test-Path ".env.example")) {
             New-Item -Path ".env.example" -Value "API_KEY=`nGROQ_API_KEY=" | Out-Null
           }
-          Write-Host "Contenu de dist/:"
-          Get-ChildItem dist\
+
+          # Inno Setup lit dist\WeatherProgramm.exe
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
 
-      - name: Rename executable (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: mv dist\WeatherProgramm.exe dist\WeatherProgramm-Windows.exe
+          Write-Host "=== Contenu de Output/ apres Inno Setup ==="
+          Get-ChildItem Output\
+
+          # Renommage apres que Inno Setup a fini
+          mv dist\WeatherProgramm.exe dist\WeatherProgramm-Windows.exe
+          Write-Host "=== Renommage termine ==="
 
       - name: Upload artifact (Linux/Mac)
         if: runner.os != 'Windows'
@@ -104,15 +110,10 @@ jobs:
 
             ### Configuration requise
             Créez un fichier `.env` dans le même dossier que l'exécutable :
+              API_KEY=votre_cle_openweathermap
+              GROQ_API_KEY=votre_cle_groq
 
-            ```env
-            API_KEY=votre_cle_openweathermap
-            GROQ_API_KEY=votre_cle_groq
-            ```
-
-            Clé OpenWeatherMap gratuite : https://openweathermap.org/api
+              Clé OpenWeatherMap gratuite : https://openweathermap.org/api
             Clé Groq gratuite (optionnel) : https://console.groq.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-          
