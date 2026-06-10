@@ -35,23 +35,23 @@ jobs:
         if: runner.os != 'Windows'
         run: mv dist/WeatherProgramm dist/WeatherProgramm-${{ runner.os }}
 
-      - name: Rename executable (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: mv dist/WeatherProgramm.exe dist/WeatherProgramm-Windows.exe
-
-      # Installeur Windows avec Inno Setup
       - name: Create Windows installer
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           $env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + $env:PATH
-          # Copie l'exe avec le bon nom pour Inno Setup
-          Copy-Item dist\WeatherProgramm.exe dist\WeatherProgramm-Windows.exe
           if (-not (Test-Path ".env.example")) {
             New-Item -Path ".env.example" -Value "API_KEY=`nGROQ_API_KEY=" | Out-Null
           }
+          Write-Host "Contenu de dist/:"
+          Get-ChildItem dist\
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+
+      - name: Rename executable (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: mv dist\WeatherProgramm.exe dist\WeatherProgramm-Windows.exe
+
       - name: Upload artifact (Linux/Mac)
         if: runner.os != 'Windows'
         uses: actions/upload-artifact@v4
@@ -97,19 +97,22 @@ jobs:
 
             | Système | Fichier | Description |
             |---|---|---|
-            | Windows | WeatherProgramm-Setup.exe | **Installeur recommandé**  crée un raccourci bureau |
+            | Windows | WeatherProgramm-Setup.exe | **Installeur recommandé** — crée un raccourci bureau |
             | Windows | WeatherProgramm-Windows.exe | Exécutable portable |
             | Linux | WeatherProgramm-Linux | Exécutable Linux |
             | macOS | WeatherProgramm-macOS | Exécutable macOS |
 
             ### Configuration requise
-
             Créez un fichier `.env` dans le même dossier que l'exécutable :
 
+            ```env
             API_KEY=votre_cle_openweathermap
             GROQ_API_KEY=votre_cle_groq
+            ```
 
             Clé OpenWeatherMap gratuite : https://openweathermap.org/api
             Clé Groq gratuite (optionnel) : https://console.groq.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          
