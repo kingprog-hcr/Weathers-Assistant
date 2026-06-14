@@ -332,15 +332,5 @@
       "luminothérapie",
       "ancrage"
     ]
-  },
-  "informatique": {
-    "label": "Informatique",
-    "bg": "#1a1a2e",
-    "fg": "#72ff2b",
-    "border": "#72ff2b",
-    "keywords": [
-      "informatique"
-    ],
-    "custom": true
   }
 }

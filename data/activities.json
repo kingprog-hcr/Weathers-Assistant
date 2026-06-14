@@ -194,12 +194,8 @@
       "goûter sous les arbres",
       "dîner barbecue tardif"
     ],
-    "informatique": [
-      {
-        "name": "Learn Python",
-        "custom": true
-      }
-    ]
+    "informatique": [],
+    "computer_science": []
   },
   "clouds": {
     "sport": [
@@ -343,12 +339,8 @@
       "goûter thé et cookies",
       "dîner réconfortant fait maison"
     ],
-    "informatique": [
-      {
-        "name": "Learn Python",
-        "custom": true
-      }
-    ]
+    "informatique": [],
+    "computer_science": []
   },
   "rain": {
     "sport": [
@@ -490,12 +482,7 @@
       "goûter chocolat chaud brioche",
       "dîner raclette de repli"
     ],
-    "informatique": [
-      {
-        "name": "Learn Python",
-        "custom": true
-      }
-    ]
+    "informatique": []
   },
   "drizzle": {
     "sport": [
@@ -596,12 +583,7 @@
       "thé gourmand d'après-midi",
       "pâtes fraîches réconfortantes"
     ],
-    "informatique": [
-      {
-        "name": "Learn Python",
-        "custom": true
-      }
-    ]
+    "informatique": []
   },
   "snow": {
     "sport": [
@@ -716,12 +698,8 @@
       "goûter pain d'épices chaud",
       "fondue au fromage"
     ],
-    "informatique": [
-      {
-        "name": "Learn Python",
-        "custom": true
-      }
-    ]
+    "informatique": [],
+    "computer_science": []
   },
   "thunderstorm": {
     "sport": [
@@ -828,12 +806,7 @@
       "mug cake express au chocolat",
       "soupe de nouilles ramen chaudes"
     ],
-    "informatique": [
-      {
-        "name": "Learn Python",
-        "custom": true
-      }
-    ]
+    "informatique": []
   },
   "mist": {
     "sport": [
@@ -926,12 +899,7 @@
       "bol de granola maison",
       "soupe miso matinale"
     ],
-    "informatique": [
-      {
-        "name": "Learn Python",
-        "custom": true
-      }
-    ]
+    "informatique": []
   },
   "fog": {
     "sport": [

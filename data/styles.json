@@ -156,11 +156,7 @@
       "mocassins en cuir clair perforé",
       "ceinture fine",
       "lunettes de soleil aviateur",
-      "panama en paille fine",
-      {
-        "name": "No se",
-        "custom": true
-      }
+      "panama en paille fine"
     ],
     "pluie": [
       "trench coat classique imperméable",
