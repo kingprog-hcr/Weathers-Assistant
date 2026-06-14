@@ -8,9 +8,14 @@ En mode exe      : cherche .env à côté de l'exécutable.
 Ce module est importé en premier par projet.py tous les autres
 modules (weather_service, ai_service, etc.) importent leurs variables
 depuis os.getenv() normalement, sans appeler load_dotenv() eux-mêmes.
+
+Gère aussi les problèmes d'encodage courants du .env :
+- UTF-16 (créé via PowerShell Out-File/Set-Content ou Notepad classique)
+- UTF-8 avec BOM (créé via Notepad "Enregistrer en UTF-8" sur Windows)
+Ces encodages font planter python-dotenv qui attend de l'UTF-8 sans BOM.
+Le fichier est automatiquement réécrit en UTF-8 propre si nécessaire.
 """
 
-import os
 import sys
 from pathlib import Path
 from dotenv import load_dotenv
@@ -49,10 +54,45 @@ def _find_data_dir() -> Path:
     else:
         return Path(__file__).parent.parent / "data"
 
+def _load_env_safe(env_path: Path) -> None:
+    """
+    Charge le .env en gérant les problèmes d'encodage courants.
+
+    Tente plusieurs encodages dans l'ordre : UTF-8, UTF-8 avec BOM,
+    UTF-16 (LE puis BE). Si un encodage autre que UTF-8 fonctionne,
+    le fichier est réécrit en UTF-8 sans BOM pour les lectures futures.
+
+    Parameters
+    ----------
+    env_path : Path
+        Chemin vers le fichier .env.
+    """
+    if not env_path.exists():
+        return
+    encodings_to_try = ["utf-8", "utf-8-sig", "utf-16", "utf-16-le", "utf-16-be"]
+
+    for i, encoding in enumerate(encodings_to_try):
+        try:
+            with open(env_path, "r", encoding=encoding) as f:
+                content = f.read()
+
+            if i > 0:
+                # Encodage non-standard détecté — réécrit en UTF-8 propre
+                with open(env_path, "w", encoding="utf-8") as f:
+                    f.write(content)
+                print(f".env converti de {encoding} vers UTF-8")
+
+            load_dotenv(env_path)
+            return
+        except UnicodeDecodeError:
+            continue
+
+    print(f"Impossible de lire {env_path} : encodage non reconnu")
+
 
 # Chemins accessibles depuis tous les modules
 ENV_PATH  = _find_env_path()
 DATA_DIR  = _find_data_dir()
 
 # Charge le .env une seule fois au démarrage
-load_dotenv(ENV_PATH)
+_load_env_safe(ENV_PATH)
