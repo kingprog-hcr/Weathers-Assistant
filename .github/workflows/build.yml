@@ -47,11 +47,6 @@ jobs:
           Get-ChildItem dist\
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
 
-      - name: Rename executable (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: mv dist\WeatherProgramm.exe dist\WeatherProgramm-Windows.exe
-
       - name: Upload artifact (Linux/Mac)
         if: runner.os != 'Windows'
         uses: actions/upload-artifact@v4
@@ -64,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: WeatherProgramm-Windows
-          path: dist/WeatherProgramm-Windows.exe
+          path: dist/WeatherProgramm.exe
 
       - name: Upload artifact (Windows installer)
         if: runner.os == 'Windows'
@@ -87,7 +82,7 @@ jobs:
         with:
           files: |
             WeatherProgramm-Linux/WeatherProgramm-Linux
-            WeatherProgramm-Windows/WeatherProgramm-Windows.exe
+            WeatherProgramm-Windows/WeatherProgramm.exe
             WeatherProgramm-Setup-Windows/WeatherProgramm-Setup.exe
             WeatherProgramm-macOS/WeatherProgramm-macOS
           body: |
@@ -96,7 +91,7 @@ jobs:
             | Système | Fichier | Description |
             |---|---|---|
             | Windows | WeatherProgramm-Setup.exe | **Installeur recommandé** |
-            | Windows | WeatherProgramm-Windows.exe | Exécutable portable |
+            | Windows | WeatherProgramm.exe | Exécutable portable |
             | Linux | WeatherProgramm-Linux | Exécutable Linux |
             | macOS | WeatherProgramm-macOS | Exécutable macOS |
 
