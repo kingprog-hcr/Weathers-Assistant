@@ -2,7 +2,7 @@
 
 > A smart weather-based day planner : CS50 Final Project
 
-#### Video Demo: <URL HERE>
+#### Video Demo: (https://youtu.be/bPU5fps7p8o)
 
 
 
@@ -234,13 +234,88 @@ python project.py
 
 ## 📦 Download the executable
 
-Pre-built executables for Linux, Windows, and macOS are available on the [Releases page](https://github.com/kingprog-hcr/Weathers-Assistant/releases).
+Pre-built executables for Linux, Windows, and macOS are available on the [Releases page](https://github.com/kingprog-hcr/Weathers-Assistant/releases/latest).
 
 **Setup:**
-1. Download the executable for your system
-2. Create a `.env` file in the same folder as the executable
-3. Add your API keys to the `.env` file
-4. Run the executable
+
+Choose the version that matches your operating system:
+
+* Windows → WeatherProgramm-Setup.exe (recommended, installs everything automatically)
+* macOS : WeatherProgramm-macOS
+* Linux : WeatherProgramm-Linux
+
+⚙️ INSTALLATION
+
+WINDOWS:
+
+1. Double-click on WeatherProgramm-Setup.exe.
+2. If Windows displays "Windows protected your PC" (SmartScreen):
+   → Click "More info", then "Run anyway".
+   This is normal; the application is not digitally signed (code signing certificates cost money).
+3. If your antivirus software (Avast, Norton, etc.) blocks the file or places it in quarantine:
+   → This is a false positive. Allow the file or add an exception.
+   → If the antivirus deletes your .env file after you create it, temporarily disable real-time protection while creating the file.
+
+macOS:
+
+1. Download WeatherProgramm-macOS.
+2. Right-click the file and select "Open" (do NOT double-click, otherwise macOS may block it).
+3. A "Developer cannot be verified" popup will appear.
+   → Click "Open" to confirm.
+
+LINUX:
+
+1. Download WeatherProgramm-Linux.
+2. Open a terminal in the download directory.
+3. Run:
+   chmod +x WeatherProgramm-Linux
+4. Then run:
+   ./WeatherProgramm-Linux
+
+🔑 REQUIRED STEP :  Create the .env File
+
+Without this file, the application will not be able to retrieve weather data.
+
+1. Go to https://openweathermap.org/api
+
+2. Create a free account by clicking "Sign up".
+
+3. Once logged in, go to "My API Keys" and copy your API key.
+   ⚠️ Your key may take about 10–15 minutes to become active after creation, so please be patient.
+
+4. In the folder where WeatherProgramm is installed, create a file named exactly:
+
+   .env
+
+   (including the dot, with no file extension)
+
+   Add the following content:
+
+   API_KEY=your_openweathermap_api_key_here
+   GROQ_API_KEY=
+
+   (The GROQ_API_KEY line may be left empty; it is optional.)
+
+   ⚠️ IMPORTANT:
+   Create this file using Notepad or VS Code,
+   NOT PowerShell (to avoid encoding issues).
+
+   If you use Notepad, select "UTF-8" in the Encoding menu at the bottom of the "Save As" window.
+   Do NOT use "Unicode" or "UTF-16".
+
+5. Launch WeatherProgramm!
+
+❓ COMMON ISSUES
+
+• "No internet connection"
+→ Check your internet connection. The application requires internet access to retrieve weather data.
+
+• The application closes immediately after launch
+→ Make sure the .env file exists in the same folder as the executable and that its name starts with a dot.
+
+• Strange "utf-8" or "codec" error
+→ The .env file was created with the wrong encoding. Recreate it using Notepad and save it as UTF-8.
+
 
 No Python installation required.
 
