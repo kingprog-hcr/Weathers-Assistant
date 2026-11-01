@@ -196,7 +196,7 @@ pytest test_project.py -v
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/Weathers-Assistant.git
+git clone https://github.com/kingprog-hcr/Weathers-Assistant.git
 cd Weathers-Assistant
 ```
 
@@ -240,7 +240,7 @@ Pre-built executables for Linux, Windows, and macOS are available on the [Releas
 
 Choose the version that matches your operating system:
 
-* Windows → WeatherProgramm-Setup.exe (recommended, installs everything automatically)
+* Windows : WeatherProgramm-Setup.exe (recommended, installs everything automatically)
 * macOS : WeatherProgramm-macOS
 * Linux : WeatherProgramm-Linux
 
