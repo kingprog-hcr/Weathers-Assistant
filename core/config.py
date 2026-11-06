@@ -98,7 +98,8 @@ def _load_env_safe(env_path: Path) -> None:
                 content = f.read()
 
             if i > 0:
-                # Encodage non-standard détecté réécrit en UTF-8 propre
+                # Encodage non-standard détecté
+                # réécrit en UTF-8 propre
                 with open(env_path, "w", encoding="utf-8") as f:
                     f.write(content)
                 print(f".env converti de {encoding} vers UTF-8")

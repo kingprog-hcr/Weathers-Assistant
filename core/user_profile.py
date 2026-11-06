@@ -11,14 +11,34 @@ class UserProfile:
 
     PROFILE_FILE = USER_PROFILE_FILE
 
+    @staticmethod
+    def _decode_profile(raw: bytes) -> tuple[str, bool]:
+        text = raw.decode("utf-8", errors="surrogateescape")
+        if not any(0xDC80 <= ord(character) <= 0xDCFF for character in text):
+            return text, False
+
+        decoded = []
+        for character in text:
+            codepoint = ord(character)
+            if 0xDC80 <= codepoint <= 0xDCFF:
+                decoded.append(bytes([codepoint - 0xDC00]).decode("cp1252"))
+            else:
+                decoded.append(character)
+        return "".join(decoded), True
+
     def load(self) -> ProfileData:
         """Charge le profil. Crée un profil par défaut si absent."""
         try:
-            with open(self.PROFILE_FILE, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                return ProfileData(**data)
+            raw = self.PROFILE_FILE.read_bytes()
         except FileNotFoundError:
             return ProfileData() # on retourne un profile par defaut
+
+        text, migrated = self._decode_profile(raw)
+        profile = ProfileData(**json.loads(text))
+        if migrated:
+            self.save(profile)
+            print("Ancien encodage du profil détecté et converti en UTF-8.")
+        return profile
 
     def save(self, profile: ProfileData) -> None:
         """Sauvegarde le profil."""

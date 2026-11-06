@@ -28,11 +28,11 @@ def test_is_first_launch(monkeypatch, tmp_path):
 def test_add_day_to_history(monkeypatch, tmp_path):
     # Crée un profil JSON minimal dans un dossier temporaire
     fake_path = tmp_path / "profile.json"
-    fake_path.write_text(json.dumps({"history": []}))
+    fake_path.write_text(json.dumps({"history": []}), encoding="utf-8")
 
     monkeypatch.setattr("project.PROFILE_FILE", fake_path)
 
-    program = {"score": 8, "slots": [], "quote": "Test"}
+    program = {"score": 8, "slots": [{"activity": "Déjeuner"}], "quote": "Test"}
     weather = {"city": "Oyem", "condition": "clear", "temp": 22}
 
     result = add_day_to_history(program, weather)
@@ -41,7 +41,8 @@ def test_add_day_to_history(monkeypatch, tmp_path):
     assert result == True
 
     # Vérifie que l'entrée a bien été ajoutée
-    data = json.loads(fake_path.read_text())
+    data = json.loads(fake_path.read_text(encoding="utf-8"))
     assert len(data["history"]) == 1
     assert data["history"][0]["city"] == "Oyem"
     assert data["history"][0]["score"] == 8
+    assert data["history"][0]["slots"][0]["activity"] == "Déjeuner"

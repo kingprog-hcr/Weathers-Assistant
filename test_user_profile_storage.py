@@ -30,6 +30,29 @@ def test_profile_save_creates_directory_and_can_be_reloaded(monkeypatch, tmp_pat
     assert UserProfile().load().name == "Chrys"
 
 
+def test_profile_load_repairs_legacy_windows_encoded_bytes(monkeypatch, tmp_path):
+    profile_file = tmp_path / "persistent" / "profile.json"
+    monkeypatch.setattr(UserProfile, "PROFILE_FILE", profile_file)
+    profile_json = (
+        '{"name": "Chrys", "description": "Ingénieur", "tastes": [], '
+        '"mood": "random", "style": "random", "cuisine": "random", '
+        '"history": [{"activity": "Déjeuner"}]}'
+    )
+    legacy_bytes = profile_json.encode("utf-8").replace(
+        "Déjeuner".encode("utf-8"), "Déjeuner".encode("cp1252")
+    )
+    profile_file.parent.mkdir(parents=True)
+    profile_file.write_bytes(legacy_bytes)
+
+    profile = UserProfile().load()
+
+    assert profile.description == "Ingénieur"
+    assert profile.history[0]["activity"] == "Déjeuner"
+    migrated_profile = profile_file.read_bytes().decode("utf-8")
+    assert "Ingénieur" in migrated_profile
+    assert "Déjeuner" in migrated_profile
+
+
 def test_data_path_uses_bundled_default_until_user_override_exists(
     monkeypatch, tmp_path
 ):

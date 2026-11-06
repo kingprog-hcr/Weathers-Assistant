@@ -76,7 +76,7 @@ def add_day_to_history(program: dict, weather: dict) -> bool:
     # 4. sauvegarder dans PROFILE_FILE
     # 5. retourner True si succès, False si exception
     try:
-        with open(PROFILE_FILE, "r") as p:
+        with open(PROFILE_FILE, "r", encoding="utf-8") as p:
             profile = json.load(p)
     except:
         return False
@@ -89,7 +89,7 @@ def add_day_to_history(program: dict, weather: dict) -> bool:
     profile["history"].append(day)
 
     try:
-        with open(PROFILE_FILE, "w") as p:
+        with open(PROFILE_FILE, "w", encoding="utf-8") as p:
             json.dump(profile, p, indent=2, ensure_ascii=False)
     except:
         return False
