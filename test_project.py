@@ -17,7 +17,7 @@ def test_is_first_launch(monkeypatch, tmp_path):
 
     # Cas 1 : fichier absent,  premier lancement
     fake_path = tmp_path / "profile.json"
-    monkeypatch.setattr("projet.PROFILE_FILE", fake_path)
+    monkeypatch.setattr("project.PROFILE_FILE", fake_path)
     assert is_first_launch() == True
 
     # Cas 2 : fichier présent, pas premier lancement
@@ -30,7 +30,7 @@ def test_add_day_to_history(monkeypatch, tmp_path):
     fake_path = tmp_path / "profile.json"
     fake_path.write_text(json.dumps({"history": []}))
 
-    monkeypatch.setattr("projet.PROFILE_FILE", fake_path)
+    monkeypatch.setattr("project.PROFILE_FILE", fake_path)
 
     program = {"score": 8, "slots": [], "quote": "Test"}
     weather = {"city": "Oyem", "condition": "clear", "temp": 22}

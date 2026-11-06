@@ -16,6 +16,7 @@ Ces encodages font planter python-dotenv qui attend de l'UTF-8 sans BOM.
 Le fichier est automatiquement réécrit en UTF-8 propre si nécessaire.
 """
 
+import os
 import sys
 from pathlib import Path
 from dotenv import load_dotenv
@@ -54,6 +55,25 @@ def _find_data_dir() -> Path:
     else:
         return Path(__file__).parent.parent / "data"
 
+
+def _find_user_data_dir() -> Path:
+    """Return a persistent directory for user data."""
+    if not getattr(sys, "frozen", False):
+        return _find_data_dir()
+
+    if sys.platform == "win32":
+        app_data = os.environ.get("APPDATA")
+        if not app_data:
+            raise RuntimeError("APPDATA is not set; cannot locate user data directory")
+        return Path(app_data) / "WeatherProgramm"
+
+    if sys.platform == "darwin":
+        return Path.home() / "Library" / "Application Support" / "WeatherProgramm"
+
+    data_home = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share"))
+    return data_home / "WeatherProgramm"
+
+
 def _load_env_safe(env_path: Path) -> None:
     """
     Charge le .env en gérant les problèmes d'encodage courants.
@@ -73,11 +93,12 @@ def _load_env_safe(env_path: Path) -> None:
 
     for i, encoding in enumerate(encodings_to_try):
         try:
+
             with open(env_path, "r", encoding=encoding) as f:
                 content = f.read()
 
             if i > 0:
-                # Encodage non-standard détecté — réécrit en UTF-8 propre
+                # Encodage non-standard détecté réécrit en UTF-8 propre
                 with open(env_path, "w", encoding="utf-8") as f:
                     f.write(content)
                 print(f".env converti de {encoding} vers UTF-8")
@@ -93,6 +114,22 @@ def _load_env_safe(env_path: Path) -> None:
 # Chemins accessibles depuis tous les modules
 ENV_PATH  = _find_env_path()
 DATA_DIR  = _find_data_dir()
+USER_DATA_DIR = _find_user_data_dir()
+PROFILE_FILE = USER_DATA_DIR / "profile.json"
+
+
+def get_user_data_path(filename: str) -> Path:
+    """Return the writable path for a user-owned data file."""
+    return USER_DATA_DIR / filename
+
+
+def get_data_path(filename: str) -> Path:
+    """Prefer a user-customized data file, falling back to bundled defaults."""
+    user_path = get_user_data_path(filename)
+    if user_path.exists():
+        return user_path
+    return DATA_DIR / filename
+
 
 # Charge le .env une seule fois au démarrage
 _load_env_safe(ENV_PATH)

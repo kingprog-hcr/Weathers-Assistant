@@ -9,7 +9,8 @@ Ce fichier contient :
     add_day_to_history(): enregistre une journée dans le profil
     get_greeting()      : salutation selon l'heure et la langue 
 """
-import core.config  
+import core.config
+from core.config import PROFILE_FILE
 import os
 import sys
 import json
@@ -25,19 +26,13 @@ if getattr(sys, 'frozen', False):
     # sys._MEIPASS = dossier temporaire avec les fichiers inclus
     # sys.executable = chemin vers l'exe lui-même
     APP_DIR  = Path(sys.executable).parent  # dossier où est l'exe
-    DATA_DIR = Path(sys._MEIPASS) / "data"  # data/ inclus dans l'exe
 else:
     # Mode développement normal
     APP_DIR  = Path(__file__).parent
-    DATA_DIR = APP_DIR / "data"
 
 # Charge le .env depuis le dossier de l'exe (pas depuis les données incluses)
 from dotenv import load_dotenv
 load_dotenv(APP_DIR / ".env")
-
-BASE_DIR = Path(__file__).parent
-PROFILE_FILE = BASE_DIR / "data" / "profile.json"
-
 
 def is_first_launch() -> bool:
     """
@@ -46,7 +41,7 @@ def is_first_launch() -> bool:
     Returns
     -------
     bool
-        True si data/profile.json n'existe pas encore.
+        True si le profil utilisateur n'existe pas encore.
         False si un profil a déjà été sauvegardé.
     """
     return not PROFILE_FILE.exists()

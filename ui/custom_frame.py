@@ -9,11 +9,8 @@ Permet à l'utilisateur de :
     - Ajouter un plat dans un type de cuisine specifique
     - Ajouter un habit dans un style vestimentaire precis
 
-Les modifications sont sauvegardées directement dans :
-    - data/categories.json  : catégories et leurs keywords/couleurs
-    - data/activities.json  : activités par condition météo et catégorie
-    - data/food.json pour la cuisine
-    -data/styles.json pour les styles vestimentaires
+Les modifications sont sauvegardées dans le dossier de données utilisateur,
+séparé des fichiers JSON fournis par l'application.
 """
 
 import sys
@@ -24,10 +21,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import customtkinter as ctk
 from CTkColorPicker import AskColor
 from ui.config import COLORS, get_font, load_slot_categories, save_slot_categories, build_slot_categories
-
-
-BASE_DIR        = Path(__file__).parent.parent
-ACTIVITIES_FILE = BASE_DIR / "data" / "activities.json"
+from core.config import get_data_path, get_user_data_path
 
 
 # Conditions météo disponibles avec leurs 
@@ -57,7 +51,7 @@ STYLE_CONDITIONS = {
 def _load_activities() -> dict:
     """Charge activities.json."""
     try:
-        with open(ACTIVITIES_FILE, "r", encoding="utf-8") as f:
+        with open(get_data_path("activities.json"), "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         return {}
@@ -66,7 +60,9 @@ def _load_activities() -> dict:
 def _save_activities(data: dict) -> bool:
     """Sauvegarde activities.json."""
     try:
-        with open(ACTIVITIES_FILE, "w", encoding="utf-8") as f:
+        activities_file = get_user_data_path("activities.json")
+        activities_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(activities_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
         return True
     except Exception as e:
@@ -582,7 +578,7 @@ class CustomFrame(ctk.CTkFrame):
         if not food_name or not cuisine_name:
             return
 
-        food_file = BASE_DIR / "data" / "food.json"
+        food_file = get_data_path("food.json")
         try:
             with open(food_file, "r", encoding="utf-8") as f:
                 food_data = json.load(f)
@@ -609,7 +605,9 @@ class CustomFrame(ctk.CTkFrame):
             })
 
         try:
-            with open(food_file, "w", encoding="utf-8") as f:
+            user_food_file = get_user_data_path("food.json")
+            user_food_file.parent.mkdir(parents=True, exist_ok=True)
+            with open(user_food_file, "w", encoding="utf-8") as f:
                 json.dump(food_data, f, indent=2, ensure_ascii=False)
             self.food_entry.delete(0, "end")
         except Exception as e:
@@ -633,7 +631,7 @@ class CustomFrame(ctk.CTkFrame):
         if not selected_conditions:
             return
 
-        styles_file = BASE_DIR / "data" / "styles.json"
+        styles_file = get_data_path("styles.json")
         try:
             with open(styles_file, "r", encoding="utf-8") as f:
                 styles_data = json.load(f)
@@ -660,7 +658,9 @@ class CustomFrame(ctk.CTkFrame):
                 })
 
         try:
-            with open(styles_file, "w", encoding="utf-8") as f:
+            user_styles_file = get_user_data_path("styles.json")
+            user_styles_file.parent.mkdir(parents=True, exist_ok=True)
+            with open(user_styles_file, "w", encoding="utf-8") as f:
                 json.dump(styles_data, f, indent=2, ensure_ascii=False)
             self.style_item_entry.delete(0, "end")
         except Exception as e:
@@ -998,7 +998,7 @@ class CustomFrame(ctk.CTkFrame):
         
     def _get_food_cuisine_names(self) -> list[str]:
         """Retourne les noms de cuisines depuis food.json."""
-        food_file = BASE_DIR / "data" / "food.json"
+        food_file = get_data_path("food.json")
         try:
             with open(food_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -1008,7 +1008,7 @@ class CustomFrame(ctk.CTkFrame):
 
     def _get_style_names(self) -> list[str]:
         """Retourne les noms de styles depuis styles.json."""
-        styles_file = BASE_DIR / "data" / "styles.json"
+        styles_file = get_data_path("styles.json")
         try:
             with open(styles_file, "r", encoding="utf-8") as f:
                 data = json.load(f)

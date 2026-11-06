@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import json
 import random
 from models import WeatherData
-from core.config import DATA_DIR
+from core.config import get_data_path
 
 
 class ActivityEngine:
@@ -24,21 +24,9 @@ class ActivityEngine:
 
     Attributes
     ----------
-    BASE_DIR : Path
-        Racine du projet pour construire les chemins absolus.
-    ACTIVITIES_FILE : Path
-        Chemin vers data/activities.json.
-    STYLES_FILE : Path
-        Chemin vers data/styles.json.
-    FOOD_FILE : Path
-        Chemin vers data/food.json.
     activities : dict
         Catalogue d'activités chargé depuis activities.json.
     """
-
-    ACTIVITIES_FILE = DATA_DIR / "activities.json"
-    STYLES_FILE     = DATA_DIR / "styles.json"
-    FOOD_FILE       = DATA_DIR / "food.json"
 
     def __init__(self):
         """Initialise le moteur et charge les activités."""
@@ -47,7 +35,7 @@ class ActivityEngine:
     def _load_activities(self) -> dict:
         """Charge le fichier activities.json."""
         try:
-            with open(self.ACTIVITIES_FILE, "r", encoding="utf-8") as f:
+            with open(get_data_path("activities.json"), "r", encoding="utf-8") as f:
                 return json.load(f)
         except FileNotFoundError:
             return {}
@@ -55,7 +43,7 @@ class ActivityEngine:
     def _load_food(self) -> dict:
         """Charge le fichier food.json."""
         try:
-            with open(self.FOOD_FILE, "r", encoding="utf-8") as f:
+            with open(get_data_path("food.json"), "r", encoding="utf-8") as f:
                 return json.load(f)
         except FileNotFoundError:
             return {}
@@ -63,7 +51,7 @@ class ActivityEngine:
     def _load_styles(self) -> dict:
         """Charge le fichier styles.json."""
         try:
-            with open(self.STYLES_FILE, "r", encoding="utf-8") as f:
+            with open(get_data_path("styles.json"), "r", encoding="utf-8") as f:
                 return json.load(f)
         except FileNotFoundError:
             return {}

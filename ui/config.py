@@ -6,7 +6,7 @@ import io
 import urllib.request
 from PIL import Image
 import json
-from core.config import DATA_DIR
+from core.config import get_data_path, get_user_data_path
 
 
 COLORS = {
@@ -108,16 +108,13 @@ def get_font(size: int, weight: str = "normal") -> ctk.CTkFont:
     return ctk.CTkFont(family=chosen_family, size=size, weight=weight)
 
 
-_CATEGORIES_FILE = DATA_DIR / "categories.json"
-
-
 def load_slot_categories() -> dict:
     """
     Charge les catégories de badges depuis data/categories.json.
     Retourne un dict vide si le fichier est absent.
     """
     try:
-        with open(_CATEGORIES_FILE, "r", encoding="utf-8") as f:
+        with open(get_data_path("categories.json"), "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         return {}
@@ -134,7 +131,9 @@ def save_slot_categories(categories: dict) -> bool:
         True si sauvegarde réussie, False sinon.
     """
     try:
-        with open(_CATEGORIES_FILE, "w", encoding="utf-8") as f:
+        categories_file = get_user_data_path("categories.json")
+        categories_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(categories_file, "w", encoding="utf-8") as f:
             json.dump(categories, f, indent=2, ensure_ascii=False)
         return True
     except Exception as e:

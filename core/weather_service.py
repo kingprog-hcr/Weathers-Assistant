@@ -54,7 +54,7 @@ class WeatherService:
     """
 
     BASE_URL       = "https://api.openweathermap.org/data/2.5"
-    CACHE_FILE     =CACHE_FILE = str(core.config.DATA_DIR / "cache_meteo.json")
+    CACHE_FILE     = str(core.config.USER_DATA_DIR / "cache_meteo.json")
     CACHE_DURATION = 30  # minutes
 
     def __init__(self, city=None):
@@ -198,7 +198,7 @@ class WeatherService:
         Retourne la météo pour chaque créneau de la journée (toutes les 3h).
 
         Filtre les prévisions pour ne garder que celles d'aujourd'hui
-        et les formate en dictionnaire heure → WeatherData.
+        et les formate en dictionnaire heure -> WeatherData.
 
         Parameters
         ----------
@@ -278,7 +278,7 @@ class WeatherService:
         """
         Vérifie si OpenWeatherMap connaît cette ville.
 
-        Fait une requête légère sans cache — appelée uniquement au démarrage
+        Fait une requête légère sans cache appelée uniquement au démarrage
         par get_city_auto() pour valider la ville détectée par géolocalisation.
         Les petites communes comme "Canéjean" retournent 404 et sont rejetées.
 
@@ -316,7 +316,6 @@ class WeatherService:
 
         La détection repose sur des services de géolocalisation par adresse IP.
         Problème connu : ip-api.com peut retourner de très petites communes
-        (ex: "Canéjean") qu'OpenWeatherMap ne reconnaît pas et retourne 404.
 
         - Essaie la ville exacte détectée par IP
         - Si inconnue d'OpenWeatherMap, essaie la région (regionName)
@@ -398,6 +397,7 @@ class WeatherService:
             "data":      asdict(weather),
         }
 
+        Path(self.CACHE_FILE).parent.mkdir(parents=True, exist_ok=True)
         with open(self.CACHE_FILE, "w") as f:
             json.dump(cache, f, indent=2)
 

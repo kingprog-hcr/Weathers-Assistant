@@ -50,11 +50,11 @@ We all check the weather every morning. But knowing it's 14°C and cloudy doesn'
 - Add custom activities to any category for specific weather conditions
 - Add custom dishes to any cuisine type
 - Add custom clothing items to any style
-- All customizations saved in local JSON files
+- Customizations are saved in user-owned JSON files, separate from bundled defaults
 
 ### 👤 User profile
 - Name, bio/description, tastes (multi-select pills), mood, clothing style, cuisine
-- Profile saved locally in `data/profile.json` and reloaded at every launch
+- Profile saved in the persistent user data directory and reloaded at every launch
 - Day history tracking with date, city, score, and activities
 - Language selection (applied on next launch)
 
@@ -102,8 +102,13 @@ Weathers-Assistant/
 ├── categories.json     : Badge categories with colors and keywords
 ├── food.json           : Meal suggestions by cuisine type
 ├── styles.json         : Outfit suggestions by style and temperature
-├── profile.json        : Saved user profile (auto-generated)
-└── cache_meteo.json    : Weather cache 30 min TTL (auto-generated)
+
+In packaged applications, the user profile, weather cache, and customizations
+are stored separately from these bundled defaults so they persist between
+launches. When running from source, the project `data/` directory remains in use.
+On Windows, the user data directory is `%APPDATA%/WeatherProgramm`; on macOS
+it is `~/Library/Application Support/WeatherProgramm`; on Linux it is
+`$XDG_DATA_HOME/WeatherProgramm` or `~/.local/share/WeatherProgramm`.
 
 ### Design principles applied
 - **Single Responsibility** : each class has one job
@@ -119,7 +124,7 @@ Weathers-Assistant/
 ### `project.py`
 Entry point of the application. Contains `main()` and the three CS50-required testable functions:
 - `get_greeting(hour)` : returns a time-appropriate greeting based on the hour
-- `is_first_launch()` : checks if `data/profile.json` exists to detect first run
+- `is_first_launch()` : checks if the persistent user profile exists to detect first run
 - `add_day_to_history(program, weather)` : saves a day to the user's history in the profile JSON
 
 Also contains `show_welcome()` which displays the onboarding screen on first launch.
@@ -131,10 +136,10 @@ pytest test suite covering all three custom functions with edge cases and tempor
 Dataclass definitions for `WeatherData`, `TimeSlot`, `DayProgram`, and `ProfileData`. These are the typed data structures that flow through the entire application.
 
 ### `core/config.py`
-Centralized configuration handling. Detects whether the app runs in development or PyInstaller frozen mode, finds the correct `.env` and `data/` paths accordingly, and loads environment variables once at startup.
+Centralized configuration handling. Detects whether the app runs in development or PyInstaller frozen mode, finds bundled resources and the persistent user data directory, and loads environment variables once at startup.
 
 ### `core/weather_service.py`
-All OpenWeatherMap interactions: current weather, 5-day forecast, hourly slots, automatic city detection via IP geolocation (with OpenWeatherMap validation to reject unknown small towns), and a 30-minute JSON cache system.
+All OpenWeatherMap interactions: current weather, 5-day forecast, hourly slots, automatic city detection via IP geolocation (with OpenWeatherMap validation to reject unknown small towns), and a 30-minute JSON cache stored in the user data directory.
 
 ### `core/activity_engine.py`
 Generates suggestions from local JSON catalogs. Produces outfit recommendations by style and temperature category, meal suggestions by cuisine, and activity suggestions filtered by weather condition and user tastes. Supports custom items added by the user via `custom_frame.py`.
@@ -146,10 +151,10 @@ Builds the complete `DayProgram`. Always generates locally first (fast, offline)
 Optional Groq API integration. Sends the list of locally-generated activities to the AI and asks only for real venue names and GPS coordinates — never generates new activities. Returns `None` silently if unavailable.
 
 ### `core/user_profile.py`
-Loads and saves `ProfileData` from/to `data/profile.json`. All paths use `core/config.py` for compatibility with the PyInstaller executable.
+Loads and saves `ProfileData` in the persistent user data directory. Paths are provided by `core/config.py` for development and PyInstaller builds.
 
 ### `ui/config.py`
-Shared UI constants: color palette, font helper, icon loader, category badge system loaded from `data/categories.json`, and helper functions for dynamic category management.
+Shared UI constants: color palette, font helper, icon loader, category badge system loaded from user customizations or bundled defaults, and helper functions for dynamic category management.
 
 ### `ui/main_window.py`
 Main application window with sidebar navigation, city search bar, and frame management. Passes the current city to all frames and triggers cross-frame refresh when the city changes or the profile is saved.

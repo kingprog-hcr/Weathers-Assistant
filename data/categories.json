@@ -332,5 +332,15 @@
       "luminothérapie",
       "ancrage"
     ]
+  },
+  "programmation": {
+    "label": "Programmation",
+    "bg": "#1a1a2e",
+    "fg": "#ffe32d",
+    "border": "#ffe32d",
+    "keywords": [
+      "programmation"
+    ],
+    "custom": true
   }
 }
