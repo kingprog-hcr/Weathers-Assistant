@@ -1,6 +1,6 @@
 [Setup]
 AppName=WeatherProgramm
-AppVersion=1.0.0
+AppVersion=1.0.1
 DefaultDirName={localappdata}\Programs\WeatherProgramm
 DefaultGroupName=WeatherProgramm
 PrivilegesRequired=lowest
