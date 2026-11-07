@@ -1,8 +1,9 @@
 [Setup]
 AppName=WeatherProgramm
 AppVersion=1.0.0
-DefaultDirName={autopf}\WeatherProgramm
+DefaultDirName={localappdata}\Programs\WeatherProgramm
 DefaultGroupName=WeatherProgramm
+PrivilegesRequired=lowest
 OutputBaseFilename=WeatherProgramm-Setup
 SetupIconFile=assets\logo.ico
 Compression=lzma

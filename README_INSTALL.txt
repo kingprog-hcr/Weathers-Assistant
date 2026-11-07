@@ -11,6 +11,8 @@ Choisis selon ton système :
 
 WINDOWS :
 1. Double-clique sur WeatherProgramm-Setup.exe
+   L'application est installée dans ton profil utilisateur, sans droits
+   administrateur. Tu peux y créer le fichier .env nécessaire.
 2. Si Windows affiche "Windows a protégé votre ordinateur" (SmartScreen) :
    → clique sur "Informations complémentaires" puis "Exécuter quand même"
    C'est normal, l'app n'est pas signée numériquement (ça coûte de l'argent)

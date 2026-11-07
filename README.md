@@ -257,6 +257,8 @@ Choose the version that matches your operating system:
 WINDOWS:
 
 1. Double-click on WeatherProgramm-Setup.exe.
+   The installer uses a writable folder in your user profile and does not
+   require administrator rights, so you can create the .env file there.
 2. If Windows displays "Windows protected your PC" (SmartScreen):
    → Click "More info", then "Run anyway".
    This is normal; the application is not digitally signed (code signing certificates cost money).
