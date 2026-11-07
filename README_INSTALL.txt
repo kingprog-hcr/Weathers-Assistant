@@ -45,8 +45,17 @@ Sans ce fichier, l'app ne pourra pas récupérer la météo !
 
    API_KEY=ta_cle_openweathermap_ici
    GROQ_API_KEY=
+   STADIA_MAPS_API_KEY=
 
-   (la ligne GROQ_API_KEY peut rester vide, c'est optionnel)
+   Les lignes GROQ_API_KEY et STADIA_MAPS_API_KEY peuvent rester vides.
+   Sans STADIA_MAPS_API_KEY, l'onglet Carte reste désactivé.
+
+   Pour activer la carte, crée un compte Stadia Maps et génère une clé :
+   https://client.stadiamaps.com/signup/
+   Ajoute ensuite ta clé après STADIA_MAPS_API_KEY=.
+   Le compte gratuit a une limite mensuelle. Une clé utilisée par une
+   application de bureau peut être récupérée depuis les requêtes réseau :
+   ne partage pas ta clé personnelle dans une version publique.
 
    ⚠️ IMPORTANT : crée ce fichier avec le Bloc-notes ou VS Code,
    PAS avec PowerShell (problèmes d'encodage). Si tu utilises Notepad,
@@ -67,4 +76,3 @@ Sans ce fichier, l'app ne pourra pas récupérer la météo !
 
 - Erreur bizarre liée à "utf-8" ou "codec" → le fichier .env a été créé
   avec le mauvais encodage, recrée-le avec Notepad en UTF-8
-

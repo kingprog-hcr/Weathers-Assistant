@@ -44,7 +44,7 @@ jobs:
         run: |
           $env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + $env:PATH
           if (-not (Test-Path ".env.example")) {
-            New-Item -Path ".env.example" -Value "API_KEY=`nGROQ_API_KEY=" | Out-Null
+            New-Item -Path ".env.example" -Value "API_KEY=`nGROQ_API_KEY=`nSTADIA_MAPS_API_KEY=" | Out-Null
           }
           Write-Host "Contenu de dist/:"
           Get-ChildItem dist\
@@ -105,6 +105,9 @@ jobs:
             ```
             API_KEY=votre_cle_openweathermap
             GROQ_API_KEY=votre_cle_groq
+            STADIA_MAPS_API_KEY=votre_cle_stadia_maps
             ```
+
+            La clé Stadia Maps est facultative; sans elle, la carte reste désactivée.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

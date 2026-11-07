@@ -4,7 +4,7 @@ Service d'intelligence artificielle via Groq API.
 
 Enrichit les suggestions locales avec de vraies données :
 vrais lieux et adresses pour les activités déjà générées localement.
-Utilise llama-3.3-70b-versatile comme modèle principal.
+Utilise openai/gpt-oss-120b comme modèle principal.
 Fallback silencieux si Groq est indisponible , l'app fonctionne toujours.
 """
 
@@ -20,7 +20,7 @@ import core.config
 
 class AIService:
     """
-    Service IA basé sur Groq API (llama-3.3-70b-versatile).
+    Service IA basé sur Groq API (openai/gpt-oss-120b).
 
     Rôle unique : enrichir les activités déjà générées localement avec de vrais lieux et adresses dans la ville de l'utilisateur.
     Ne génère rien de nouveau complète seulement ce qui existe.
@@ -33,7 +33,7 @@ class AIService:
         Nom du modèle Groq utilisé.
     """
 
-    MODEL = "llama-3.3-70b-versatile"
+    MODEL = "openai/gpt-oss-120b"
 
     def __init__(self):
         """
@@ -109,36 +109,73 @@ Sinon, mets null, ne jamais inventer un lieu incertain.
 Activités :
 {activities_text}
 
-Réponds UNIQUEMENT en JSON valide, sans markdown, sans texte avant ou après.
-Format exact,  un objet par activité dans le même ordre :
-[
-  {{
-    "time": "10:00",
-    "location": "Nom exact du lieu ou null",
-    "address": "Adresse approximative ou null",
-    "lat": 0.0000,
-    "lon": 0.0000
-  }}
-]
+Pour chaque activité, conserve son heure et respecte l'ordre de la liste.
 """
         try:
             response = self.client.chat.completions.create(
                 model=self.MODEL,
                 messages=[{"role": "user", "content": prompt}],
+                response_format={
+                    "type": "json_schema",
+                    "json_schema": {
+                        "name": "activity_enrichment",
+                        "strict": True,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "activities": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "time": {"type": "string"},
+                                            "location": {
+                                                "type": ["string", "null"]
+                                            },
+                                            "address": {
+                                                "type": ["string", "null"]
+                                            },
+                                            "lat": {
+                                                "type": ["number", "null"]
+                                            },
+                                            "lon": {
+                                                "type": ["number", "null"]
+                                            },
+                                        },
+                                        "required": [
+                                            "time",
+                                            "location",
+                                            "address",
+                                            "lat",
+                                            "lon",
+                                        ],
+                                        "additionalProperties": False,
+                                    },
+                                }
+                            },
+                            "required": ["activities"],
+                            "additionalProperties": False,
+                        },
+                    },
+                },
                 # temperature basse on veut des faits, pas de créativité
                 temperature=0.2,
                 max_tokens=1000,
             )
 
-            content = response.choices[0].message.content.strip()
+            content = response.choices[0].message.content
+            if not content:
+                print("AIService: réponse vide retournée par Groq")
+                return None
 
-            # Nettoie les backticks markdown si Groq en ajoute malgré tout
-            if content.startswith("```"):
-                content = content.split("```")[1]
-                if content.startswith("json"):
-                    content = content[4:]
+            result = json.loads(content)
+            if not isinstance(result, dict) or not isinstance(
+                result.get("activities"), list
+            ):
+                print("AIService: structure JSON inattendue retournée par Groq")
+                return None
 
-            return json.loads(content.strip())
+            return result["activities"]
 
         except json.JSONDecodeError:
             print("AIService: JSON invalide retourné par Groq")

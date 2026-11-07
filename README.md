@@ -34,16 +34,17 @@ We all check the weather every morning. But knowing it's 14°C and cloudy doesn'
 - Inspiring quote of the day from ZenQuotes API with local fallback
 
 ### 🤖 AI enrichment via Groq
-- Optional integration with **Groq API** (llama-3.3-70b-versatile)
+- Optional integration with **Groq API** (openai/gpt-oss-120b)
 - Enriches existing activities with real venue names and GPS coordinates
 - Fully optional the app works completely offline without a Groq key
 - Silent fallback to local data if Groq is unavailable
 
 ### 🗺️ Interactive map
-- OpenStreetMap-based interactive map via tkintermapview
+- Stadia Maps raster tiles displayed with tkintermapview
 - Centered on the current city using GPS coordinates from OpenWeatherMap
 - Markers for each activity enriched with real GPS coordinates by the AI
 - Updates automatically when the city changes
+- Requires a Stadia Maps API key; the map stays disabled if no key is configured
 
 ### 🎨 Customization
 - Create custom activity categories with a personalized color (color picker)
@@ -166,7 +167,7 @@ Displays current weather conditions, day score, outfit suggestion with style bad
 Displays the full day schedule as chronological cards. Each card shows the time, local temperature with weather icon, activity description, optional venue location, and a color-coded category badge.
 
 ### `ui/map_frame.py`
-Interactive OpenStreetMap map centered on the current city using GPS coordinates from OpenWeatherMap. Displays markers for activities enriched with real coordinates by the AI. Shares the same `DayProgram` as `program_frame.py` to avoid regenerating activities.
+Interactive Stadia Maps raster map centered on the current city using GPS coordinates from OpenWeatherMap. Displays markers for activities enriched with real coordinates by the AI. Shares the same `DayProgram` as `program_frame.py` to avoid regenerating activities. The app does not contact OpenStreetMap's public tile or geocoding servers.
 
 ### `ui/profile_frame.py`
 Full profile configuration: name, bio, taste pills (dynamically loaded from `categories.json`), mood selector, style and cuisine dropdowns, language selector, and history management.
@@ -197,6 +198,7 @@ pytest test_project.py -v
 - Python **3.12** or higher
 - A free **OpenWeatherMap API key** : [openweathermap.org/api](https://openweathermap.org/api)
 - Optional: a free **Groq API key** : [console.groq.com](https://console.groq.com) (for AI venue enrichment)
+- Optional: a **Stadia Maps API key** : [stadiamaps.com](https://stadiamaps.com/) (for the interactive map)
 
 ### 1. Clone the repository
 
@@ -226,9 +228,10 @@ Create a `.env` file at the root of the project:
 ```env
 API_KEY=your_openweathermap_api_key_here
 GROQ_API_KEY=your_groq_api_key_here
+STADIA_MAPS_API_KEY=your_stadia_maps_api_key_here
 ```
 
-The `GROQ_API_KEY` is optional. Without it the app works fully — AI venue enrichment is simply disabled.
+The `GROQ_API_KEY` and `STADIA_MAPS_API_KEY` are optional. Without the Groq key, AI venue enrichment is disabled; without the Stadia key, the map is disabled. Never commit real API keys. Keys used by a distributed desktop app can be extracted from its network requests, so do not ship a personal key in a public release.
 
 ### 5. Run the application
 
@@ -298,8 +301,9 @@ Without this file, the application will not be able to retrieve weather data.
 
    API_KEY=your_openweathermap_api_key_here
    GROQ_API_KEY=
+   STADIA_MAPS_API_KEY=
 
-   (The GROQ_API_KEY line may be left empty; it is optional.)
+   (GROQ_API_KEY and STADIA_MAPS_API_KEY may be left empty; they are optional.)
 
    ⚠️ IMPORTANT:
    Create this file using Notepad or VS Code,
@@ -348,6 +352,7 @@ No Python installation required.
 | [ip-api.com](http://ip-api.com) | Automatic city detection via IP | Free |
 | [ZenQuotes](https://zenquotes.io) | Daily inspirational quotes | Free |
 | [Groq](https://console.groq.com) | AI venue enrichment (optional) | Free tier |
+| [Stadia Maps](https://stadiamaps.com/pricing/) | Interactive raster map tiles (optional) | Free tier with monthly limits |
 
 
 

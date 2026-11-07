@@ -11,11 +11,28 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+import os
+import webbrowser
+from urllib.parse import quote
+
 import customtkinter as ctk
 import tkintermapview as tkmap
 
 from core.weather_service import WeatherService
 from ui.config import COLORS, get_font
+
+
+def _stadia_tile_url(api_key: str) -> str:
+    return (
+        "https://tiles.stadiamaps.com/tiles/alidade_smooth/"
+        f"{{z}}/{{x}}/{{y}}.png?api_key={quote(api_key, safe='')}"
+    )
+
+
+class _VisibleTilesMapView(tkmap.TkinterMapView):
+    def pre_cache(self):
+        # tkintermapview otherwise downloads a large ring of tiles outside the view.
+        pass
 
 
 class MapFrame(ctk.CTkFrame):
@@ -33,8 +50,8 @@ class MapFrame(ctk.CTkFrame):
     _get_program : callable | None
         Callback vers MainWindow pour récupérer le DayProgram actuel
         de ProgramFrame sans le régénérer.
-    mapp : TkinterMapView
-        Widget carte interactif OpenStreetMap.
+    mapp : TkinterMapView | None
+        Widget de carte interactif Stadia Maps, si la clé est configurée.
     info_label : CTkLabel
         Label affichant le nombre de lieux géolocalisés.
     """
@@ -106,13 +123,54 @@ class MapFrame(ctk.CTkFrame):
         map_container.grid_columnconfigure(0, weight=1)
         map_container.grid_rowconfigure(0, weight=1)
 
-        # Carte OpenStreetMap
-        self.mapp = tkmap.TkinterMapView(
+        api_key = os.getenv("STADIA_MAPS_API_KEY", "").strip()
+        if not api_key:
+            self.mapp = None
+            ctk.CTkLabel(
+                map_container,
+                text=(
+                    "La carte nécessite une clé Stadia Maps.\n"
+                    "Ajoutez STADIA_MAPS_API_KEY à votre fichier .env "
+                    "puis relancez l’application."
+                ),
+                font=get_font(15),
+                text_color=COLORS["text_secondary"],
+                justify="center",
+                wraplength=600
+            ).grid(row=0, column=0, sticky="nsew", padx=24, pady=24)
+            self.info_label.configure(text="Carte non configurée")
+            return
+
+        self.mapp = _VisibleTilesMapView(
             map_container,
             corner_radius=10
         )
         self.mapp.grid(row=0, column=0, sticky="nsew", padx=6, pady=6)
+        self.mapp.set_tile_server(
+            _stadia_tile_url(api_key),
+            max_zoom=20
+        )
         self.mapp.set_zoom(13)
+
+        attribution = ctk.CTkFrame(map_container, fg_color="transparent")
+        attribution.grid(row=1, column=0, sticky="e", padx=12, pady=(0, 6))
+        for label_text, url in (
+            ("© Stadia Maps", "https://stadiamaps.com/attribution/"),
+            (" · © OpenMapTiles", "https://openmaptiles.org/"),
+            (" · © OpenStreetMap", "https://www.openstreetmap.org/copyright"),
+        ):
+            link = ctk.CTkLabel(
+                attribution,
+                text=label_text,
+                font=get_font(11),
+                text_color=COLORS["text_secondary"],
+                cursor="hand2"
+            )
+            link.pack(side="left")
+            link.bind(
+                "<Button-1>",
+                lambda _event, target=url: webbrowser.open(target)
+            )
 
     def _load_data(self, city: str = None):
         """
@@ -129,6 +187,9 @@ class MapFrame(ctk.CTkFrame):
             Ville à centrer. Si None, utilise la ville mémorisée
             ou la géolocalisation automatique.
         """
+        if self.mapp is None:
+            return
+
         service = WeatherService()
 
         city = city or self._current_city or service.get_city_auto() or "Libreville"
@@ -162,8 +223,6 @@ class MapFrame(ctk.CTkFrame):
         # set_position avec coordonnées réelles
         if weather and weather.lat and weather.lon:
             self.mapp.after(100, lambda: self.mapp.set_position(weather.lat, weather.lon))
-        else:
-            self.mapp.after(100, lambda: self.mapp.set_address(self._current_city))
 
         # Supprime les anciens marqueurs
         self.mapp.delete_all_marker()
