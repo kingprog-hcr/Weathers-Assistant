@@ -16,7 +16,7 @@ Source: ".env.example"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\WeatherProgramm"; Filename: "{app}\WeatherProgramm.exe"
-Name: "{commondesktop}\WeatherProgramm"; Filename: "{app}\WeatherProgramm.exe"
+Name: "{userdesktop}\WeatherProgramm"; Filename: "{app}\WeatherProgramm.exe"
 
 [Run]
 Filename: "{app}\WeatherProgramm.exe"; Description: "Lancer WeatherProgramm"; Flags: nowait postinstall skipifsilent
