@@ -1,204 +1,119 @@
-# core/ai_service.py
-"""
-Service d'intelligence artificielle via Groq API.
-
-Enrichit les suggestions locales avec de vraies données :
-vrais lieux et adresses pour les activités déjà générées localement.
-Utilise openai/gpt-oss-120b comme modèle principal.
-Fallback silencieux si Groq est indisponible , l'app fonctionne toujours.
-"""
+"""Client desktop pour le service d'enrichissement du backend."""
 
 import sys
-import os
-import json
 from pathlib import Path
+
+import requests
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from groq import Groq
-import core.config 
+import core.config
 
 
 class AIService:
-    """
-    Service IA basé sur Groq API (openai/gpt-oss-120b).
+    """Envoie les activités au backend et préserve le repli local de l'application."""
 
-    Rôle unique : enrichir les activités déjà générées localement avec de vrais lieux et adresses dans la ville de l'utilisateur.
-    Ne génère rien de nouveau complète seulement ce qui existe.
-
-    Attributes
-    ----------
-    client : Groq | None
-        Client Groq initialisé, ou None si clé absente.
-    MODEL : str
-        Nom du modèle Groq utilisé.
-    """
-
-    MODEL = "openai/gpt-oss-120b"
+    ENDPOINT = "/v1/activities/enrich"
+    REQUEST_TIMEOUT = 30
 
     def __init__(self):
-        """
-        Initialise le client Groq depuis la clé dans .env.
-        Ne plante pas si la clé est absente, mode local uniquement.
-        """
-        api_key = os.getenv("GROQ_API_KEY")
-
-        if api_key:
-            self.client = Groq(api_key=api_key)
-        else:
-            self.client = None
-            print("GROQ_API_KEY absente : mode local uniquement")
+        """Initialise le client sans charger de clé Groq sur le desktop."""
+        self.api_base_url = core.config.WEATHER_API_BASE_URL
 
     def is_available(self) -> bool:
-        """
-        Vérifie si le service IA est disponible.
-
-        Returns
-        -------
-        bool
-            True si le client Groq est initialisé avec une clé valide.
-        """
-        return self.client is not None
+        """Indique si une URL de backend est configurée, sans tester le réseau."""
+        return bool(self.api_base_url)
 
     def enrich_activities(
         self,
         activities: list[dict],
         city: str,
     ) -> list[dict] | None:
+        """Demande au backend d'enrichir les activités existantes.
+
+        Retourne la liste enrichie attendue par ``DayPlanner``. En cas d'erreur
+        réseau, HTTP ou de réponse invalide, retourne ``None`` pour que le
+        programme local reste utilisable.
         """
-        Enrichit une liste d'activités existantes avec de vrais lieux.
+        if not activities:
+            return []
 
-        Envoie à Groq la liste des activités déjà générées localement et lui demande uniquement d'ajouter un lieu réel et une adresse s'il en connaît un qui correspond. Ne crée aucune nouvelle activité.
+        payload = {
+            "city": city,
+            "activities": activities,
+        }
 
-        Parameters
-        ----------
-        activities : list[dict]
-            Liste de dicts {"time": "10:00", "activity": "Visite d'un musée"}.
-            Générés localement par DayPlanner._build_local().
-        city : str
-            Ville de l'utilisateur : Groq cherche des lieux dans cette ville.
-        
-
-        Returns
-        -------
-        list[dict] | None
-            Liste enrichie avec "location", "address", "lat", "lon" ajoutés,
-            ou None si Groq est indisponible ou retourne du JSON invalide.
-        """
-        if not self.is_available():
-            return None
-
-        # Formate les activités en texte lisible pour le prompt
-        # On exclut les repas, pas besoin de localiser un petit-déjeuner
-        activities_text = "\n".join([
-            f"- {a['time']} : {a['activity']}"
-            for a in activities
-        ])
-
-        # Prompt minimaliste
-        prompt = f"""
-Tu es un assistant de localisation urbaine.
-
-Ville : {city}
-Langue de réponse : Francais
-
-Voici une liste d'activités générées pour un utilisateur à {city}.
-Pour chaque activité, si tu connais avec certitude un vrai lieu existant
-à {city} qui correspond naturellement à cette activité, indique-le.
-Sinon, mets null, ne jamais inventer un lieu incertain.
-
-Activités :
-{activities_text}
-
-Pour chaque activité, conserve son heure et respecte l'ordre de la liste.
-"""
         try:
-            response = self.client.chat.completions.create(
-                model=self.MODEL,
-                messages=[{"role": "user", "content": prompt}],
-                response_format={
-                    "type": "json_schema",
-                    "json_schema": {
-                        "name": "activity_enrichment",
-                        "strict": True,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "activities": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "time": {"type": "string"},
-                                            "location": {
-                                                "type": ["string", "null"]
-                                            },
-                                            "address": {
-                                                "type": ["string", "null"]
-                                            },
-                                            "lat": {
-                                                "type": ["number", "null"]
-                                            },
-                                            "lon": {
-                                                "type": ["number", "null"]
-                                            },
-                                        },
-                                        "required": [
-                                            "time",
-                                            "location",
-                                            "address",
-                                            "lat",
-                                            "lon",
-                                        ],
-                                        "additionalProperties": False,
-                                    },
-                                }
-                            },
-                            "required": ["activities"],
-                            "additionalProperties": False,
-                        },
-                    },
-                },
-                # temperature basse on veut des faits, pas de créativité
-                temperature=0.2,
-                max_tokens=1000,
+            response = requests.post(
+                f"{self.api_base_url}{self.ENDPOINT}",
+                json=payload,
+                timeout=self.REQUEST_TIMEOUT,
             )
+        except requests.exceptions.Timeout:
+            print("Le service d'enrichissement a dépassé le délai d'attente")
+            return None
+        except requests.exceptions.RequestException as error:
+            print(f"Impossible de contacter le service d'enrichissement : {error}")
+            return None
 
-            content = response.choices[0].message.content
-            if not content:
-                print("AIService: réponse vide retournée par Groq")
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as error:
+            status_code = error.response.status_code if error.response else None
+            print(f"Erreur HTTP du service d'enrichissement : {status_code}")
+            return None
+
+        try:
+            result = response.json()
+        except ValueError as error:
+            print(f"Réponse JSON invalide du service d'enrichissement : {error}")
+            return None
+
+        if not isinstance(result, dict):
+            print("Réponse invalide du service d'enrichissement")
+            return None
+
+        enriched_activities = result.get("activities")
+        if not isinstance(enriched_activities, list):
+            print("La réponse du backend ne contient pas une liste d'activités")
+            return None
+
+        expected_times = [activity.get("time") for activity in activities]
+        returned_times = [
+            activity.get("time") if isinstance(activity, dict) else None
+            for activity in enriched_activities
+        ]
+        if returned_times != expected_times:
+            print("La réponse du backend ne correspond pas aux activités envoyées")
+            return None
+
+        for activity in enriched_activities:
+            if not isinstance(activity, dict):
+                print("Le backend a renvoyé une activité invalide")
                 return None
-
-            result = json.loads(content)
-            if not isinstance(result, dict) or not isinstance(
-                result.get("activities"), list
+            if activity.get("location") is not None and not isinstance(
+                activity["location"], str
             ):
-                print("AIService: structure JSON inattendue retournée par Groq")
+                print("Le backend a renvoyé un lieu invalide")
+                return None
+            if activity.get("address") is not None and not isinstance(
+                activity["address"], str
+            ):
+                print("Le backend a renvoyé une adresse invalide")
                 return None
 
-            return result["activities"]
-
-        except json.JSONDecodeError:
-            print("AIService: JSON invalide retourné par Groq")
-            return None
-        except Exception as e:
-            print(f"AIService: erreur Groq :  {e}")
-            return None
+        return enriched_activities
 
 
 if __name__ == "__main__":
-    # On enrichit une liste d'activités fictives pour une ville au choix
     service = AIService()
-
     test_activities = [
         {"time": "10:00", "activity": "Visite d'un musée"},
         {"time": "14:00", "activity": "Balade dans un parc"},
-        {"time": "17:00", "activity": "Concert de jazz"},
-        {"time": "21:00", "activity": "Jouer au foot"},
     ]
-    ville = input("Entre une ville: ")
-    result = service.enrich_activities(test_activities, city=ville)
-
-    if result:
-        print(json.dumps(result, indent=2, ensure_ascii=False))
+    city = input("Entre une ville : ")
+    result = service.enrich_activities(test_activities, city=city)
+    if result is None:
+        print("Enrichissement indisponible, le programme local reste utilisable")
     else:
-        print("Enrichissement indisponible, mode local uniquement")
+        print(result)
