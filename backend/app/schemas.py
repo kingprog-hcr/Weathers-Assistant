@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class CurrentWeatherResponse(BaseModel):
@@ -47,8 +47,14 @@ class EnrichedActivityResponse(BaseModel):
     time: str
     location: str | None = Field(default=None, max_length=120)
     address: str | None = Field(default=None, max_length=250)
-    lat: float | None = None
-    lon: float | None = None
+    lat: float | None = Field(default=None, ge=-90, le=90)
+    lon: float | None = Field(default=None, ge=-180, le=180)
+
+    @model_validator(mode="after")
+    def coordinates_must_be_a_pair(self):
+        if (self.lat is None) != (self.lon is None):
+            raise ValueError("lat and lon must both be set or both be null")
+        return self
 
 
 class ActivityEnrichmentResponse(BaseModel):

@@ -21,9 +21,9 @@ We all check the weather every morning. But knowing it's 14°C and cloudy doesn'
 ## ✨ Features
 
 ### 🌦️ Real-time weather
-- Fetches current conditions from **OpenWeatherMap API**
+- Fetches current conditions through the **WeatherProgramm FastAPI backend**, which calls OpenWeatherMap
 - Displays temperature, feels-like, humidity, wind speed, and condition icon
-- Automatic city detection via IP geolocation with OpenWeatherMap validation
+- Automatic city detection via HTTPS IP geolocation
 - Weather-based day score out of 10
 
 ### 📅 Personalized day program
@@ -34,17 +34,21 @@ We all check the weather every morning. But knowing it's 14°C and cloudy doesn'
 - Inspiring quote of the day from ZenQuotes API with local fallback
 
 ### 🤖 AI enrichment via Groq
-- Optional integration with **Groq API** (openai/gpt-oss-120b)
-- Enriches existing activities with real venue names and GPS coordinates
-- Fully optional the app works completely offline without a Groq key
+- Optional server-side integration with **Groq API** (openai/gpt-oss-120b)
+- Enriches existing activities with suggested venue names and addresses
+- The backend geocodes those suggestions and only returns coordinates matched to the requested city
+- The Groq key stays on the backend, never in the desktop app
 - Silent fallback to local data if Groq is unavailable
 
 ### 🗺️ Interactive map
-- Stadia Maps raster tiles displayed with tkintermapview
+- OpenStreetMap standard raster tiles displayed with tkintermapview
 - Centered on the current city using GPS coordinates from OpenWeatherMap
-- Markers for each activity enriched with real GPS coordinates by the AI
+- Markers for activities whose suggested venues were successfully geocoded
 - Updates automatically when the city changes
-- Requires a Stadia Maps API key; the map stays disabled if no key is configured
+- Requests visible map tiles directly from OpenStreetMap; no API key is required
+- Displays OpenStreetMap attribution and caches tiles according to HTTP cache headers
+- No offline-map or bulk tile download feature is provided
+- Activity place searches use the backend geocoder, are cached, and are limited to at most one Nominatim request per second
 
 ### 🎨 Customization
 - Create custom activity categories with a personalized color (color picker)
@@ -62,7 +66,8 @@ We all check the weather every morning. But knowing it's 14°C and cloudy doesn'
 ### 🚀 Executable distribution
 - Packaged with **PyInstaller** into a single executable
 - Cross-platform builds via **GitHub Actions** for Linux, Windows, and macOS
-- Users only need to provide their own `.env` file with API keys
+- OpenWeatherMap and Groq keys are kept by the backend, not distributed with the desktop app
+- A public release must be configured to use the deployed HTTPS backend
 
 ---
 
@@ -83,10 +88,11 @@ Weathers-Assistant/
 │
 ├── core/                   : Business logic (no UI, no network calls from UI)
 │   ├── config.py           : Centralized path and .env management
-│   ├── weather_service.py  : OpenWeatherMap API + cache + geolocation
+│   ├── weather_service.py  : Backend API client + cache + geolocation
+│   ├── osm_tile_service.py : OSM tile client + persistent HTTP cache
 │   ├── activity_engine.py  : Activity, outfit & food suggestions
 │   ├── day_planner.py      : Day program builder + scoring + AI enrichment
-│   ├── ai_service.py       : Groq API integration (optional)
+│   ├── ai_service.py       : Backend AI-enrichment API client
 │   └── user_profile.py     : Profile load/save (JSON)
 │
 ├── ui/                     : CustomTkinter interface
@@ -117,7 +123,7 @@ it is `~/Library/Application Support/WeatherProgramm`; on Linux it is
 - **Data models** : all data flows through typed `dataclasses`
 - **Caching** : weather results cached for 30 minutes to reduce API calls
 - **Centralized paths** : `core/config.py` handles all paths for dev and exe modes
-- **Optional AI** : Groq enriches but never blocks; local fallback always available
+- **Optional AI** : the backend's Groq enrichment never blocks the local program
 
 
 ## 📁 File descriptions
@@ -140,16 +146,22 @@ Dataclass definitions for `WeatherData`, `TimeSlot`, `DayProgram`, and `ProfileD
 Centralized configuration handling. Detects whether the app runs in development or PyInstaller frozen mode, finds bundled resources and the persistent user data directory, and loads environment variables once at startup.
 
 ### `core/weather_service.py`
-All OpenWeatherMap interactions: current weather, 5-day forecast, hourly slots, automatic city detection via IP geolocation (with OpenWeatherMap validation to reject unknown small towns), and a 30-minute JSON cache stored in the user data directory.
+Calls the backend for current weather and today's forecast, performs HTTPS IP geolocation, and maintains a 30-minute JSON cache in the user data directory.
 
 ### `core/activity_engine.py`
 Generates suggestions from local JSON catalogs. Produces outfit recommendations by style and temperature category, meal suggestions by cuisine, and activity suggestions filtered by weather condition and user tastes. Supports custom items added by the user via `custom_frame.py`.
 
 ### `core/day_planner.py`
-Builds the complete `DayProgram`. Always generates locally first (fast, offline), then optionally enriches activities with real GPS-located venues via `ai_service.py`. If AI is unavailable the local program is returned unchanged.
+Builds the complete `DayProgram`. Always generates locally first, then optionally sends activities to the backend for venue enrichment via `ai_service.py`. If AI is unavailable the local program is returned unchanged.
+
+### `ui/map_frame.py`
+Displays visible OpenStreetMap raster tiles directly from `tile.openstreetmap.org`, with activity markers and visible attribution. Tile requests use an application-identifying `User-Agent` and a persistent HTTP cache. The map requires an internet connection and does not support offline tile downloads.
+
+### `core/osm_tile_service.py`
+Fetches visible OSM tiles directly from the official raster tile endpoint. Uses a persistent SQLite HTTP cache that honors server cache directives and conditional validators.
 
 ### `core/ai_service.py`
-Optional Groq API integration. Sends the list of locally-generated activities to the AI and asks only for real venue names and GPS coordinates — never generates new activities. Returns `None` silently if unavailable.
+Optional backend API client for activity enrichment. Sends locally-generated activities to the backend and returns `None` if enrichment is unavailable.
 
 ### `core/user_profile.py`
 Loads and saves `ProfileData` in the persistent user data directory. Paths are provided by `core/config.py` for development and PyInstaller builds.
@@ -167,7 +179,7 @@ Displays current weather conditions, day score, outfit suggestion with style bad
 Displays the full day schedule as chronological cards. Each card shows the time, local temperature with weather icon, activity description, optional venue location, and a color-coded category badge.
 
 ### `ui/map_frame.py`
-Interactive Stadia Maps raster map centered on the current city using GPS coordinates from OpenWeatherMap. Displays markers for activities enriched with real coordinates by the AI. Shares the same `DayProgram` as `program_frame.py` to avoid regenerating activities. The app does not contact OpenStreetMap's public tile or geocoding servers.
+Interactive OpenStreetMap raster map centered on the current city using GPS coordinates from the backend. Displays markers for activities whose suggested venues were successfully geocoded by the backend. Shares the same `DayProgram` as `program_frame.py` to avoid regenerating activities. Visible tiles are requested directly from OpenStreetMap; its tile server receives the user's IP address and requested map area.
 
 ### `ui/profile_frame.py`
 Full profile configuration: name, bio, taste pills (dynamically loaded from `categories.json`), mood selector, style and cuisine dropdowns, language selector, and history management.
@@ -196,9 +208,8 @@ pytest test_project.py -v
 
 ### Prerequisites
 - Python **3.12** or higher
-- A free **OpenWeatherMap API key** : [openweathermap.org/api](https://openweathermap.org/api)
-- Optional: a free **Groq API key** : [console.groq.com](https://console.groq.com) (for AI venue enrichment)
-- Optional: a **Stadia Maps API key** : [stadiamaps.com](https://stadiamaps.com/) (for the interactive map)
+- A running WeatherProgramm FastAPI backend for weather and AI enrichment
+- OpenStreetMap tiles require an internet connection but no API key
 
 ### 1. Clone the repository
 
@@ -221,111 +232,47 @@ venv\Scripts\activate           # Windows
 pip install -r requirements.txt
 ```
 
-### 4. Configure your API keys
+### 4. Configure the desktop backend URL
 
-Create a `.env` file at the root of the project:
+For local development, the default backend URL is `http://127.0.0.1:8001`. To override it, create a root `.env` file:
 
 ```env
-API_KEY=your_openweathermap_api_key_here
-GROQ_API_KEY=your_groq_api_key_here
-STADIA_MAPS_API_KEY=your_stadia_maps_api_key_here
+WEATHER_API_BASE_URL=http://127.0.0.1:8001
 ```
 
-The `GROQ_API_KEY` and `STADIA_MAPS_API_KEY` are optional. Without the Groq key, AI venue enrichment is disabled; without the Stadia key, the map is disabled. Never commit real API keys. Keys used by a distributed desktop app can be extracted from its network requests, so do not ship a personal key in a public release.
+Set `OPENWEATHER_API_KEY` and, optionally, `GROQ_API_KEY` in `backend/.env`, not in the desktop `.env`. Never ship these provider keys in a desktop build. For local backend setup, install `backend/requirements.txt` and create `backend/.env` with those server-side variables. Public releases must use the deployed backend's HTTPS URL; do not distribute a build that still points to localhost.
 
-### 5. Run the application
+The backend uses the public [Nominatim geocoding service](https://operations.osmfoundation.org/policies/nominatim/) for activity venues by default. It receives place names/addresses and the backend's IP address, identifies WeatherProgramm, caches results in `backend/.cache/nominatim.sqlite3` (or `NOMINATIM_CACHE_PATH`), and spaces uncached requests by at least one second. For deployment, point the cache path at persistent storage. This public service is intended for moderate, user-triggered use; do not send private information, run multiple backend instances against it without a shared rate limiter/cache, or use it for bulk geocoding. Set `NOMINATIM_BASE_URL` to switch to another compatible service without changing the desktop application.
+
+### 5. Start the backend and desktop
 
 ```bash
+# Terminal 1, from backend/
+uvicorn app.main:app --reload --port 8001
+
+# Terminal 2, from the project root
 python project.py
 ```
 
 
 ## 📦 Download the executable
 
-Pre-built executables for Linux, Windows, and macOS are available on the [Releases page](https://github.com/kingprog-hcr/Weathers-Assistant/releases/latest).
-
-**Setup:**
-
-Choose the version that matches your operating system:
-
-* Windows : WeatherProgramm-Setup.exe (recommended, installs everything automatically)
-* macOS : WeatherProgramm-macOS
-* Linux : WeatherProgramm-Linux
-
-⚙️ INSTALLATION
-
-WINDOWS:
-
-1. Double-click on WeatherProgramm-Setup.exe.
-   The installer uses a writable folder in your user profile and does not
-   require administrator rights, so you can create the .env file there.
-2. If Windows displays "Windows protected your PC" (SmartScreen):
-   → Click "More info", then "Run anyway".
-   This is normal; the application is not digitally signed (code signing certificates cost money).
-3. If your antivirus software (Avast, Norton, etc.) blocks the file or places it in quarantine:
-   → This is a false positive. Allow the file or add an exception.
-   → If the antivirus deletes your .env file after you create it, temporarily disable real-time protection while creating the file.
-
-macOS:
-
-1. Download WeatherProgramm-macOS.
-2. Right-click the file and select "Open" (do NOT double-click, otherwise macOS may block it).
-3. A "Developer cannot be verified" popup will appear.
-   → Click "Open" to confirm.
-
-LINUX:
-
-1. Download WeatherProgramm-Linux.
-2. Open a terminal in the download directory.
-3. Run:
-   chmod +x WeatherProgramm-Linux
-4. Then run:
-   ./WeatherProgramm-Linux
-
-🔑 REQUIRED STEP :  Create the .env File
-
-Without this file, the application will not be able to retrieve weather data.
-
-1. Go to https://openweathermap.org/api
-
-2. Create a free account by clicking "Sign up".
-
-3. Once logged in, go to "My API Keys" and copy your API key.
-   ⚠️ Your key may take about 10–15 minutes to become active after creation, so please be patient.
-
-4. In the folder where WeatherProgramm is installed, create a file named exactly:
-
-   .env
-
-   (including the dot, with no file extension)
-
-   Add the following content:
-
-   API_KEY=your_openweathermap_api_key_here
-   GROQ_API_KEY=
-   STADIA_MAPS_API_KEY=
-
-   (GROQ_API_KEY and STADIA_MAPS_API_KEY may be left empty; they are optional.)
-
-   ⚠️ IMPORTANT:
-   Create this file using Notepad or VS Code,
-   NOT PowerShell (to avoid encoding issues).
-
-   If you use Notepad, select "UTF-8" in the Encoding menu at the bottom of the "Save As" window.
-   Do NOT use "Unicode" or "UTF-16".
-
-5. Launch WeatherProgramm!
+The project has a cross-platform build workflow, but a public release must
+only be produced after the backend is deployed and the build is configured
+with its HTTPS URL. The current development default is
+`http://127.0.0.1:8001`; it requires a backend running on the same computer.
+Desktop users must not be asked to provide OpenWeatherMap or Groq keys.
 
 ❓ COMMON ISSUES
 
-• "No internet connection"
-→ Check your internet connection. The application requires internet access to retrieve weather data.
+• "Weather service unavailable"
+→ Check your internet connection and confirm the WeatherProgramm backend is running.
 
-• The application closes immediately after launch
-→ Make sure the .env file exists in the same folder as the executable and that its name starts with a dot.
+• The map is blank
+→ Check your internet connection. Visible map tiles are requested directly from OpenStreetMap.
 
-• Strange "utf-8" or "codec" error
-→ The .env file was created with the wrong encoding. Recreate it using Notepad and save it as UTF-8.
+The desktop `.env` file is optional and is only used to override
+`WEATHER_API_BASE_URL` during development. Do not put provider API keys in it.
 
 
 No Python installation required.
@@ -350,11 +297,12 @@ No Python installation required.
 
 | API | Purpose | Cost |
 |---|---|---|
-| [OpenWeatherMap](https://openweathermap.org/api) | Current weather + forecast + city GPS | Free (1000 calls/day) |
-| [ip-api.com](http://ip-api.com) | Automatic city detection via IP | Free |
+| [WeatherProgramm backend](./backend/) | Weather and AI requests; provider keys stay server-side | Depends on hosting/provider plans |
+| [OpenWeatherMap](https://openweathermap.org/api) | Weather data used by the backend | Provider plan |
+| [ipinfo](https://ipinfo.io/) | Automatic city detection via HTTPS | Provider terms |
 | [ZenQuotes](https://zenquotes.io) | Daily inspirational quotes | Free |
-| [Groq](https://console.groq.com) | AI venue enrichment (optional) | Free tier |
-| [Stadia Maps](https://stadiamaps.com/pricing/) | Interactive raster map tiles (optional) | Free tier with monthly limits |
+| [Groq](https://console.groq.com) | Server-side AI venue enrichment (optional) | Provider plan |
+| [OpenStreetMap tile server policy](https://operations.osmfoundation.org/policies/tiles/) | Interactive raster map tiles | Community service; policy and availability limits apply |
 
 
 

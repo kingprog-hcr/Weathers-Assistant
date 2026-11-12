@@ -188,6 +188,53 @@ def test_activity_route_rejects_more_than_eight_activities(monkeypatch):
     assert response.status_code == 422
 
 
+def test_activity_route_geocodes_ai_suggestions(monkeypatch):
+    enrichment = ActivityEnrichmentResponse(
+        activities=[
+            {
+                "time": "10:00",
+                "location": "Musée",
+                "address": "Centre-ville",
+            }
+        ]
+    )
+
+    class FakeAIService:
+        def enrich_activities(self, request):
+            assert request.city == "Angers"
+            return enrichment
+
+    class FakeGeocodingService:
+        def geocode_activities(self, result, city):
+            assert result is enrichment
+            assert city == "Angers"
+            return ActivityEnrichmentResponse(
+                activities=[
+                    {
+                        "time": "10:00",
+                        "location": "Musée",
+                        "address": "Centre-ville",
+                        "lat": 47.4784,
+                        "lon": -0.5632,
+                    }
+                ]
+            )
+
+    monkeypatch.setattr(main, "GroqEnrichmentService", FakeAIService)
+    monkeypatch.setattr(main, "NominatimGeocodingService", FakeGeocodingService)
+    response = TestClient(main.app).post(
+        "/v1/activities/enrich",
+        json={
+            "city": "Angers",
+            "activities": [{"time": "10:00", "activity": "Visite d'un musée"}],
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["activities"][0]["lat"] == 47.4784
+    assert response.json()["activities"][0]["lon"] == -0.5632
+
+
 def test_activity_route_limits_requests_per_ip(monkeypatch):
     main.limiter.reset()
 

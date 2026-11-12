@@ -14,7 +14,7 @@ class AIService:
     """Envoie les activités au backend et préserve le repli local de l'application."""
 
     ENDPOINT = "/v1/activities/enrich"
-    REQUEST_TIMEOUT = 30
+    REQUEST_TIMEOUT = 45
 
     def __init__(self):
         """Initialise le client sans charger de clé Groq sur le desktop."""

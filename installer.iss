@@ -12,7 +12,6 @@ WizardStyle=modern
 
 [Files]
 Source: "dist\WeatherProgramm.exe"; DestDir: "{app}"; DestName: "WeatherProgramm.exe"; Flags: ignoreversion
-Source: ".env.example"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\WeatherProgramm"; Filename: "{app}\WeatherProgramm.exe"

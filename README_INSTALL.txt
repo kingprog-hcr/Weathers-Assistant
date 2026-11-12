@@ -12,14 +12,12 @@ Choisis selon ton système :
 WINDOWS :
 1. Double-clique sur WeatherProgramm-Setup.exe
    L'application est installée dans ton profil utilisateur, sans droits
-   administrateur. Tu peux y créer le fichier .env nécessaire.
+   administrateur. Aucune clé fournisseur ne doit être ajoutée à l'application.
 2. Si Windows affiche "Windows a protégé votre ordinateur" (SmartScreen) :
    → clique sur "Informations complémentaires" puis "Exécuter quand même"
    C'est normal, l'app n'est pas signée numériquement (ça coûte de l'argent)
 3. Si ton antivirus (Avast, Norton, etc.) bloque ou met en quarantaine :
    → c'est un faux positif, autorise le fichier ou ajoute une exception
-   → si l'antivirus supprime ton fichier .env après création, désactive
-     temporairement la protection en temps réel le temps de créer le fichier
 
 MAC :
 1. Télécharge WeatherProgramm-macOS
@@ -33,48 +31,25 @@ LINUX :
 4. ./WeatherProgramm-Linux
 
 
-🔑 ÉTAPE OBLIGATOIRE : fichier .env
+ℹ️ À PROPOS DES SERVICES EN LIGNE
 
-Sans ce fichier, l'app ne pourra pas récupérer la météo !
+La météo et l'enrichissement IA passent par le backend WeatherProgramm.
+Les clés OpenWeatherMap et Groq sont conservées côté serveur; ne crée pas
+un fichier .env avec ces clés à côté de l'exécutable.
 
-1. Va sur https://openweathermap.org/api
-2. Crée un compte gratuit (clique "Sign up")
-3. Une fois connecté, va dans "My API keys" et copie ta clé
-   ⚠️ La clé prend ~10-15 minutes à s'activer après création, sois patient
+La carte télécharge directement les tuiles visibles depuis OpenStreetMap.
+Elle ne demande pas de clé, nécessite Internet et n'offre pas de mode hors
+ligne.
 
-4. Dans le dossier où est installé WeatherProgramm, crée un fichier
-   nommé exactement ".env" (avec le point, sans extension) contenant :
-
-   API_KEY=ta_cle_openweathermap_ici
-   GROQ_API_KEY=
-   STADIA_MAPS_API_KEY=
-
-   Les lignes GROQ_API_KEY et STADIA_MAPS_API_KEY peuvent rester vides.
-   Sans STADIA_MAPS_API_KEY, l'onglet Carte reste désactivé.
-
-   Pour activer la carte, crée un compte Stadia Maps et génère une clé :
-   https://client.stadiamaps.com/signup/
-   Ajoute ensuite ta clé après STADIA_MAPS_API_KEY=.
-   Le compte gratuit a une limite mensuelle. Une clé utilisée par une
-   application de bureau peut être récupérée depuis les requêtes réseau :
-   ne partage pas ta clé personnelle dans une version publique.
-
-   ⚠️ IMPORTANT : crée ce fichier avec le Bloc-notes ou VS Code,
-   PAS avec PowerShell (problèmes d'encodage). Si tu utilises Notepad,
-   choisis "UTF-8" dans le menu Encodage en bas de la fenêtre
-   "Enregistrer sous" (pas "Unicode" ni "UTF-16").
-
-5. Lance WeatherProgramm !
+Un exécutable destiné au public doit être construit avec l'URL HTTPS du
+backend déployé. Le code de développement utilise par défaut
+http://127.0.0.1:8001 et nécessite donc un backend local.
 
 
 ❓ PROBLÈMES COURANTS
 
-- "Pas de connexion internet" → vérifie ta connexion, l'app a besoin
-  d'internet pour la météo
+- "Service météo indisponible" → vérifie ta connexion et la disponibilité
+  du backend WeatherProgramm
 
-- L'app se ferme immédiatement au lancement → vérifie que le fichier
-  .env existe bien dans le même dossier que l'exécutable, avec le bon
-  nom (commence par un point)
-
-- Erreur bizarre liée à "utf-8" ou "codec" → le fichier .env a été créé
-  avec le mauvais encodage, recrée-le avec Notepad en UTF-8
+- La carte ne s'affiche pas → vérifie ta connexion Internet; les tuiles
+  proviennent directement du service OpenStreetMap

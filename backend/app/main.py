@@ -25,6 +25,7 @@ from app.services.ai_service import(
     AIUnavailableError,
     GroqEnrichmentService
 )
+from app.services.geocoding_service import NominatimGeocodingService
 
 limiter = Limiter(key_func=get_remote_address)
 MAX_ENRICHMENT_BODY_BYTES = 4096
@@ -134,6 +135,10 @@ def enrich_activities(
     enrichment_request: ActivityEnrichmentRequest,
 ):
     try:
-        return GroqEnrichmentService().enrich_activities(enrichment_request)
+        enrichment = GroqEnrichmentService().enrich_activities(enrichment_request)
+        return NominatimGeocodingService().geocode_activities(
+            enrichment,
+            city=enrichment_request.city,
+        )
     except AIServiceError as error:
         raise _ai_error_response(error) from error

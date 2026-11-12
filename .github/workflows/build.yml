@@ -43,9 +43,6 @@ jobs:
         shell: pwsh
         run: |
           $env:PATH = [System.Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + $env:PATH
-          if (-not (Test-Path ".env.example")) {
-            New-Item -Path ".env.example" -Value "API_KEY=`nGROQ_API_KEY=`nSTADIA_MAPS_API_KEY=" | Out-Null
-          }
           Write-Host "Contenu de dist/:"
           Get-ChildItem dist\
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
@@ -100,14 +97,11 @@ jobs:
             | Linux | WeatherProgramm-Linux | Exécutable Linux |
             | macOS | WeatherProgramm-macOS | Exécutable macOS |
 
-            Créez un fichier `.env` à côté de l'exécutable :
+            Weather and AI requests use the WeatherProgramm backend. Provider keys
+            must never be added to the desktop app. A public release must point to
+            the deployed HTTPS backend; this source tree defaults to localhost.
 
-            ```
-            API_KEY=votre_cle_openweathermap
-            GROQ_API_KEY=votre_cle_groq
-            STADIA_MAPS_API_KEY=votre_cle_stadia_maps
-            ```
-
-            La clé Stadia Maps est facultative; sans elle, la carte reste désactivée.
+            The map fetches visible tiles directly from OpenStreetMap. No map API
+            key is required; attribution and tile usage policies apply.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

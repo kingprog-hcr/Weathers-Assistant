@@ -23,8 +23,8 @@ def test_enrich_activities_posts_to_backend_and_returns_list(monkeypatch):
             "time": "10:00",
             "location": "Musée",
             "address": "Centre",
-            "lat": None,
-            "lon": None,
+            "lat": 47.4784,
+            "lon": -0.5632,
         }
     ]
 

@@ -12,7 +12,9 @@ __pycache__/
 
 # Données générées par l'application
 data/cache_meteo.json
+data/osm_tiles_cache.sqlite*
 data/profile.json
+backend/.cache/
 
 
 
