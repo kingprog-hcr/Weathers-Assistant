@@ -234,13 +234,13 @@ pip install -r requirements.txt
 
 ### 4. Configure the desktop backend URL
 
-For local development, the default backend URL is `http://127.0.0.1:8001`. To override it, create a root `.env` file:
+The desktop app defaults to the deployed backend at `https://weathers-assistant.onrender.com`. For local backend development, create a root `.env` file to override the URL:
 
 ```env
 WEATHER_API_BASE_URL=http://127.0.0.1:8001
 ```
 
-Set `OPENWEATHER_API_KEY` and, optionally, `GROQ_API_KEY` in `backend/.env`, not in the desktop `.env`. Never ship these provider keys in a desktop build. For local backend setup, install `backend/requirements.txt` and create `backend/.env` with those server-side variables. Public releases must use the deployed backend's HTTPS URL; do not distribute a build that still points to localhost.
+Set `OPENWEATHER_API_KEY` and, optionally, `GROQ_API_KEY` in `backend/.env`, not in the desktop `.env`. Never ship these provider keys in a desktop build. For local backend setup, install `backend/requirements.txt` and create `backend/.env` with those server-side variables. If the deployed backend URL changes, update the desktop configuration before building a release.
 
 The backend uses the public [Nominatim geocoding service](https://operations.osmfoundation.org/policies/nominatim/) for activity venues by default. It receives place names/addresses and the backend's IP address, identifies WeatherProgramm, caches results in `backend/.cache/nominatim.sqlite3` (or `NOMINATIM_CACHE_PATH`), and spaces uncached requests by at least one second. For deployment, point the cache path at persistent storage. This public service is intended for moderate, user-triggered use; do not send private information, run multiple backend instances against it without a shared rate limiter/cache, or use it for bulk geocoding. Set `NOMINATIM_BASE_URL` to switch to another compatible service without changing the desktop application.
 
@@ -257,11 +257,12 @@ python project.py
 
 ## 📦 Download the executable
 
-The project has a cross-platform build workflow, but a public release must
-only be produced after the backend is deployed and the build is configured
-with its HTTPS URL. The current development default is
-`http://127.0.0.1:8001`; it requires a backend running on the same computer.
-Desktop users must not be asked to provide OpenWeatherMap or Groq keys.
+The project has a cross-platform build workflow. The desktop app uses the
+deployed HTTPS backend by default; local backend development can override the
+URL with a root `.env` file. Desktop users must not be asked to provide
+OpenWeatherMap or Groq keys. On Render Free, the backend may sleep after
+inactivity, so its first request can be slow and the local geocoding cache is
+not persistent across restarts.
 
 ❓ COMMON ISSUES
 

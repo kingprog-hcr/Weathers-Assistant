@@ -41,9 +41,13 @@ La carte télécharge directement les tuiles visibles depuis OpenStreetMap.
 Elle ne demande pas de clé, nécessite Internet et n'offre pas de mode hors
 ligne.
 
-Un exécutable destiné au public doit être construit avec l'URL HTTPS du
-backend déployé. Le code de développement utilise par défaut
-http://127.0.0.1:8001 et nécessite donc un backend local.
+L'application utilise par défaut le backend HTTPS déployé :
+https://weathers-assistant.onrender.com
+
+Pour le développement local du backend, remplace cette URL dans le fichier
+.env à la racine par http://127.0.0.1:8001. Sur Render Free, le backend peut
+s'endormir après une période sans trafic; la première requête peut être lente
+et le cache local du géocodeur est perdu lors des redémarrages.
 
 
 ❓ PROBLÈMES COURANTS

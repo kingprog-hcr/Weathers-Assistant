@@ -135,9 +135,9 @@ def get_data_path(filename: str) -> Path:
 # Charge le .env une seule fois au démarrage
 _load_env_safe(ENV_PATH)
 
-# URL du backend météo. En développement, le backend tourne en local;
-# la valeur de production sera l'URL HTTPS de l'hébergeur.
+# URL du backend météo déployé. Les développeurs peuvent la remplacer
+# dans le fichier .env par l'adresse de leur backend local.
 WEATHER_API_BASE_URL = os.getenv(
     "WEATHER_API_BASE_URL",
-    "http://127.0.0.1:8001",
+    "https://weathers-assistant.onrender.com",
 ).rstrip("/")
