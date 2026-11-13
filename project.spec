@@ -13,6 +13,7 @@ Il inclut :
 import sys
 from pathlib import Path
 import customtkinter
+import CTkColorPicker
 import tkintermapview
 
 block_cipher = None
@@ -25,6 +26,9 @@ CTK_PATH = Path(customtkinter.__file__).parent
 
 # Chemin vers les assets de tkintermapview
 MAP_PATH = Path(tkintermapview.__file__).parent
+
+# Chemin vers les images utilisées par CTkColorPicker
+COLOR_PICKER_PATH = Path(CTkColorPicker.__file__).parent
 
 a = Analysis(
     # Point d'entrée
@@ -44,6 +48,10 @@ a = Analysis(
 
         # Assets tkintermapview — tuiles offline si présentes
         (str(MAP_PATH), 'tkintermapview'),
+
+        # Images nécessaires au sélecteur de couleur
+        (str(COLOR_PICKER_PATH / 'color_wheel.png'), 'CTkColorPicker'),
+        (str(COLOR_PICKER_PATH / 'target.png'), 'CTkColorPicker'),
     ],
 
     # Imports cachés que PyInstaller ne détecte pas automatiquement
