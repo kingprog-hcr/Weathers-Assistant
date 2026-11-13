@@ -29,7 +29,7 @@ class NominatimGeocodingService:
 
     DEFAULT_BASE_URL = "https://nominatim.openstreetmap.org"
     DEFAULT_USER_AGENT = (
-        "WeatherProgramm/1.0.1 "
+        "WeatherProgramm/1.1.0 "
         "(https://github.com/kingprog-hcr/Weathers-Assistant)"
     )
     DEFAULT_CACHE_PATH = BACKEND_DIR / ".cache" / "nominatim.sqlite3"

@@ -19,7 +19,7 @@ class OSMTileService:
 
     TILE_URL_TEMPLATE = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
     USER_AGENT = (
-        "WeatherProgramm/1.0.1 "
+        "WeatherProgramm/1.1.0 "
         "(+https://github.com/kingprog-hcr/Weathers-Assistant)"
     )
     MAX_ZOOM = 19

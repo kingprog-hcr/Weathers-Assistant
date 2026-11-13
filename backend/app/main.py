@@ -32,7 +32,7 @@ MAX_ENRICHMENT_BODY_BYTES = 4096
 
 app = FastAPI(
     title="WeatherProgramm API",
-    version="1.0.1",
+    version="1.1.0",
     description="API de programme météo",
 )
 app.add_middleware(
