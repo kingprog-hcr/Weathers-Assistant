@@ -4,6 +4,16 @@
 
 #### Video Demo: (https://youtu.be/bPU5fps7p8o)
 
+## 📸 Screenshots
+
+| Weather dashboard | Personalized day program |
+|---|---|
+| ![Weather dashboard](assets/Weather_Frame.png) | ![Personalized day program](assets/Program_Frame1.png) |
+
+| Interactive map with a geocoded activity marker | Custom category color picker |
+|---|---|
+| ![Interactive map with a geocoded activity marker](assets/MapFrame.png) | ![Custom category color picker](assets/Personalize_Frame1.png) |
+
 
 
 ## 📖 About This Project
@@ -208,7 +218,7 @@ pytest test_project.py -v
 
 ### Prerequisites
 - Python **3.12** or higher
-- A running WeatherProgramm FastAPI backend for weather and AI enrichment
+- Internet access; the released app uses the deployed WeatherProgramm backend by default
 - OpenStreetMap tiles require an internet connection but no API key
 
 ### 1. Clone the repository
@@ -234,35 +244,52 @@ pip install -r requirements.txt
 
 ### 4. Configure the desktop backend URL
 
-The desktop app defaults to the deployed backend at `https://weathers-assistant.onrender.com`. For local backend development, create a root `.env` file to override the URL:
+The desktop app defaults to the deployed backend at `https://weathers-assistant.onrender.com`; no `.env` file or provider API key is needed to run the released desktop app.
+
+For local backend development, create a `.env` file at the project root to point the desktop app to your local server:
 
 ```env
 WEATHER_API_BASE_URL=http://127.0.0.1:8001
 ```
 
-Set `OPENWEATHER_API_KEY` and, optionally, `GROQ_API_KEY` in `backend/.env`, not in the desktop `.env`. Never ship these provider keys in a desktop build. For local backend setup, install `backend/requirements.txt` and create `backend/.env` with those server-side variables. If the deployed backend URL changes, update the desktop configuration before building a release.
+For local backend development, create a separate environment and install the backend dependencies:
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate        # macOS / Linux
+venv\Scripts\activate           # Windows
+pip install -r requirements.txt
+```
+
+Create `backend/.env` with `OPENWEATHER_API_KEY` and, optionally, `GROQ_API_KEY`. These provider keys must stay on the backend; never put them in the desktop `.env` or ship them in a desktop build. If the deployed backend URL changes, update the desktop default before building a release.
 
 The backend uses the public [Nominatim geocoding service](https://operations.osmfoundation.org/policies/nominatim/) for activity venues by default. It receives place names/addresses and the backend's IP address, identifies WeatherProgramm, caches results in `backend/.cache/nominatim.sqlite3` (or `NOMINATIM_CACHE_PATH`), and spaces uncached requests by at least one second. For deployment, point the cache path at persistent storage. This public service is intended for moderate, user-triggered use; do not send private information, run multiple backend instances against it without a shared rate limiter/cache, or use it for bulk geocoding. Set `NOMINATIM_BASE_URL` to switch to another compatible service without changing the desktop application.
 
 ### 5. Start the backend and desktop
 
 ```bash
-# Terminal 1, from backend/
+# Terminal 1, from backend/ with its virtual environment activated
 uvicorn app.main:app --reload --port 8001
 
-# Terminal 2, from the project root
+# Terminal 2, from the project root with the desktop virtual environment activated
 python project.py
 ```
 
 
 ## 📦 Download the executable
 
-The project has a cross-platform build workflow. The desktop app uses the
-deployed HTTPS backend by default; local backend development can override the
-URL with a root `.env` file. Desktop users must not be asked to provide
-OpenWeatherMap or Groq keys. On Render Free, the backend may sleep after
-inactivity, so its first request can be slow and the local geocoding cache is
-not persistent across restarts.
+Download the latest build from the [GitHub Releases page](https://github.com/kingprog-hcr/Weathers-Assistant/releases/latest).
+The cross-platform workflow builds Windows, macOS, and Linux artifacts.
+Windows users can choose the installer or portable executable. See
+[README_INSTALL.txt](README_INSTALL.txt) for platform-specific installation
+notes.
+
+The desktop app uses the deployed HTTPS backend by default; local backend
+development can override the URL with a root `.env` file. Desktop users must
+not be asked to provide OpenWeatherMap or Groq keys. On Render Free, the
+backend may sleep after inactivity, so its first request can be slow and the
+local geocoding cache is not persistent across restarts.
 
 ❓ COMMON ISSUES
 
@@ -317,7 +344,12 @@ CS50P Final Project : 2026
 ## 📄 License
 
 This project was built for educational purposes as part of Harvard's CS50P course.
-Feel free to explore, fork, and build upon it.
+The original project code is licensed under the [MIT License](LICENSE). You may
+use, copy, modify, distribute, sublicense, and sell it, provided you include
+the copyright and license notice. The software is provided without warranty.
+
+Third-party dependencies, map data, and other external assets remain subject
+to their respective licenses and terms.
 
 
 

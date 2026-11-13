@@ -38,6 +38,16 @@ jobs:
         if: runner.os != 'Windows'
         run: mv dist/WeatherProgramm dist/WeatherProgramm-${{ runner.os }}
 
+      - name: Copy license next to executable (Linux/Mac)
+        if: runner.os != 'Windows'
+        run: cp LICENSE dist/WeatherProgramm-${{ runner.os }}-LICENSE.txt
+
+      - name: Copy Windows license files
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Copy-Item LICENSE dist/WeatherProgramm-Windows-LICENSE.txt
+
       - name: Create Windows installer
         if: runner.os == 'Windows'
         shell: pwsh
@@ -47,26 +57,37 @@ jobs:
           Get-ChildItem dist\
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
 
+      - name: Copy license next to Windows installer
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Copy-Item LICENSE Output/WeatherProgramm-Setup-Windows-LICENSE.txt
+
       - name: Upload artifact (Linux/Mac)
         if: runner.os != 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: WeatherProgramm-${{ runner.os }}
-          path: dist/WeatherProgramm-${{ runner.os }}
+          path: |
+            dist/WeatherProgramm-${{ runner.os }}
+            dist/WeatherProgramm-${{ runner.os }}-LICENSE.txt
 
       - name: Upload artifact (Windows exe)
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: WeatherProgramm-Windows
-          path: dist/WeatherProgramm.exe
+          path: |
+            dist/WeatherProgramm.exe
+            dist/WeatherProgramm-Windows-LICENSE.txt
 
       - name: Upload artifact (Windows installer)
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: WeatherProgramm-Setup-Windows
-          path: Output/WeatherProgramm-Setup.exe
+          path: |
+            Output/WeatherProgramm-Setup.exe
+            Output/WeatherProgramm-Setup-Windows-LICENSE.txt
 
   release:
     needs: build
@@ -84,9 +105,13 @@ jobs:
         with:
           files: |
             WeatherProgramm-Linux/WeatherProgramm-Linux
+            WeatherProgramm-Linux/WeatherProgramm-Linux-LICENSE.txt
             WeatherProgramm-Windows/WeatherProgramm.exe
+            WeatherProgramm-Windows/WeatherProgramm-Windows-LICENSE.txt
             WeatherProgramm-Setup-Windows/WeatherProgramm-Setup.exe
+            WeatherProgramm-Setup-Windows/WeatherProgramm-Setup-Windows-LICENSE.txt
             WeatherProgramm-macOS/WeatherProgramm-macOS
+            WeatherProgramm-macOS/WeatherProgramm-macOS-LICENSE.txt
           body: |
             ## WeatherProgramm ${{ github.ref_name }}
 
@@ -97,9 +122,9 @@ jobs:
             | Linux | WeatherProgramm-Linux | Exécutable Linux |
             | macOS | WeatherProgramm-macOS | Exécutable macOS |
 
-            Weather and AI requests use the WeatherProgramm backend. Provider keys
-            must never be added to the desktop app. A public release must point to
-            the deployed HTTPS backend; this source tree defaults to localhost.
+            Weather and AI requests use the WeatherProgramm backend at
+            https://weathers-assistant.onrender.com by default. Provider keys
+            must never be added to the desktop app.
 
             The map fetches visible tiles directly from OpenStreetMap. No map API
             key is required; attribution and tile usage policies apply.

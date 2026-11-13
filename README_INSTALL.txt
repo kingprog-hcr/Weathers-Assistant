@@ -6,6 +6,9 @@ Choisis selon ton système :
 - Mac     : WeatherProgramm-macOS
 - Linux   : WeatherProgramm-Linux
 
+Les téléchargements portables sont accompagnés d'un fichier de licence MIT.
+L'installeur Windows place aussi LICENSE.txt dans le dossier de l'application.
+
 
 ⚙️ INSTALLATION
 
@@ -14,15 +17,17 @@ WINDOWS :
    L'application est installée dans ton profil utilisateur, sans droits
    administrateur. Aucune clé fournisseur ne doit être ajoutée à l'application.
 2. Si Windows affiche "Windows a protégé votre ordinateur" (SmartScreen) :
-   → clique sur "Informations complémentaires" puis "Exécuter quand même"
-   C'est normal, l'app n'est pas signée numériquement (ça coûte de l'argent)
-3. Si ton antivirus (Avast, Norton, etc.) bloque ou met en quarantaine :
-   → c'est un faux positif, autorise le fichier ou ajoute une exception
+   → vérifie que le fichier vient bien de la page officielle des releases GitHub.
+   Ne contourne l'avertissement que si tu fais confiance à la source et au fichier.
+3. Si ton antivirus bloque le fichier :
+   → ne désactive pas l'antivirus et n'ajoute pas d'exception sans avoir vérifié
+   la provenance du fichier.
 
 MAC :
 1. Télécharge WeatherProgramm-macOS
-2. Clic droit sur le fichier → "Ouvrir" (PAS double-clic, sinon macOS bloque)
-3. Une popup "développeur non identifié" apparaît → clique "Ouvrir" pour confirmer
+   depuis la page officielle des releases GitHub.
+2. macOS peut signaler que le développeur est non identifié. Ne poursuis que si
+   tu fais confiance à la provenance du fichier.
 
 LINUX :
 1. Télécharge WeatherProgramm-Linux
@@ -41,13 +46,16 @@ La carte télécharge directement les tuiles visibles depuis OpenStreetMap.
 Elle ne demande pas de clé, nécessite Internet et n'offre pas de mode hors
 ligne.
 
-L'application utilise par défaut le backend HTTPS déployé :
+L'application utilise par défaut le backend HTTPS déployé, sans configuration
+à faire côté utilisateur :
 https://weathers-assistant.onrender.com
 
-Pour le développement local du backend, remplace cette URL dans le fichier
-.env à la racine par http://127.0.0.1:8001. Sur Render Free, le backend peut
-s'endormir après une période sans trafic; la première requête peut être lente
-et le cache local du géocodeur est perdu lors des redémarrages.
+Pour le développement local uniquement, un fichier .env à la racine peut
+remplacer cette URL par http://127.0.0.1:8001. Les clés OpenWeatherMap et Groq
+doivent rester dans la configuration du backend, jamais dans l'application.
+Sur Render Free, le backend peut s'endormir après une période sans trafic; la
+première requête peut être lente et le cache local du géocodeur est perdu lors
+des redémarrages.
 
 
 ❓ PROBLÈMES COURANTS
