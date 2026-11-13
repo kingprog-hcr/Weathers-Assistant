@@ -14,6 +14,14 @@
 |---|---|
 | ![Interactive map with a geocoded activity marker](assets/MapFrame.png) | ![Custom category color picker](assets/Personalize_Frame1.png) |
 
+| Day program, continued | User profile |
+|---|---|
+| ![Day program, continued](assets/Programe_Frame2.png) | ![User profile and preferences](assets/Profile_Frame.png) |
+
+| Add custom activities and categories |
+|---|
+| ![Custom activities and categories](assets/Personalize_Frame2.png) |
+
 
 
 ## 📖 About This Project
